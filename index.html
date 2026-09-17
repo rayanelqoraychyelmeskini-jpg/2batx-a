@@ -210,6 +210,19 @@
   .send-status.ok{color:var(--teal-deep);}
   .send-status.err{color:var(--coral);}
   .anon-toggle{display:flex; align-items:center; gap:.5rem; font-size:.86rem; color:var(--ink-soft); margin-bottom:1rem;}
+  .suggestion-feed{margin-top:2.4rem;}
+  .suggestion-feed h3{font-size:1.15rem; margin-bottom:.2rem;}
+  .feed-desc{font-size:.85rem; color:var(--ink-soft); margin-bottom:1rem;}
+  .suggestion-item{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:.9rem 1rem; margin-bottom:.6rem;
+  }
+  .suggestion-item .meta{
+    display:flex; justify-content:space-between; gap:.8rem; align-items:baseline;
+    font-size:.76rem; color:var(--ink-soft); margin-bottom:.35rem;
+  }
+  .suggestion-item .who{font-weight:700; color:var(--teal-deep); text-transform:uppercase; letter-spacing:.04em;}
+  .suggestion-item .text{font-size:.92rem; white-space:pre-wrap; margin:0;}
 
   /* ---------- Enllaços ---------- */
   .link-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem;}
@@ -382,6 +395,14 @@
           <p class="send-status" id="send-status" aria-live="polite"></p>
         </form>
       </div>
+
+      <div class="suggestion-feed">
+        <h3>Suggeriments enviats</h3>
+        <p class="feed-desc">Tots els missatges són visibles per a tota la classe.</p>
+        <div id="suggestion-list" aria-live="polite">
+          <div class="empty-msg">Carregant els suggeriments…</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -407,7 +428,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
   getFirestore, collection, addDoc, deleteDoc, doc,
-  onSnapshot, query, orderBy, serverTimestamp
+  onSnapshot, query, orderBy, limit, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 /* ============================================================
@@ -424,7 +445,7 @@ const firebaseConfig = {
 };
 
 /** Data de referència del compte enrere (AAAA-MM-DD). Canvia només aquesta línia. */
-const PBAU_DATE = "2026-07-01";
+const PBAU_DATE = "2027-07-01";
 
 const db = getFirestore(initializeApp(firebaseConfig));
 
@@ -735,6 +756,36 @@ $('suggestion-form').addEventListener('submit', async (e) => {
     status.className = 'send-status err';
   }
 });
+
+/* ---------- Llista pública de suggeriments ---------- */
+const suggestionList = $('suggestion-list');
+
+function formatStamp(ts) {
+  if (!ts?.toDate) return '';
+  const dt = ts.toDate();
+  return `${formatLong(toISO(dt.getFullYear(), dt.getMonth(), dt.getDate()))} · ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+}
+
+onSnapshot(
+  query(collection(db, 'suggeriments'), orderBy('creat', 'desc'), limit(50)),
+  (snap) => {
+    const items = snap.docs.map(d => d.data());
+    suggestionList.innerHTML = items.length
+      ? items.map(s => `
+          <div class="suggestion-item">
+            <div class="meta">
+              <span class="who">${escapeHtml(s.nom || 'Anònim')}</span>
+              <span>${formatStamp(s.creat)}</span>
+            </div>
+            <p class="text">${escapeHtml(s.missatge || '')}</p>
+          </div>`).join('')
+      : '<div class="empty-msg">Encara no hi ha cap suggeriment. Sigues el primer!</div>';
+  },
+  (err) => {
+    console.error(err);
+    suggestionList.innerHTML = '<div class="empty-msg">No s\'han pogut carregar els suggeriments.</div>';
+  }
+);
 
 /* ============================================================
    8. PBAU · una assignatura, un enllaç oficial
