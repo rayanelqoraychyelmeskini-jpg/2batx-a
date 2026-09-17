@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Delegat · 2n Batxillerat A</title>
+<title>Organització - 2n Batx A</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,6 @@
     --teal-deep:#204e44;
     --coral:#bd5142;
     --white:#fffdf9;
-    --radius:14px;
     --shadow:0 1px 2px rgba(22,33,58,.06), 0 8px 24px -12px rgba(22,33,58,.18);
     --serif:'Fraunces', Georgia, serif;
     --sans:'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -32,15 +31,15 @@
     margin:0; background:var(--paper); color:var(--ink);
     font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased;
   }
-  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+  @media (prefers-reduced-motion:reduce){ *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
 
   a{color:var(--teal-deep);}
-  h1,h2,h3{font-family:var(--serif); margin:0 0 .3em; font-weight:600; color:var(--ink); letter-spacing:-.01em;}
+  h1,h2,h3{font-family:var(--serif); margin:0 0 .3em; font-weight:600; letter-spacing:-.01em;}
   p{margin:0 0 1em;}
   button{font-family:var(--sans); cursor:pointer;}
   :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
-  /* ---------- Header / nav ---------- */
+  /* ---------- Capçalera ---------- */
   header.top{
     position:sticky; top:0; z-index:50;
     background:rgba(233,236,229,.92); backdrop-filter:blur(8px);
@@ -51,24 +50,22 @@
     display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
   }
   .brand{display:flex; align-items:baseline; gap:.55rem;}
-  .brand .mark{
-    font-family:var(--serif); font-weight:700; font-size:1.35rem; color:var(--ink);
-  }
+  .brand .mark{font-family:var(--serif); font-weight:700; font-size:1.35rem;}
   .brand .sub{font-size:.8rem; color:var(--ink-soft);}
   nav.tabs{display:flex; gap:.2rem; background:var(--card); padding:.3rem; border-radius:999px; border:1px solid var(--line);}
   nav.tabs button{
     border:none; background:transparent; padding:.5rem 1rem; border-radius:999px;
     font-size:.88rem; font-weight:600; color:var(--ink-soft); transition:background .15s, color .15s;
   }
-  nav.tabs button.active{background:var(--ink); color:var(--white);}
-  nav.tabs button:not(.active):hover{background:var(--paper); color:var(--ink);}
+  nav.tabs button[aria-selected="true"]{background:var(--ink); color:var(--white);}
+  nav.tabs button[aria-selected="false"]:hover{background:var(--paper); color:var(--ink);}
 
   main{max-width:1040px; margin:0 auto; padding:2.2rem 1.3rem 5rem;}
-  section.view{display:none;}
-  section.view.active{display:block; animation:rise .45s ease both;}
+  section.view[hidden]{display:none;}
+  section.view{animation:rise .4s ease both;}
   @keyframes rise{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
 
-  /* ---------- Hero / countdown ---------- */
+  /* ---------- Compte enrere ---------- */
   .hero{
     text-align:center; padding:2.6rem 1rem 2.2rem; margin-bottom:2.6rem;
     border-radius:20px; background:linear-gradient(180deg, var(--card), var(--paper));
@@ -77,24 +74,18 @@
   .hero .eyebrow{font-size:.85rem; color:var(--ink-soft); margin-bottom:.6rem;}
   .countdown-number{
     font-family:var(--serif); font-weight:600; font-variant-numeric:tabular-nums;
-    font-size:clamp(4.2rem, 13vw, 8.5rem); line-height:.95; color:var(--gold-deep);
-    margin:0;
+    font-size:clamp(4.2rem,13vw,8.5rem); line-height:.95; color:var(--gold-deep); margin:0;
   }
   .countdown-unit{font-family:var(--serif); font-size:1.3rem; color:var(--ink-soft); margin-top:.1rem;}
   .countdown-meta{margin-top:1rem; font-size:.9rem; color:var(--ink-soft);}
-  .countdown-meta button.link-btn{
-    background:none; border:none; text-decoration:underline; color:var(--teal-deep); font-size:.9rem; padding:0;
-  }
-  .date-edit{margin-top:.9rem; display:none; gap:.5rem; justify-content:center; align-items:center; flex-wrap:wrap;}
-  .date-edit.show{display:flex;}
-  .date-edit input[type=date]{
-    font-family:var(--sans); padding:.4rem .6rem; border-radius:8px; border:1px solid var(--line); background:var(--white);
+  .countdown-clock{
+    margin-top:.5rem; font-size:.9rem; color:var(--ink-soft); font-variant-numeric:tabular-nums;
   }
 
-  /* ---------- Section headers ---------- */
+  /* ---------- Encapçalaments de secció ---------- */
   .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1.1rem; flex-wrap:wrap;}
   .section-head h2{font-size:1.5rem;}
-  .section-head .desc{color:var(--ink-soft); font-size:.92rem; max-width:60ch;}
+  .section-head .desc{color:var(--ink-soft); font-size:.92rem; max-width:62ch;}
 
   .btn{
     border:1px solid var(--ink); background:var(--ink); color:var(--white);
@@ -106,22 +97,50 @@
   .btn.teal{background:var(--teal); border-color:var(--teal);}
   .btn.small{padding:.35rem .7rem; font-size:.78rem;}
 
-  /* ---------- Calendar list ---------- */
-  .month-group{margin-bottom:1.6rem;}
-  .month-group h3{
-    font-family:var(--sans); font-weight:700; font-size:.78rem; letter-spacing:.06em;
-    color:var(--ink-soft); text-transform:capitalize; margin-bottom:.6rem;
-    padding-bottom:.4rem; border-bottom:1px solid var(--line);
+  /* ---------- Calendari real ---------- */
+  .cal-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.1rem 1.2rem 1.4rem;}
+  .cal-nav{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:1rem;}
+  .cal-nav h3{font-size:1.2rem; margin:0; text-transform:capitalize;}
+  .cal-nav .nav-side{display:flex; gap:.35rem; align-items:center;}
+  .icon-btn{
+    border:1px solid var(--line); background:var(--white); color:var(--ink);
+    width:2.1rem; height:2.1rem; border-radius:9px; font-size:1rem; line-height:1;
+    display:inline-flex; align-items:center; justify-content:center;
   }
+  .icon-btn:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:.35rem;}
+  .cal-dow{
+    text-align:center; font-size:.7rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--ink-soft); padding-bottom:.35rem;
+  }
+  .cal-day{
+    position:relative; min-height:3.6rem; border:1px solid transparent; border-radius:10px;
+    background:var(--white); padding:.3rem .3rem .8rem; text-align:left;
+    font-family:var(--sans); font-size:.85rem; font-weight:600; color:var(--ink);
+    display:flex; flex-direction:column; gap:.15rem;
+  }
+  .cal-day.muted{background:transparent; color:#a9a795; font-weight:400;}
+  .cal-day.today{border-color:var(--gold); box-shadow:inset 0 0 0 1px var(--gold);}
+  .cal-day[aria-pressed="true"]{background:var(--ink); color:var(--white);}
+  .cal-day:hover:not([aria-pressed="true"]){border-color:var(--teal);}
+  .cal-day .dots{display:flex; gap:.18rem; flex-wrap:wrap; position:absolute; bottom:.4rem; left:.4rem;}
+  .dot{width:.42rem; height:.42rem; border-radius:50%;}
+  .dot.examen{background:var(--coral);}
+  .dot.lliurament{background:var(--teal);}
+  .dot.treball{background:var(--gold);}
+  .cal-legend{display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; font-size:.78rem; color:var(--ink-soft);}
+  .cal-legend span{display:inline-flex; align-items:center; gap:.35rem;}
+
+  /* ---------- Llista d'entrades ---------- */
+  .day-panel{margin-top:1.6rem;}
+  .day-panel h3{font-size:1.05rem; margin-bottom:.7rem;}
   .exam-row{
-    display:grid; grid-template-columns:64px 1fr auto auto; gap:.9rem; align-items:center;
+    display:grid; grid-template-columns:auto 1fr auto auto; gap:.9rem; align-items:center;
     background:var(--card); border:1px solid var(--line); border-radius:12px;
     padding:.7rem .9rem; margin-bottom:.55rem;
   }
-  .exam-date{
-    text-align:center; font-family:var(--serif); line-height:1.05;
-  }
-  .exam-date .d{font-size:1.5rem; font-weight:600; color:var(--ink);}
+  .exam-date{text-align:center; font-family:var(--serif); line-height:1.05; min-width:56px;}
+  .exam-date .d{font-size:1.5rem; font-weight:600;}
   .exam-date .m{font-size:.66rem; text-transform:uppercase; color:var(--ink-soft); letter-spacing:.05em;}
   .exam-info .subj{font-weight:700; font-size:.98rem;}
   .exam-info .note{font-size:.84rem; color:var(--ink-soft);}
@@ -132,54 +151,57 @@
   .tag.examen{background:#f1ded7; color:var(--coral);}
   .tag.lliurament{background:#dde7e3; color:var(--teal-deep);}
   .tag.treball{background:#ece2c7; color:var(--gold-deep);}
-  .del-btn{
-    background:none; border:none; color:var(--ink-soft); font-size:1.1rem; padding:.2rem .4rem; border-radius:6px;
-  }
+  .del-btn{background:none; border:none; color:var(--ink-soft); font-size:1.05rem; padding:.2rem .4rem; border-radius:6px;}
   .del-btn:hover{color:var(--coral); background:var(--paper);}
   .empty-msg{
-    text-align:center; padding:2.2rem 1rem; color:var(--ink-soft); border:1px dashed var(--line); border-radius:12px;
-    background:var(--card);
+    text-align:center; padding:1.6rem 1rem; color:var(--ink-soft);
+    border:1px dashed var(--line); border-radius:12px; background:var(--card); font-size:.9rem;
   }
 
+  /* ---------- Formulari d'alta ---------- */
   .add-panel{
-    background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.1rem; margin:1.2rem 0 2rem;
-    display:none;
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:1.1rem; margin:1.2rem 0 0;
   }
-  .add-panel.show{display:block;}
-  .add-panel form{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:.7rem;}
-  .add-panel .desc-field{grid-column:1 / -1;}
+  .add-panel[hidden]{display:none;}
+  .add-panel form{display:grid; grid-template-columns:1.4fr 1fr; gap:.7rem;}
+  .date-fields{display:grid; grid-template-columns:.7fr 1.3fr .9fr; gap:.45rem;}
+  .full{grid-column:1/-1;}
   .field label{display:block; font-size:.76rem; font-weight:700; color:var(--ink-soft); margin-bottom:.3rem; text-transform:uppercase; letter-spacing:.03em;}
   .field input, .field select, .field textarea{
-    width:100%; font-family:var(--sans); padding:.55rem .65rem; border-radius:9px; border:1px solid var(--line);
-    background:var(--white); font-size:.92rem;
+    width:100%; font-family:var(--sans); padding:.55rem .65rem; border-radius:9px;
+    border:1px solid var(--line); background:var(--white); font-size:.92rem; color:var(--ink);
   }
-  .add-panel .actions{grid-column:1/-1; display:flex; gap:.6rem; justify-content:flex-end; margin-top:.2rem;}
+  .add-panel .actions{grid-column:1/-1; display:flex; gap:.6rem; justify-content:flex-end;}
 
-  /* ---------- PBAU cards ---------- */
-  .pbau-links-top{
-    display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.8rem;
-  }
+  /* ---------- PBAU ---------- */
+  .pbau-links-top{display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.8rem;}
   .pill-link{
     display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--line); background:var(--card);
-    padding:.5rem .9rem; border-radius:999px; font-size:.84rem; font-weight:600; color:var(--ink);
-    text-decoration:none;
+    padding:.5rem .9rem; border-radius:999px; font-size:.84rem; font-weight:600; color:var(--ink); text-decoration:none;
   }
   .pill-link:hover{border-color:var(--teal); color:var(--teal-deep);}
-  .subject-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:1rem;}
-  .subject-card{
-    background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.15rem 1.2rem;
+  .area-block{margin-bottom:1.8rem;}
+  .area-title{
+    font-family:var(--sans); font-weight:700; font-size:.76rem; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--ink-soft); margin-bottom:.7rem;
+    padding-bottom:.4rem; border-bottom:1px solid var(--line);
   }
-  .subject-card h3{font-size:1.08rem; margin-bottom:.15rem;}
-  .subject-card .area{font-size:.76rem; color:var(--teal-deep); font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.6rem;}
-  .subject-card ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem;}
-  .subject-card a{font-size:.86rem; text-decoration:none; display:flex; gap:.4rem; align-items:baseline;}
-  .subject-card a:hover{text-decoration:underline;}
+  .subject-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:.8rem;}
+  .subject-card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:1.05rem 1.15rem; text-decoration:none; color:var(--ink);
+    display:flex; flex-direction:column; gap:.35rem; transition:border-color .15s, transform .12s;
+  }
+  .subject-card:hover{border-color:var(--teal); transform:translateY(-2px);}
+  .subject-card h3{font-size:1.02rem; margin:0;}
+  .subject-card .go{font-size:.82rem; color:var(--teal-deep); font-weight:600;}
   .note-box{
-    background:#f4ecd8; border:1px solid #e4d3a2; border-radius:12px; padding:1rem 1.2rem; font-size:.87rem;
-    color:#5c4a12; margin-top:1.8rem;
+    background:#f4ecd8; border:1px solid #e4d3a2; border-radius:12px; padding:1rem 1.2rem;
+    font-size:.87rem; color:#5c4a12; margin-top:.6rem;
   }
 
-  /* ---------- Suggestion box ---------- */
+  /* ---------- Bústia ---------- */
   .mailbox-wrap{max-width:560px; margin:0 auto;}
   .mailbox-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.8rem;}
   .mailbox-card .field{margin-bottom:1rem;}
@@ -189,29 +211,29 @@
   .send-status.err{color:var(--coral);}
   .anon-toggle{display:flex; align-items:center; gap:.5rem; font-size:.86rem; color:var(--ink-soft); margin-bottom:1rem;}
 
-  /* ---------- Useful links ---------- */
-  .link-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:1rem;}
+  /* ---------- Enllaços ---------- */
+  .link-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem;}
   .link-card{
     background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.2rem;
     text-decoration:none; color:var(--ink); display:block; transition:border-color .15s, transform .12s;
   }
   .link-card:hover{border-color:var(--teal); transform:translateY(-2px);}
+  .link-card.featured{background:var(--white); border-color:var(--gold); grid-column:1/-1;}
   .link-card .k{font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--gold-deep); font-weight:700; margin-bottom:.4rem;}
   .link-card h3{font-size:1.02rem; margin-bottom:.3rem;}
   .link-card p{font-size:.84rem; color:var(--ink-soft); margin:0;}
 
-  footer{
-    text-align:center; padding:2rem 1rem 3rem; color:var(--ink-soft); font-size:.82rem;
-  }
+  footer{text-align:center; padding:2rem 1rem 3rem; color:var(--ink-soft); font-size:.82rem;}
   #sync-dot{display:inline-block; width:.5rem; height:.5rem; border-radius:50%; background:#b7b096; margin-right:.35rem;}
   #sync-dot.on{background:var(--teal);}
 
   @media (max-width:620px){
-    .exam-row{grid-template-columns:52px 1fr auto; }
+    .cal-day{min-height:2.9rem; font-size:.78rem;}
+    .add-panel form, .date-fields{grid-template-columns:1fr;}
+    .exam-row{grid-template-columns:auto 1fr auto;}
     .exam-row .tag{grid-column:1/-1; justify-self:start;}
-    .add-panel form{grid-template-columns:1fr;}
-    nav.tabs{width:100%; justify-content:space-between;}
-    nav.tabs button{flex:1; text-align:center; padding:.5rem .4rem;}
+    nav.tabs{width:100%;}
+    nav.tabs button{flex:1; padding:.5rem .4rem;}
   }
 </style>
 </head>
@@ -221,13 +243,13 @@
   <div class="top-inner">
     <div class="brand">
       <span class="mark">2n Batx A</span>
-      <span class="sub">Delegació de classe</span>
+      <span class="sub">Organització de classe</span>
     </div>
-    <nav class="tabs" id="tabs">
-      <button data-tab="inici" class="active">Inici</button>
-      <button data-tab="pbau">PBAU</button>
-      <button data-tab="bustia">Bústia</button>
-      <button data-tab="enllacos">Enllaços</button>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button role="tab" data-tab="inici" aria-selected="true">Inici</button>
+      <button role="tab" data-tab="pbau" aria-selected="false">PBAU</button>
+      <button role="tab" data-tab="bustia" aria-selected="false">Bústia</button>
+      <button role="tab" data-tab="enllacos" aria-selected="false">Enllaços</button>
     </nav>
   </div>
 </header>
@@ -235,36 +257,56 @@
 <main>
 
   <!-- ============ INICI / CALENDARI ============ -->
-  <section class="view active" id="view-inici">
+  <section class="view" id="view-inici">
 
     <div class="hero">
       <div class="eyebrow">Compte enrere</div>
       <p class="countdown-number" id="cd-number">–</p>
       <p class="countdown-unit" id="cd-unit">dies fins a la PBAU</p>
-      <p class="countdown-meta">
-        Convocatòria ordinària: <strong id="cd-date-label">sense configurar</strong>
-        · <button class="link-btn" id="cd-edit-toggle" type="button">canviar data</button>
-      </p>
-      <div class="date-edit" id="date-edit">
-        <input type="date" id="cd-date-input">
-        <button class="btn small" id="cd-date-save">Desar</button>
-        <button class="btn small ghost" id="cd-date-cancel" type="button">Cancel·la</button>
-      </div>
+      <p class="countdown-meta">Data de referència: <strong id="cd-date-label"></strong></p>
+      <p class="countdown-clock" id="cd-clock"></p>
     </div>
 
     <div class="section-head">
       <div>
         <h2>Calendari d'exàmens i lliuraments</h2>
-        <p class="desc">Sincronitzat en directe per a tota la classe. Consulta les properes proves i lliuraments de treballs.</p>
+        <p class="desc">Sincronitzat en directe per a tota la classe. Navega entre mesos i fes clic a un dia per veure'n les proves i els lliuraments.</p>
       </div>
-      <button class="btn ghost small" id="toggle-add">+ Afegir data</button>
+      <button class="btn ghost small" id="toggle-add" aria-expanded="false">+ Afegir data</button>
     </div>
 
-    <div class="add-panel" id="add-panel">
+    <div class="cal-card">
+      <div class="cal-nav">
+        <div class="nav-side">
+          <button class="icon-btn" id="cal-prev" type="button" aria-label="Mes anterior">‹</button>
+          <button class="icon-btn" id="cal-next" type="button" aria-label="Mes següent">›</button>
+        </div>
+        <h3 id="cal-title">—</h3>
+        <div class="nav-side">
+          <button class="btn ghost small" id="cal-today" type="button">Avui</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="cal-grid" aria-live="polite"></div>
+      <div class="cal-legend">
+        <span><i class="dot examen"></i> Examen</span>
+        <span><i class="dot lliurament"></i> Lliurament</span>
+        <span><i class="dot treball"></i> Treball</span>
+      </div>
+    </div>
+
+    <div class="add-panel" id="add-panel" hidden>
       <form id="exam-form">
         <div class="field">
           <label for="f-subj">Assignatura</label>
           <input type="text" id="f-subj" placeholder="p. ex. Matemàtiques II" required>
+        </div>
+        <div class="field">
+          <label for="f-day">Data (dia · mes · any)</label>
+          <div class="date-fields">
+            <select id="f-day" aria-label="Dia" required></select>
+            <select id="f-month" aria-label="Mes" required></select>
+            <select id="f-year" aria-label="Any" required></select>
+          </div>
         </div>
         <div class="field">
           <label for="f-type">Tipus</label>
@@ -275,54 +317,49 @@
           </select>
         </div>
         <div class="field">
-          <label for="f-date">Data</label>
-          <input type="date" id="f-date" required>
-        </div>
-        <div class="field desc-field">
           <label for="f-desc">Nota (opcional)</label>
           <input type="text" id="f-desc" placeholder="p. ex. Temes 1-4, porta calculadora">
         </div>
         <div class="actions">
           <button type="button" class="btn ghost small" id="cancel-add">Cancel·la</button>
-          <button type="submit" class="btn small">Desar a Firestore</button>
+          <button type="submit" class="btn small">Desar</button>
         </div>
       </form>
     </div>
 
-    <div id="calendar-list">
-      <div class="empty-msg">Carregant el calendari…</div>
+    <div class="day-panel">
+      <h3 id="day-panel-title">Properes dates</h3>
+      <div id="day-list"></div>
     </div>
   </section>
 
   <!-- ============ PBAU ============ -->
-  <section class="view" id="view-pbau">
+  <section class="view" id="view-pbau" hidden>
     <div class="section-head">
       <div>
         <h2>Recursos per a la PBAU</h2>
-        <p class="desc">Enllaços oficials de la UIB, per assignatura: exàmens de convocatòries anteriors, informació de la matèria i criteris. Comprova sempre la convocatòria vigent, ja que la UIB actualitza aquestes pàgines cada curs.</p>
+        <p class="desc">Un enllaç oficial de la UIB per assignatura, amb la informació de la matèria, l'estructura de l'examen i els models de convocatòries anteriors.</p>
       </div>
     </div>
 
     <div class="pbau-links-top">
-      <a class="pill-link" href="https://pbau.uib.cat" target="_blank" rel="noopener">Portal PBAU (pbau.uib.cat)</a>
-      <a class="pill-link" href="https://estudis.uib.es/estudis-de-grau/Com-hi-pots-accedir/acces/batxiller/Informacio-general-de-la-PBAU/" target="_blank" rel="noopener">Informació general i normativa</a>
-      <a class="pill-link" href="https://estudis.uib.cat/estudis-de-grau/Com-hi-pots-accedir/acces/batxiller/ModelsExamenPBAU/" target="_blank" rel="noopener">Models d'examen (totes les matèries)</a>
-      <a class="pill-link" href="https://estudis.uib.es/es/estudis-de-grau/Com-hi-pots-accedir/acces/batxiller/Convocatoria-ordinaria-de-la-PBAU/calendari/" target="_blank" rel="noopener">Calendari convocatòria ordinària</a>
+      <a class="pill-link" href="https://pbau.uib.cat" target="_blank" rel="noopener">Portal PBAU</a>
+      <a class="pill-link" href="https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/" target="_blank" rel="noopener">Totes les matèries</a>
     </div>
 
-    <div class="subject-grid" id="subject-grid"></div>
+    <div id="pbau-subjects"></div>
 
     <div class="note-box">
-      Nota: la pàgina «Models d'examen» de la UIB és el mateix recurs per a totes les matèries — un cop dins, selecciona l'assignatura i l'any de convocatòria per veure els enunciats i, quan n'hi ha, els criteris de correcció. Els paràmetres de ponderació per a cada grau es consulten a la fitxa de cada titulació (secció «Accés i reconeixements»), enllaçada a la pestanya Enllaços d'interès.
+      La UIB actualitza aquestes pàgines cada curs: comprova sempre que la informació correspon a la convocatòria vigent. Les ponderacions de cada matèria per a un grau concret es consulten a la fitxa del grau, a l'apartat «Accés i reconeixements».
     </div>
   </section>
 
   <!-- ============ BÚSTIA ============ -->
-  <section class="view" id="view-bustia">
+  <section class="view" id="view-bustia" hidden>
     <div class="section-head">
       <div>
         <h2>Bústia de suggeriments</h2>
-        <p class="desc">Envia queixes, idees o propostes per a la classe. Els missatges arriben directament al delegat/a a través de Firestore.</p>
+        <p class="desc">Envia queixes, idees o propostes per a la classe. Els missatges arriben directament a la delegació.</p>
       </div>
     </div>
 
@@ -333,7 +370,7 @@
             <input type="checkbox" id="s-anon" checked>
             Enviar de forma anònima
           </label>
-          <div class="field" id="name-field" style="display:none;">
+          <div class="field" id="name-field" hidden>
             <label for="s-name">El teu nom</label>
             <input type="text" id="s-name" placeholder="Nom i cognom">
           </div>
@@ -342,18 +379,18 @@
             <textarea id="s-msg" placeholder="Escriu aquí el teu suggeriment…" required></textarea>
           </div>
           <button type="submit" class="btn teal">Enviar suggeriment</button>
-          <p class="send-status" id="send-status"></p>
+          <p class="send-status" id="send-status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- ============ ENLLAÇOS D'INTERÈS ============ -->
-  <section class="view" id="view-enllacos">
+  <!-- ============ ENLLAÇOS ============ -->
+  <section class="view" id="view-enllacos" hidden>
     <div class="section-head">
       <div>
         <h2>Enllaços d'interès</h2>
-        <p class="desc">Accessos directes per preparar la preinscripció universitària: notes de tall, ponderacions i tràmits.</p>
+        <p class="desc">Accessos directes i comprovats per preparar la preinscripció universitària.</p>
       </div>
     </div>
     <div class="link-grid" id="links-grid"></div>
@@ -363,16 +400,19 @@
 
 <footer>
   <span id="sync-dot"></span><span id="sync-text">Connectant amb Firestore…</span>
-  <br>Delegació de 2n de Batxillerat A
+  <br>2n de Batxillerat A
 </footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, deleteDoc, doc, setDoc, getDoc,
+  getFirestore, collection, addDoc, deleteDoc, doc,
   onSnapshot, query, orderBy, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
+/* ============================================================
+   1. CONFIGURACIÓ
+   ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyCpneWOClOUf3VAXW2D5t-XUVAbC7SVvgo",
   authDomain: "delegat-2batx-a.firebaseapp.com",
@@ -383,250 +423,395 @@ const firebaseConfig = {
   measurementId: "G-8F7XR5H050"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+/** Data de referència del compte enrere (AAAA-MM-DD). Canvia només aquesta línia. */
+const PBAU_DATE = "2026-07-01";
 
-const syncDot = document.getElementById('sync-dot');
-const syncText = document.getElementById('sync-text');
-function markConnected(){ syncDot.classList.add('on'); syncText.textContent = 'Connectat amb Firestore'; }
-function markError(msg){ syncText.textContent = msg; }
+const db = getFirestore(initializeApp(firebaseConfig));
 
-/* ---------------- Tabs ---------------- */
+const MONTHS = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
+const DOW = ['dl','dt','dc','dj','dv','ds','dg'];               // setmana que comença en dilluns
+const APOSTROPHE_MONTHS = new Set([3, 7, 9]);                    // abril, agost, octubre → d'
+
+const $ = (id) => document.getElementById(id);
+
+/* ============================================================
+   2. UTILITATS DE DATA  (sempre dia primer, després mes)
+   ============================================================ */
+const pad = (n) => String(n).padStart(2, '0');
+const toISO = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;       // m: 0-11
+const todayISO = () => {
+  const n = new Date();
+  return toISO(n.getFullYear(), n.getMonth(), n.getDate());
+};
+
+/** "2026-05-15" → "15 de maig de 2026" */
+function formatLong(iso, withYear = true) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const name = MONTHS[m - 1];
+  const prep = APOSTROPHE_MONTHS.has(m - 1) ? "d'" : 'de ';
+  return `${Number(d)} ${prep}${name}${withYear ? ` de ${y}` : ''}`;
+}
+
+/* ============================================================
+   3. PESTANYES
+   ============================================================ */
+const TABS = ['inici', 'pbau', 'bustia', 'enllacos'];
 const tabButtons = document.querySelectorAll('#tabs button');
-const views = document.querySelectorAll('.view');
-function activateTab(name){
-  tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-  views.forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+
+function activateTab(name) {
+  tabButtons.forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+  TABS.forEach(t => { $('view-' + t).hidden = (t !== name); });
   history.replaceState(null, '', '#' + name);
 }
 tabButtons.forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
-const initial = (location.hash || '#inici').slice(1);
-activateTab(['inici','pbau','bustia','enllacos'].includes(initial) ? initial : 'inici');
+const fromHash = (location.hash || '').slice(1);
+activateTab(TABS.includes(fromHash) ? fromHash : 'inici');
 
-/* ---------------- Countdown (config/pbau in Firestore) ---------------- */
-const cdNumber = document.getElementById('cd-number');
-const cdUnit = document.getElementById('cd-unit');
-const cdDateLabel = document.getElementById('cd-date-label');
-const dateEdit = document.getElementById('date-edit');
-const cdEditToggle = document.getElementById('cd-edit-toggle');
-const cdDateInput = document.getElementById('cd-date-input');
-const cdDateSave = document.getElementById('cd-date-save');
-const cdDateCancel = document.getElementById('cd-date-cancel');
-const configRef = doc(db, 'config', 'pbau');
+/* ============================================================
+   4. COMPTE ENRERE FINS A LA PBAU
+   ============================================================ */
+const cdTarget = new Date(`${PBAU_DATE}T09:00:00`);
+$('cd-date-label').textContent = formatLong(PBAU_DATE);
 
-function renderCountdown(dateStr){
-  if(!dateStr){
-    cdNumber.textContent = '—';
-    cdUnit.textContent = 'encara no s\'ha configurat la data';
-    cdDateLabel.textContent = 'sense configurar';
+function renderCountdown() {
+  const ms = cdTarget - Date.now();
+  const days = Math.ceil(ms / 86400000);
+
+  if (ms <= 0) {
+    $('cd-number').textContent = '✓';
+    $('cd-unit').textContent = 'aquesta convocatòria ja ha passat';
+    $('cd-clock').textContent = '';
     return;
   }
-  const target = new Date(dateStr + 'T09:00:00');
-  const now = new Date();
-  const diffDays = Math.ceil((target - now) / 86400000);
-  cdDateLabel.textContent = target.toLocaleDateString('ca-ES', { day:'numeric', month:'long', year:'numeric' });
-  if(diffDays > 0){
-    cdNumber.textContent = diffDays;
-    cdUnit.textContent = diffDays === 1 ? 'dia fins a la PBAU' : 'dies fins a la PBAU';
-  } else if(diffDays === 0){
-    cdNumber.textContent = '0';
-    cdUnit.textContent = 'és avui!';
+  $('cd-number').textContent = days;
+  $('cd-unit').textContent = days === 1 ? 'dia fins a la PBAU' : 'dies fins a la PBAU';
+
+  const h = Math.floor(ms / 3600000) % 24;
+  const min = Math.floor(ms / 60000) % 60;
+  const s = Math.floor(ms / 1000) % 60;
+  $('cd-clock').textContent = `${h} h ${pad(min)} min ${pad(s)} s restants`;
+}
+renderCountdown();
+setInterval(renderCountdown, 1000);
+
+/* ============================================================
+   5. ESTAT DEL CALENDARI
+   ============================================================ */
+let events = [];                       // { id, assignatura, tipus, data, descripcio }
+let cursor = new Date();               // mes visible
+cursor = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+let selectedISO = null;                // dia seleccionat (o null → properes dates)
+
+const eventsByDate = () => events.reduce((acc, e) => {
+  (acc[e.data] ||= []).push(e);
+  return acc;
+}, {});
+
+/* ---------- Graella del mes ---------- */
+function renderCalendar() {
+  const y = cursor.getFullYear(), m = cursor.getMonth();
+  $('cal-title').textContent = `${MONTHS[m]} ${y}`;
+
+  const byDate = eventsByDate();
+  const first = new Date(y, m, 1);
+  const offset = (first.getDay() + 6) % 7;          // dilluns = 0
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const today = todayISO();
+
+  const cells = DOW.map(d => `<div class="cal-dow">${d}</div>`);
+
+  for (let i = 0; i < offset; i++) cells.push('<div class="cal-day muted" aria-hidden="true"></div>');
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = toISO(y, m, d);
+    const list = byDate[iso] || [];
+    const dots = [...new Set(list.map(e => (e.tipus || '').toLowerCase()))]
+      .map(t => `<i class="dot ${t}"></i>`).join('');
+    const cls = ['cal-day', iso === today ? 'today' : ''].filter(Boolean).join(' ');
+    cells.push(`
+      <button type="button" class="${cls}" data-iso="${iso}"
+              aria-pressed="${iso === selectedISO}"
+              aria-label="${formatLong(iso)}${list.length ? `, ${list.length} entrada(es)` : ''}">
+        ${d}<span class="dots">${dots}</span>
+      </button>`);
+  }
+  $('cal-grid').innerHTML = cells.join('');
+}
+
+$('cal-prev').addEventListener('click', () => {
+  cursor = new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1);
+  renderCalendar();
+});
+$('cal-next').addEventListener('click', () => {
+  cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+  renderCalendar();
+});
+$('cal-today').addEventListener('click', () => {
+  const n = new Date();
+  cursor = new Date(n.getFullYear(), n.getMonth(), 1);
+  selectedISO = null;
+  renderCalendar();
+  renderList();
+});
+$('cal-grid').addEventListener('click', (e) => {
+  const cell = e.target.closest('.cal-day[data-iso]');
+  if (!cell) return;
+  selectedISO = (selectedISO === cell.dataset.iso) ? null : cell.dataset.iso;
+  renderCalendar();
+  renderList();
+});
+
+/* ---------- Llista d'entrades ---------- */
+function renderList() {
+  const list = $('day-list');
+
+  if (selectedISO) {
+    $('day-panel-title').textContent = formatLong(selectedISO);
+    const items = events.filter(e => e.data === selectedISO);
+    list.innerHTML = items.length
+      ? items.map(rowHtml).join('')
+      : '<div class="empty-msg">Cap examen ni lliurament aquest dia.</div>';
   } else {
-    cdNumber.textContent = '✓';
-    cdUnit.textContent = 'ja ha passat aquesta convocatòria';
+    $('day-panel-title').textContent = 'Properes dates';
+    const from = todayISO();
+    const items = events.filter(e => e.data >= from).slice(0, 8);
+    list.innerHTML = items.length
+      ? items.map(rowHtml).join('')
+      : '<div class="empty-msg">Encara no hi ha cap data pendent al calendari.</div>';
   }
 }
 
-getDoc(configRef).then(snap => {
-  renderCountdown(snap.exists() ? snap.data().dataOrdinaria : null);
-  markConnected();
-}).catch(err => {
-  console.error(err);
-  markError('Sense connexió amb Firestore (revisa les regles de seguretat o la configuració)');
-});
-
-cdEditToggle.addEventListener('click', () => dateEdit.classList.toggle('show'));
-cdDateCancel.addEventListener('click', () => dateEdit.classList.remove('show'));
-cdDateSave.addEventListener('click', async () => {
-  if(!cdDateInput.value) return;
-  try{
-    await setDoc(configRef, { dataOrdinaria: cdDateInput.value }, { merge:true });
-    renderCountdown(cdDateInput.value);
-    dateEdit.classList.remove('show');
-  }catch(err){
-    alert('No s\'ha pogut desar la data. Revisa les regles de seguretat de Firestore.');
-    console.error(err);
-  }
-});
-
-/* ---------------- Calendari d'exàmens ---------------- */
-const toggleAddBtn = document.getElementById('toggle-add');
-const addPanel = document.getElementById('add-panel');
-const cancelAddBtn = document.getElementById('cancel-add');
-toggleAddBtn.addEventListener('click', () => addPanel.classList.toggle('show'));
-cancelAddBtn.addEventListener('click', () => addPanel.classList.remove('show'));
-
-const examForm = document.getElementById('exam-form');
-examForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const data = {
-    assignatura: document.getElementById('f-subj').value.trim(),
-    tipus: document.getElementById('f-type').value,
-    data: document.getElementById('f-date').value,
-    descripcio: document.getElementById('f-desc').value.trim(),
-    creat: serverTimestamp()
-  };
-  if(!data.assignatura || !data.data) return;
-  try{
-    await addDoc(collection(db, 'examens'), data);
-    examForm.reset();
-    addPanel.classList.remove('show');
-  }catch(err){
-    alert('No s\'ha pogut desar. Revisa les regles de seguretat de Firestore.');
-    console.error(err);
-  }
-});
-
-const calendarList = document.getElementById('calendar-list');
-const MONTHS = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
-
-function renderCalendar(items){
-  if(items.length === 0){
-    calendarList.innerHTML = '<div class="empty-msg">Encara no hi ha cap examen ni lliurament al calendari.</div>';
-    return;
-  }
-  items.sort((a,b) => a.data.localeCompare(b.data));
-  const groups = {};
-  items.forEach(it => {
-    const [y,m] = it.data.split('-');
-    const key = `${MONTHS[parseInt(m,10)-1]} ${y}`;
-    (groups[key] ||= []).push(it);
-  });
-  let html = '';
-  for(const key in groups){
-    html += `<div class="month-group"><h3>${key}</h3>`;
-    groups[key].forEach(it => {
-      const [y,m,d] = it.data.split('-');
-      const tagClass = it.tipus.toLowerCase();
-      html += `
-        <div class="exam-row">
-          <div class="exam-date"><div class="d">${d}</div><div class="m">${MONTHS[parseInt(m,10)-1].slice(0,3)}</div></div>
-          <div class="exam-info">
-            <div class="subj">${escapeHtml(it.assignatura)}</div>
-            ${it.descripcio ? `<div class="note">${escapeHtml(it.descripcio)}</div>` : ''}
-          </div>
-          <span class="tag ${tagClass}">${it.tipus}</span>
-          <button class="del-btn" title="Esborra" data-id="${it.id}">✕</button>
-        </div>`;
-    });
-    html += `</div>`;
-  }
-  calendarList.innerHTML = html;
-  calendarList.querySelectorAll('.del-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      if(!confirm('Segur que vols esborrar aquesta entrada del calendari?')) return;
-      try{ await deleteDoc(doc(db, 'examens', btn.dataset.id)); }
-      catch(err){ alert('No s\'ha pogut esborrar.'); console.error(err); }
-    });
-  });
+function rowHtml(e) {
+  const [, m, d] = e.data.split('-');
+  const tipus = e.tipus || 'Examen';
+  return `
+    <div class="exam-row">
+      <div class="exam-date">
+        <div class="d">${Number(d)}</div>
+        <div class="m">${MONTHS[Number(m) - 1].slice(0, 3)}</div>
+      </div>
+      <div class="exam-info">
+        <div class="subj">${escapeHtml(e.assignatura)}</div>
+        <div class="note">${formatLong(e.data)}${e.descripcio ? ' · ' + escapeHtml(e.descripcio) : ''}</div>
+      </div>
+      <span class="tag ${tipus.toLowerCase()}">${escapeHtml(tipus)}</span>
+      <button class="del-btn" type="button" title="Esborra" data-del="${e.id}">✕</button>
+    </div>`;
 }
 
-function escapeHtml(s){
+function escapeHtml(s = '') {
   const d = document.createElement('div');
   d.textContent = s;
   return d.innerHTML;
 }
 
-try{
-  onSnapshot(query(collection(db, 'examens'), orderBy('data')), snap => {
-    const items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    renderCalendar(items);
-    markConnected();
-  }, err => {
+$('day-list').addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-del]');
+  if (!btn) return;
+  if (!confirm('Segur que vols esborrar aquesta entrada del calendari?')) return;
+  try {
+    await deleteDoc(doc(db, 'examens', btn.dataset.del));
+  } catch (err) {
     console.error(err);
-    calendarList.innerHTML = '<div class="empty-msg">No s\'ha pogut carregar el calendari. Revisa la configuració de Firestore.</div>';
-    markError('Error de connexió amb Firestore');
-  });
-}catch(err){ console.error(err); }
-
-/* ---------------- Bústia de suggeriments ---------------- */
-const anonCheckbox = document.getElementById('s-anon');
-const nameField = document.getElementById('name-field');
-anonCheckbox.addEventListener('change', () => {
-  nameField.style.display = anonCheckbox.checked ? 'none' : 'block';
-});
-
-const suggestionForm = document.getElementById('suggestion-form');
-const sendStatus = document.getElementById('send-status');
-suggestionForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const msg = document.getElementById('s-msg').value.trim();
-  if(!msg) return;
-  const payload = {
-    missatge: msg,
-    nom: anonCheckbox.checked ? 'Anònim' : (document.getElementById('s-name').value.trim() || 'Anònim'),
-    creat: serverTimestamp()
-  };
-  sendStatus.textContent = 'Enviant…';
-  sendStatus.className = 'send-status';
-  try{
-    await addDoc(collection(db, 'suggeriments'), payload);
-    sendStatus.textContent = 'Gràcies! El teu suggeriment s\'ha enviat correctament.';
-    sendStatus.className = 'send-status ok';
-    suggestionForm.reset();
-    nameField.style.display = 'none';
-    anonCheckbox.checked = true;
-  }catch(err){
-    console.error(err);
-    sendStatus.textContent = 'No s\'ha pogut enviar. Torna-ho a provar més tard.';
-    sendStatus.className = 'send-status err';
+    alert('No s\'ha pogut esborrar. Revisa les regles de seguretat de Firestore.');
   }
 });
 
-/* ---------------- PBAU subject cards ---------------- */
-const MODELS_URL = 'https://estudis.uib.cat/estudis-de-grau/Com-hi-pots-accedir/acces/batxiller/ModelsExamenPBAU/';
-const subjects = [
-  { area:'Comuna', name:'Llengua Catalana i Literatura II', info:'http://estudis.uib.cat/grau/acces/batxiller/materies/catalana/' },
-  { area:'Comuna', name:'Llengua Castellana i Literatura II', info:'http://estudis.uib.cat/grau/acces/batxiller/materies/castellana/' },
-  { area:'Comuna', name:'Primera Llengua Estrangera II (Anglès)', info:'http://estudis.uib.cat/grau/acces/batxiller/materies/angles/' },
-  { area:'Comuna', name:'Història d\'Espanya', info:'http://estudis.uib.cat/grau/acces/batxiller/materies/historia_espanya/' },
-  { area:'Modalitat · Ciències', name:'Matemàtiques II', info:'https://estudis.uib.es/estudis-de-grau/Com-hi-pots-accedir/acces/batxiller/materies/matematiques/' },
-  { area:'Modalitat · CC. Socials', name:'Matemàtiques Aplicades a les CC. Socials II', info:'https://estudis.uib.es/estudis-de-grau/Com-hi-pots-accedir/acces/batxiller/materies/macs/' },
-  { area:'Admissió', name:'Història de la Filosofia', info:null },
-  { area:'Admissió', name:'Física', info:null },
-  { area:'Admissió', name:'Biologia', info:null },
-  { area:'Admissió', name:'Química', info:null },
-  { area:'Admissió', name:'Economia de l\'Empresa', info:null },
-  { area:'Admissió', name:'Història de l\'Art', info:null },
-];
-const subjectGrid = document.getElementById('subject-grid');
-subjectGrid.innerHTML = subjects.map(s => `
-  <div class="subject-card">
-    <div class="area">${s.area}</div>
-    <h3>${s.name}</h3>
-    <ul>
-      <li><a href="${MODELS_URL}" target="_blank" rel="noopener">→ Exàmens de convocatòries anteriors</a></li>
-      ${s.info ? `<li><a href="${s.info}" target="_blank" rel="noopener">→ Informació de la matèria</a></li>` : ''}
-    </ul>
-  </div>
-`).join('');
+/* ---------- Sincronització en directe ---------- */
+function setSync(ok, text) {
+  $('sync-dot').classList.toggle('on', ok);
+  $('sync-text').textContent = text;
+}
 
-/* ---------------- Enllaços d'interès ---------------- */
-const usefulLinks = [
-  { k:'Preinscripció', title:'Preinscripció a la UIB', desc:'Tràmit oficial d\'admissió als graus de la UIB.', url:'https://estudis.uib.es/estudis-de-grau/Com-hi-pots-accedir/admissio/admissio_general/' },
-  { k:'Ponderacions i notes de tall', title:'Cercador de graus de la UIB', desc:'Cada grau mostra, a "Accés i reconeixements", les ponderacions PBAU i la nota de tall de l\'últim curs.', url:'https://estudis.uib.cat/estudis-de-grau/grau/' },
-  { k:'Notes de tall', title:'QEDU · Ministeri d\'Universitats', desc:'Comparador oficial de notes de tall de graus de totes les universitats espanyoles.', url:'http://siiu.universidades.gob.es/QEDU/' },
-  { k:'Dubtes', title:'Preguntes freqüents d\'admissió', desc:'Resolució de dubtes sobre preinscripció i admissió a la UIB.', url:'https://ajuda.uib.cat/Estudis-de-grau/admissio/' },
-  { k:'PBAU', title:'Portal oficial de la PBAU', desc:'Estructura de la prova, calendaris i normativa.', url:'https://pbau.uib.cat' },
-  { k:'Tràmits', title:'UIBdigital', desc:'Qualificacions, sol·licituds de revisió i trasllat d\'expedient.', url:'https://uibdigital.uib.es' },
+onSnapshot(
+  query(collection(db, 'examens'), orderBy('data')),
+  (snap) => {
+    events = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(e => e.data);
+    events.sort((a, b) => a.data.localeCompare(b.data));
+    renderCalendar();
+    renderList();
+    setSync(true, 'Connectat amb Firestore');
+  },
+  (err) => {
+    console.error(err);
+    setSync(false, 'Error de connexió amb Firestore');
+    $('day-list').innerHTML = '<div class="empty-msg">No s\'ha pogut carregar el calendari.</div>';
+  }
+);
+
+renderCalendar();
+renderList();
+
+/* ============================================================
+   6. FORMULARI: AFEGIR DATA  (dia → mes → any)
+   ============================================================ */
+const addPanel = $('add-panel');
+const toggleAdd = $('toggle-add');
+
+toggleAdd.addEventListener('click', () => {
+  addPanel.hidden = !addPanel.hidden;
+  toggleAdd.setAttribute('aria-expanded', String(!addPanel.hidden));
+});
+$('cancel-add').addEventListener('click', () => {
+  addPanel.hidden = true;
+  toggleAdd.setAttribute('aria-expanded', 'false');
+});
+
+const daySel = $('f-day'), monthSel = $('f-month'), yearSel = $('f-year');
+const now = new Date();
+
+daySel.innerHTML = Array.from({ length: 31 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+monthSel.innerHTML = MONTHS.map((n, i) => `<option value="${i}">${n}</option>`).join('');
+yearSel.innerHTML = [now.getFullYear(), now.getFullYear() + 1]
+  .map(y => `<option value="${y}">${y}</option>`).join('');
+daySel.value = now.getDate();
+monthSel.value = now.getMonth();
+
+/** Limita els dies disponibles als del mes i any triats. */
+function syncDayOptions() {
+  const max = new Date(Number(yearSel.value), Number(monthSel.value) + 1, 0).getDate();
+  const keep = Math.min(Number(daySel.value) || 1, max);
+  daySel.innerHTML = Array.from({ length: max }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+  daySel.value = keep;
+}
+monthSel.addEventListener('change', syncDayOptions);
+yearSel.addEventListener('change', syncDayOptions);
+syncDayOptions();
+
+$('exam-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const assignatura = $('f-subj').value.trim();
+  if (!assignatura) return;
+
+  const iso = toISO(Number(yearSel.value), Number(monthSel.value), Number(daySel.value));
+  try {
+    await addDoc(collection(db, 'examens'), {
+      assignatura,
+      tipus: $('f-type').value,
+      data: iso,
+      descripcio: $('f-desc').value.trim(),
+      creat: serverTimestamp()
+    });
+    e.target.reset();
+    syncDayOptions();
+    addPanel.hidden = true;
+    toggleAdd.setAttribute('aria-expanded', 'false');
+    cursor = new Date(Number(yearSel.value), Number(monthSel.value), 1);
+    renderCalendar();
+  } catch (err) {
+    console.error(err);
+    alert('No s\'ha pogut desar. Revisa les regles de seguretat de Firestore.');
+  }
+});
+
+/* ============================================================
+   7. BÚSTIA DE SUGGERIMENTS
+   ============================================================ */
+const anon = $('s-anon');
+anon.addEventListener('change', () => { $('name-field').hidden = anon.checked; });
+
+$('suggestion-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const status = $('send-status');
+  const missatge = $('s-msg').value.trim();
+  if (!missatge) return;
+
+  status.textContent = 'Enviant…';
+  status.className = 'send-status';
+  try {
+    await addDoc(collection(db, 'suggeriments'), {
+      missatge,
+      nom: anon.checked ? 'Anònim' : ($('s-name').value.trim() || 'Anònim'),
+      creat: serverTimestamp()
+    });
+    e.target.reset();
+    anon.checked = true;
+    $('name-field').hidden = true;
+    status.textContent = 'Gràcies! El teu suggeriment s\'ha enviat correctament.';
+    status.className = 'send-status ok';
+  } catch (err) {
+    console.error(err);
+    status.textContent = 'No s\'ha pogut enviar. Torna-ho a provar més tard.';
+    status.className = 'send-status err';
+  }
+});
+
+/* ============================================================
+   8. PBAU · una assignatura, un enllaç oficial
+   ============================================================ */
+const MATERIES_BASE = 'https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/';
+const SUBJECTS = [
+  { area: 'Matèries comunes', name: 'Llengua Catalana i Literatura II', slug: 'catalana' },
+  { area: 'Matèries comunes', name: 'Llengua Castellana i Literatura II', slug: 'castellana' },
+  { area: 'Matèries comunes', name: 'Primera Llengua Estrangera II (Anglès)', slug: 'angles' },
+  { area: 'Matèries comunes', name: 'Història d\'Espanya', slug: 'historia_espanya' },
+  { area: 'Matèries comunes', name: 'Història de la Filosofia', slug: 'filosofia' },
+
+  { area: 'Matemàtiques', name: 'Matemàtiques II', slug: 'matematiques' },
+  { area: 'Matemàtiques', name: 'Matemàtiques Aplicades a les CC. Socials II', slug: 'macs' },
+
+  { area: 'Ciències i Tecnologia', name: 'Biologia', slug: 'biologia' },
+  { area: 'Ciències i Tecnologia', name: 'Física', slug: 'fisica' },
+  { area: 'Ciències i Tecnologia', name: 'Química', slug: 'quimica' },
+  { area: 'Ciències i Tecnologia', name: 'Geologia i Ciències Ambientals', slug: 'geologia' },
+  { area: 'Ciències i Tecnologia', name: 'Dibuix Tècnic II', slug: 'dibuix_tecnic' },
+
+  { area: 'Humanitats i Ciències Socials', name: 'Economia de l\'Empresa', slug: 'economia_empresa' },
+  { area: 'Humanitats i Ciències Socials', name: 'Geografia', slug: 'geografia' },
+  { area: 'Humanitats i Ciències Socials', name: 'Història de l\'Art', slug: 'historia_art' },
+  { area: 'Humanitats i Ciències Socials', name: 'Llatí II', slug: 'llati' },
+  { area: 'Humanitats i Ciències Socials', name: 'Grec II', slug: 'grec' }
 ];
-document.getElementById('links-grid').innerHTML = usefulLinks.map(l => `
-  <a class="link-card" href="${l.url}" target="_blank" rel="noopener">
+
+$('pbau-subjects').innerHTML = [...new Set(SUBJECTS.map(s => s.area))].map(area => `
+  <div class="area-block">
+    <div class="area-title">${area}</div>
+    <div class="subject-grid">
+      ${SUBJECTS.filter(s => s.area === area).map(s => `
+        <a class="subject-card" href="${MATERIES_BASE}${s.slug}" target="_blank" rel="noopener">
+          <h3>${s.name}</h3>
+          <span class="go">→ Informació i models d'examen (UIB)</span>
+        </a>`).join('')}
+    </div>
+  </div>`).join('');
+
+/* ============================================================
+   9. ENLLAÇOS D'INTERÈS
+   ============================================================ */
+const LINKS = [
+  {
+    featured: true,
+    k: 'Destacat · Notes de tall',
+    title: 'QEDU · Qué Estudiar y Dónde en la Universidad',
+    desc: 'Portal oficial del Ministeri de Ciència, Innovació i Universitats: notes de tall, places i comparació de graus de totes les universitats espanyoles.',
+    url: 'https://www.ciencia.gob.es/qedu.html'
+  },
+  {
+    k: 'PBAU',
+    title: 'Portal oficial de la PBAU',
+    desc: 'Estructura de la prova, calendaris i normativa de la convocatòria.',
+    url: 'https://pbau.uib.cat'
+  },
+  {
+    k: 'Graus i ponderacions',
+    title: 'Cercador de graus de la UIB',
+    desc: 'A cada grau, l\'apartat «Accés i reconeixements» mostra les ponderacions de la PBAU.',
+    url: 'https://estudis.uib.cat/estudis-de-grau/grau/'
+  },
+  {
+    k: 'Tràmits',
+    title: 'UIBdigital',
+    desc: 'Qualificacions, sol·licituds de revisió i trasllat d\'expedient.',
+    url: 'https://uibdigital.uib.es'
+  }
+];
+
+$('links-grid').innerHTML = LINKS.map(l => `
+  <a class="link-card${l.featured ? ' featured' : ''}" href="${l.url}" target="_blank" rel="noopener">
     <div class="k">${l.k}</div>
     <h3>${l.title}</h3>
     <p>${l.desc}</p>
-  </a>
-`).join('');
+  </a>`).join('');
 </script>
 </body>
 </html>
