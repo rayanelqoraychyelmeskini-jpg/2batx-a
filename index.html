@@ -338,13 +338,9 @@
     <div class="mailbox-wrap">
       <div class="mailbox-card">
         <form id="suggestion-form">
-          <label class="anon-toggle">
-            <input type="checkbox" id="s-anon" checked>
-            Enviar de forma anònima
-          </label>
-          <div class="field" id="name-field" hidden>
+          <div class="field">
             <label for="s-name">El teu nom</label>
-            <input type="text" id="s-name" placeholder="Nom i cognom" maxlength="60">
+            <input type="text" id="s-name" placeholder="Nom i cognom" required maxlength="60">
           </div>
           <div class="field">
             <label for="s-msg">Missatge</label>
@@ -357,9 +353,23 @@
 
       <div class="suggestion-feed">
         <h3>Suggeriments publicats</h3>
-        <p class="feed-desc">Llista pública i en temps real: tothom qui obri la web pot llegir aquests missatges.</p>
-        <div id="suggestion-list" aria-live="polite">
-          <div class="empty-msg">Carregant els suggeriments…</div>
+        <p class="feed-desc">Només el delegat i el subdelegat poden veure aquesta llista. Cal iniciar sessió amb el correu de l'institut.</p>
+
+        <div id="auth-gate">
+          <button class="btn teal" id="login-btn" type="button">Inicia sessió amb Google</button>
+        </div>
+
+        <div id="auth-denied" hidden>
+          <p class="send-status err">Aquest compte de Google no té permís per veure els suggeriments.</p>
+          <button class="btn ghost small" id="logout-btn-denied" type="button">Prova amb un altre compte</button>
+        </div>
+
+        <div id="auth-ok" hidden>
+          <div class="feed-desc" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;">
+            <span>Sessió iniciada com a <strong id="auth-email"></strong></span>
+            <button class="btn ghost small" id="logout-btn" type="button">Tanca sessió</button>
+          </div>
+          <div id="suggestion-list" aria-live="polite"></div>
         </div>
       </div>
     </div>
@@ -392,6 +402,9 @@ import {
   getFirestore, collection, addDoc, deleteDoc, doc,
   onSnapshot, query, orderBy, limit, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 /* ============================================================
    1. CONFIGURACIÓ
@@ -735,16 +748,14 @@ $('exam-form').addEventListener('submit', async (e) => {
 });
 
 /* ============================================================
-   8. BÚSTIA PÚBLICA
+   8. BÚSTIA · enviar és obert a tothom, llegir és restringit
    ============================================================ */
-const anon = $('s-anon');
-anon.addEventListener('change', () => { $('name-field').hidden = anon.checked; });
-
 $('suggestion-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const status = $('send-status'), btn = $('send-btn');
   const missatge = $('s-msg').value.trim();
-  if (!missatge) return;
+  const nom = $('s-name').value.trim();
+  if (!missatge || !nom) return;
 
   status.textContent = 'Publicant…';
   status.className = 'send-status';
@@ -752,13 +763,11 @@ $('suggestion-form').addEventListener('submit', async (e) => {
   try {
     await addDoc(collection(db, COL_SUGGESTIONS), {
       missatge,
-      nom: anon.checked ? 'Anònim' : ($('s-name').value.trim() || 'Anònim'),
+      nom,
       creat: serverTimestamp()
     });
     e.target.reset();
-    anon.checked = true;
-    $('name-field').hidden = true;
-    status.textContent = 'Publicat! Ja apareix a la llista de sota.';
+    status.textContent = 'Publicat! Només el delegat i el subdelegat el podran llegir.';
     status.className = 'send-status ok';
   } catch (err) {
     status.textContent = 'No s\'ha pogut publicar (' + (err?.code || 'error') + ').';
@@ -769,33 +778,69 @@ $('suggestion-form').addEventListener('submit', async (e) => {
   }
 });
 
-/* ---------- Llista pública en temps real ---------- */
+/** Únics correus autoritzats a llegir la bústia (delegat i subdelegat). */
+const ALLOWED_EMAILS = ['z118324@iesxarc.es', 'z133122@iesxarc.es'];
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+let unsubscribeSuggestions = null;
+
 function formatStamp(ts) {
   const dt = ts?.toDate?.();
   if (!dt) return 'ara mateix';
   return `${formatLong(toISO(dt.getFullYear(), dt.getMonth(), dt.getDate()))} · ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
 }
 
-onSnapshot(
-  query(collection(db, COL_SUGGESTIONS), orderBy('creat', 'desc'), limit(100)),
-  (snap) => {
-    const items = snap.docs.map(d => d.data());
-    $('suggestion-list').innerHTML = items.length
-      ? items.map(s => `
-          <div class="suggestion-item">
-            <div class="meta">
-              <span class="who">${escapeHtml(s.nom || 'Anònim')}</span>
-              <span>${formatStamp(s.creat)}</span>
-            </div>
-            <p class="text">${escapeHtml(s.missatge || '')}</p>
-          </div>`).join('')
-      : '<div class="empty-msg">Encara no hi ha cap suggeriment. Sigues el primer!</div>';
-  },
-  (err) => {
-    $('suggestion-list').innerHTML = '<div class="empty-msg">No s\'han pogut carregar els suggeriments.</div>';
-    showDbError(err, 'llegint els suggeriments');
+function showAuthPanel(which) {
+  $('auth-gate').hidden = which !== 'gate';
+  $('auth-denied').hidden = which !== 'denied';
+  $('auth-ok').hidden = which !== 'ok';
+}
+
+$('login-btn').addEventListener('click', async () => {
+  try {
+    await signInWithPopup(auth, googleProvider);
+  } catch (err) {
+    console.error('inici de sessió', err);
   }
-);
+});
+$('logout-btn').addEventListener('click', () => signOut(auth));
+$('logout-btn-denied').addEventListener('click', () => signOut(auth));
+
+onAuthStateChanged(auth, (user) => {
+  if (unsubscribeSuggestions) { unsubscribeSuggestions(); unsubscribeSuggestions = null; }
+
+  if (!user) { showAuthPanel('gate'); return; }
+
+  if (!ALLOWED_EMAILS.includes(user.email)) {
+    showAuthPanel('denied');
+    return;
+  }
+
+  $('auth-email').textContent = user.email;
+  showAuthPanel('ok');
+  $('suggestion-list').innerHTML = '<div class="empty-msg">Carregant els suggeriments…</div>';
+
+  unsubscribeSuggestions = onSnapshot(
+    query(collection(db, COL_SUGGESTIONS), orderBy('creat', 'desc'), limit(100)),
+    (snap) => {
+      const items = snap.docs.map(d => d.data());
+      $('suggestion-list').innerHTML = items.length
+        ? items.map(s => `
+            <div class="suggestion-item">
+              <div class="meta">
+                <span class="who">${escapeHtml(s.nom || '—')}</span>
+                <span>${formatStamp(s.creat)}</span>
+              </div>
+              <p class="text">${escapeHtml(s.missatge || '')}</p>
+            </div>`).join('')
+        : '<div class="empty-msg">Encara no hi ha cap suggeriment. Sigues el primer!</div>';
+    },
+    (err) => {
+      $('suggestion-list').innerHTML = '<div class="empty-msg">No s\'han pogut carregar els suggeriments.</div>';
+      showDbError(err, 'llegint els suggeriments');
+    }
+  );
+});
 
 /* ============================================================
    9. PBAU · una assignatura, un enllaç oficial
