@@ -423,53 +423,50 @@
   </section>
 
   <!-- ============ BÚSTIA ============ -->
-  <section class="view" id="view-bustia" hidden>
-    <div class="section-head">
-      <div>
-        <h2>Bústia de suggeriments i queixes</h2>
-        <p class="desc">Envia una idea, una proposta o una queixa. Es publica automàticament a la llista de sota, visible per a tota la classe.</p>
-      </div>
+<section class="view" id="view-bustia" hidden>
+  <div class="section-head">
+    <div>
+      <h2>Bústia de suggeriments i queixes</h2>
+      <p class="desc">Envia una idea, una proposta o una queixa. El teu nom queda registrat automàticament amb el suggeriment i només el delegat i el subdelegat el poden llegir.</p>
+    </div>
+  </div>
+
+  <div class="mailbox-wrap">
+
+    <!-- Sense sessió -->
+    <div class="mailbox-card" id="auth-gate">
+      <p>Per enviar un suggeriment cal iniciar sessió amb el teu correu de l'institut.</p>
+      <button class="btn teal" id="login-btn" type="button">Inicia sessió amb Google</button>
+      <p class="send-status err" id="auth-error" hidden></p>
     </div>
 
-    <div class="mailbox-wrap">
+    <!-- Amb sessió (qualsevol usuari autoritzat) -->
+    <div id="mailbox-user" hidden>
       <div class="mailbox-card">
+        <div class="feed-desc" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;">
+          <span>Enviaràs el missatge com a <strong id="auth-name"></strong></span>
+          <button class="btn ghost small" id="logout-btn" type="button">Tanca sessió</button>
+        </div>
         <form id="suggestion-form">
-          <div class="field">
-            <label for="s-name">El teu nom</label>
-            <input type="text" id="s-name" placeholder="Nom i cognom" required maxlength="60">
-          </div>
           <div class="field">
             <label for="s-msg">Missatge</label>
             <textarea id="s-msg" placeholder="Escriu aquí el teu suggeriment…" required maxlength="800"></textarea>
           </div>
-          <button type="submit" class="btn teal" id="send-btn">Publicar suggeriment</button>
+          <button type="submit" class="btn teal" id="send-btn">Enviar suggeriment</button>
           <p class="send-status" id="send-status" aria-live="polite"></p>
         </form>
       </div>
 
-      <div class="suggestion-feed">
-        <h3>Suggeriments publicats</h3>
-        <p class="feed-desc">Només el delegat i el subdelegat poden veure aquesta llista. Cal iniciar sessió amb el correu de l'institut.</p>
-
-        <div id="auth-gate">
-          <button class="btn teal" id="login-btn" type="button">Inicia sessió amb Google</button>
-        </div>
-
-        <div id="auth-denied" hidden>
-          <p class="send-status err">Aquest compte de Google no té permís per veure els suggeriments.</p>
-          <button class="btn ghost small" id="logout-btn-denied" type="button">Prova amb un altre compte</button>
-        </div>
-
-        <div id="auth-ok" hidden>
-          <div class="feed-desc" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;">
-            <span>Sessió iniciada com a <strong id="auth-email"></strong></span>
-            <button class="btn ghost small" id="logout-btn" type="button">Tanca sessió</button>
-          </div>
-          <div id="suggestion-list" aria-live="polite"></div>
-        </div>
+      <!-- Només delegat / admin -->
+      <div class="suggestion-feed" id="feed-section" hidden>
+        <h3>Suggeriments rebuts</h3>
+        <p class="feed-desc">Només visible per a delegats i administradors.</p>
+        <div id="suggestion-list" aria-live="polite"></div>
       </div>
     </div>
-  </section>
+
+  </div>
+</section>
 
   <!-- ============ ENLLAÇOS ============ -->
   <section class="view" id="view-enllacos" hidden>
@@ -968,41 +965,38 @@ renderSchedule();
 setInterval(updateNow, 30000);
 
 /* ============================================================
-   9. BÚSTIA · enviar és obert a tothom, llegir és restringit
+   9. BÚSTIA · només els correus de la llista · autoria automàtica · lectura per rol
    ============================================================ */
-$('suggestion-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const status = $('send-status'), btn = $('send-btn');
-  const missatge = $('s-msg').value.trim();
-  const nom = $('s-name').value.trim();
-  if (!missatge || !nom) return;
+const READER_ROLES = ['delegat', 'admin'];
 
-  status.textContent = 'Publicant…';
-  status.className = 'send-status';
-  btn.disabled = true;
-  try {
-    await addDoc(collection(db, COL_SUGGESTIONS), {
-      missatge,
-      nom,
-      creat: serverTimestamp()
-    });
-    e.target.reset();
-    status.textContent = 'Publicat! Només el delegat i el subdelegat el podran llegir.';
-    status.className = 'send-status ok';
-  } catch (err) {
-    status.textContent = 'No s\'ha pogut publicar (' + (err?.code || 'error') + ').';
-    status.className = 'send-status err';
-    showDbError(err, 'publicant un suggeriment');
-  } finally {
-    btn.disabled = false;
-  }
-});
+/** ÚNICS usuaris autoritzats. Correu → nom (autocompletat) i rol. */
+const USERS = {
+  'z131925@iesxarc.es':    { nom: 'Erika Alvarez López',              rol: 'usuari' },
+  'z118312@iesxarc.es':    { nom: 'Mariam Azahaf El Aissaoui',        rol: 'usuari' },
+  'z133120@iesxarc.es':    { nom: 'Lluc Cardona',                     rol: 'usuari' },
+  'z131932@iesxarc.es':    { nom: 'Raúl Castillo Benito',             rol: 'usuari' },
+  'z92354@iesxarc.es':     { nom: 'Xavier Escandell Tur',             rol: 'usuari' },
+  'z168689@iesxarc.es':    { nom: 'Didac Fernandez Ruiz',             rol: 'usuari' },
+  'z201085@iesxarc.es':    { nom: 'Thibault Froilán Ferrari Catalá',  rol: 'usuari' },
+  'z133122@iesxarc.es':    { nom: 'Sergio Ferrer Chaler',             rol: 'delegat' },
+  'z118678@iesxarc.es':    { nom: 'Sebastian Guarracino',             rol: 'usuari' },
+  'z133138@iesxarc.es':    { nom: 'Pere Nolasc Luis Roselló',         rol: 'usuari' },
+  'z118691@iesxarc.es':    { nom: 'Sara Marzouki',                    rol: 'usuari' },
+  'z133143@iesxarc.es':    { nom: 'Carlos Planells Planells',         rol: 'usuari' },
+  'z118343@iesxarc.es':    { nom: 'Joel Rohra Kelani',                rol: 'usuari' },
+  'z79794@iesxarc.es':     { nom: 'Ana Roldan Aroca',                 rol: 'usuari' },
+  'z79795@iesxarc.es':     { nom: 'Lucia Roldan Aroca',               rol: 'usuari' },
+  'z118704@iesxarc.es':    { nom: 'Ludovica Salati',                  rol: 'usuari' },
+  'apvelasco@iesxarc.es':  { nom: 'Pablo Velasco Ortiz',              rol: 'usuari' },
+  'amonserrat@iesxarc.es': { nom: 'Apol·lònia Monserrat Febrer',      rol: 'delegat' },
+  'z118324@iesxarc.es':    { nom: 'Rayan El Qoraychy El Meskini',     rol: 'delegat' }
+};
 
-/** Únics correus autoritzats a llegir la bústia (delegat i subdelegat). */
-const ALLOWED_EMAILS = ['z118324@iesxarc.es', 'z133122@iesxarc.es'];
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ hd: 'iesxarc.es', prompt: 'select_account' });
 let unsubscribeSuggestions = null;
+let currentUser = null;                       // { uid, email, nom, rol }
 
 function formatStamp(ts) {
   const dt = ts?.toDate?.();
@@ -1010,36 +1004,54 @@ function formatStamp(ts) {
   return `${formatLong(toISO(dt.getFullYear(), dt.getMonth(), dt.getDate()))} · ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
 }
 
-function showAuthPanel(which) {
-  $('auth-gate').hidden = which !== 'gate';
-  $('auth-denied').hidden = which !== 'denied';
-  $('auth-ok').hidden = which !== 'ok';
+function setAuthError(msg) {
+  const el = $('auth-error');
+  el.textContent = msg || '';
+  el.hidden = !msg;
 }
 
+/* ---------- Sessió ---------- */
 $('login-btn').addEventListener('click', async () => {
+  setAuthError('');
   try {
     await signInWithPopup(auth, googleProvider);
   } catch (err) {
-    console.error('inici de sessió', err);
+    if (err?.code !== 'auth/popup-closed-by-user')
+      setAuthError('No s\'ha pogut iniciar la sessió (' + (err?.code || 'error') + ').');
   }
 });
 $('logout-btn').addEventListener('click', () => signOut(auth));
-$('logout-btn-denied').addEventListener('click', () => signOut(auth));
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (unsubscribeSuggestions) { unsubscribeSuggestions(); unsubscribeSuggestions = null; }
+  currentUser = null;
 
-  if (!user) { showAuthPanel('gate'); return; }
-
-  if (!ALLOWED_EMAILS.includes(user.email)) {
-    showAuthPanel('denied');
+  if (!user) {
+    $('auth-gate').hidden = false;
+    $('mailbox-user').hidden = true;
     return;
   }
 
-  $('auth-email').textContent = user.email;
-  showAuthPanel('ok');
-  $('suggestion-list').innerHTML = '<div class="empty-msg">Carregant els suggeriments…</div>';
+  const email = (user.email || '').toLowerCase();
+  const known = USERS[email];
+  if (!known) {                                // correu fora de la llista → fora
+    await signOut(auth);
+    setAuthError('Aquest compte (' + email + ') no està autoritzat a la bústia.');
+    return;
+  }
 
+  currentUser = { uid: user.uid, email, nom: known.nom, rol: known.rol };
+  setAuthError('');
+  $('auth-gate').hidden = true;
+  $('mailbox-user').hidden = false;
+  $('auth-name').textContent = `${currentUser.nom} (${currentUser.email})`;
+
+  // Només delegat/admin veuen el panell de lectura
+  const canRead = READER_ROLES.includes(currentUser.rol);
+  $('feed-section').hidden = !canRead;
+  if (!canRead) return;
+
+  $('suggestion-list').innerHTML = '<div class="empty-msg">Carregant els suggeriments…</div>';
   unsubscribeSuggestions = onSnapshot(
     query(collection(db, COL_SUGGESTIONS), orderBy('creat', 'desc'), limit(100)),
     (snap) => {
@@ -1049,11 +1061,11 @@ onAuthStateChanged(auth, (user) => {
             <div class="suggestion-item">
               <div class="meta">
                 <span class="who">${escapeHtml(s.nom || '—')}</span>
-                <span>${formatStamp(s.creat)}</span>
+                <span>${escapeHtml(s.email || '')} · ${formatStamp(s.creat)}</span>
               </div>
               <p class="text">${escapeHtml(s.missatge || '')}</p>
             </div>`).join('')
-        : '<div class="empty-msg">Encara no hi ha cap suggeriment. Sigues el primer!</div>';
+        : '<div class="empty-msg">Encara no hi ha cap suggeriment.</div>';
     },
     (err) => {
       $('suggestion-list').innerHTML = '<div class="empty-msg">No s\'han pogut carregar els suggeriments.</div>';
@@ -1062,6 +1074,35 @@ onAuthStateChanged(auth, (user) => {
   );
 });
 
+/* ---------- Enviament: l'autor surt de la sessió, mai del formulari ---------- */
+$('suggestion-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const status = $('send-status'), btn = $('send-btn');
+  const missatge = $('s-msg').value.trim();
+  if (!missatge || !currentUser) return;
+
+  status.textContent = 'Enviant…';
+  status.className = 'send-status';
+  btn.disabled = true;
+  try {
+    await addDoc(collection(db, COL_SUGGESTIONS), {
+      missatge,
+      nom: currentUser.nom,
+      email: currentUser.email,
+      uid: currentUser.uid,
+      creat: serverTimestamp()
+    });
+    e.target.reset();
+    status.textContent = 'Enviat! Només el delegat i el subdelegat el podran llegir.';
+    status.className = 'send-status ok';
+  } catch (err) {
+    status.textContent = 'No s\'ha pogut enviar (' + (err?.code || 'error') + ').';
+    status.className = 'send-status err';
+    showDbError(err, 'enviant un suggeriment');
+  } finally {
+    btn.disabled = false;
+  }
+});
 /* ============================================================
    10. PBAU · una assignatura, un enllaç oficial
    ============================================================ */
