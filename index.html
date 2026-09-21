@@ -147,6 +147,50 @@
   .add-panel .actions{grid-column:1/-1; display:flex; gap:.6rem; justify-content:flex-end; align-items:center;}
   .form-msg{font-size:.82rem; color:var(--coral); margin:0 auto 0 0;}
 
+  /* ---------- HORARI ---------- */
+  .sched-toolbar{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;}
+  .sched-filter{display:flex; align-items:center; gap:.6rem; font-size:.84rem; color:var(--ink-soft);}
+  .sched-filter select{font-family:var(--sans); font-size:.88rem; padding:.45rem .65rem; border-radius:9px; border:1px solid var(--line); background:var(--white); color:var(--ink); max-width:100%;}
+  .sched-legend{display:flex; gap:1rem; flex-wrap:wrap; font-size:.78rem; color:var(--ink-soft); align-items:center;}
+  .sched-legend span{display:inline-flex; align-items:center; gap:.4rem;}
+  .lg-esplai{width:1.5rem; height:.8rem; border-radius:3px; border:1.5px solid var(--gold); background:repeating-linear-gradient(-45deg,#f3dc9b 0 4px,#f7e7b6 4px 8px);}
+  .lg-now{width:.8rem; height:.8rem; border-radius:3px; background:var(--white); box-shadow:0 0 0 2px var(--teal);}
+
+  .day-tabs{display:none; gap:.3rem; margin-bottom:.8rem;}
+  .day-tabs button{flex:1; border:1px solid var(--line); background:var(--card); color:var(--ink-soft); padding:.5rem 0; border-radius:10px; font-weight:700; font-size:.85rem;}
+  .day-tabs button[aria-pressed="true"]{background:var(--ink); color:var(--white); border-color:var(--ink);}
+
+  .sched-wrap{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:1rem;}
+  .sched{display:grid; grid-template-columns:4.6rem repeat(5,minmax(0,1fr)); gap:.4rem;}
+  .sc-head{font-family:var(--serif); font-weight:600; font-size:1.05rem; text-align:center; padding:.35rem 0 .5rem; border-bottom:2px solid var(--line);}
+  .sc-head.today{color:var(--gold-deep); border-bottom-color:var(--gold);}
+  .sc-time{display:flex; flex-direction:column; align-items:flex-end; padding:.55rem .35rem 0 0; font-variant-numeric:tabular-nums; line-height:1.2;}
+  .sc-time b{font-size:.92rem; font-weight:700;}
+  .sc-time span{font-size:.72rem; color:var(--ink-soft);}
+  .sc-time.now b{color:var(--teal-deep);}
+  .sc-cell{background:var(--white); border:1px solid var(--line); border-radius:11px; padding:.5rem .6rem; display:flex; flex-direction:column; gap:.35rem; min-width:0; border-left:4px solid var(--ink);}
+  .sc-cell.multi{border-left-color:var(--teal);}
+  .sc-cell.today{background:#fffaf0;}
+  .sc-cell.now{box-shadow:0 0 0 2px var(--teal), var(--shadow);}
+  .sc-cell.empty{background:transparent; border:1px dashed var(--line); border-left-width:1px; color:var(--ink-soft); font-size:.8rem; align-items:center; justify-content:center;}
+  .opt{font-size:.8rem; line-height:1.28; transition:opacity .15s;}
+  .opt + .opt{border-top:1px dashed var(--line); padding-top:.35rem;}
+  .opt b{display:block; font-weight:600; overflow-wrap:anywhere;}
+  .sc-cell:not(.multi) .opt b{font-size:.92rem;}
+  .opt span{font-size:.72rem; color:var(--ink-soft);}
+  .opt.dim{opacity:.25;}
+  .opt.hit b{color:var(--teal-deep);}
+  .opt.hit{background:#dde7e3; border-radius:6px; padding:.2rem .35rem; margin:0 -.35rem;}
+
+  .esplai{
+    grid-column:1/-1; display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;
+    padding:.65rem 1rem; border-radius:12px; border:2px solid var(--gold); color:#4f3906;
+    background:repeating-linear-gradient(-45deg,#f3dc9b 0 12px,#f8e9bc 12px 24px);
+  }
+  .esplai .nm{font-family:var(--serif); font-weight:700; font-size:1.15rem; letter-spacing:.22em;}
+  .esplai .hh{font-size:.88rem; font-weight:700; font-variant-numeric:tabular-nums;}
+  .esplai.now{box-shadow:0 0 0 3px var(--ink), var(--shadow);}
+
   /* ---------- PBAU ---------- */
   .pbau-links-top{display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.8rem;}
   .pill-link{display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--line); background:var(--card); padding:.5rem .9rem; border-radius:999px; font-size:.84rem; font-weight:600; color:var(--ink); text-decoration:none;}
@@ -190,6 +234,31 @@
   #sync-dot{display:inline-block; width:.5rem; height:.5rem; border-radius:50%; background:#b7b096; margin-right:.35rem;}
   #sync-dot.on{background:var(--teal);}
   #sync-dot.bad{background:var(--coral);}
+
+  /* Horari en tauleta: una mica més compacte */
+  @media (max-width:980px){
+    .sched{grid-template-columns:3.9rem repeat(5,minmax(0,1fr)); gap:.3rem;}
+    .sc-cell{padding:.4rem .4rem;}
+    .opt{font-size:.72rem;}
+    .sc-cell:not(.multi) .opt b{font-size:.8rem;}
+    .opt span{font-size:.66rem;}
+  }
+
+  @media (max-width:760px){
+    /* Horari en mòbil: un dia cada vegada */
+    .day-tabs{display:flex;}
+    .sched-wrap{padding:.7rem;}
+    .sched{grid-template-columns:3.9rem 1fr; gap:.4rem;}
+    .sc-head,.sc-corner{display:none;}
+    .sched[data-active="0"] .sc-cell:not([data-day="0"]),
+    .sched[data-active="1"] .sc-cell:not([data-day="1"]),
+    .sched[data-active="2"] .sc-cell:not([data-day="2"]),
+    .sched[data-active="3"] .sc-cell:not([data-day="3"]),
+    .sched[data-active="4"] .sc-cell:not([data-day="4"]){display:none;}
+    .opt{font-size:.82rem;}
+    .sc-cell:not(.multi) .opt b{font-size:.95rem;}
+    .opt span{font-size:.74rem;}
+  }
 
   @media (max-width:620px){
     .cal-grid{gap:.2rem;}
@@ -303,6 +372,32 @@
     <div class="day-panel">
       <h3 id="day-panel-title">Properes dates</h3>
       <div id="day-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ HORARI ============ -->
+  <section class="view" id="view-horari" hidden>
+    <div class="section-head">
+      <div>
+        <h2>Horari de 2n Batx A</h2>
+        <p class="desc">Les franges amb diverses matèries corresponen a les optatives i modalitats: mira només la teva. Escull-la al selector per destacar-la a tot l'horari.</p>
+      </div>
+    </div>
+
+    <div class="sched-toolbar">
+      <label class="sched-filter">Destaca la meva matèria
+        <select id="sched-filter"></select>
+      </label>
+      <div class="sched-legend">
+        <span><i class="lg-esplai"></i> Esplai</span>
+        <span><i class="lg-now"></i> Ara mateix</span>
+      </div>
+    </div>
+
+    <div class="day-tabs" id="day-tabs" role="group" aria-label="Dia de la setmana"></div>
+
+    <div class="sched-wrap">
+      <div class="sched" id="sched" data-active="0"></div>
     </div>
   </section>
 
@@ -488,7 +583,7 @@ function setSync(state, text) {
 /* ============================================================
    3. PESTANYES
    ============================================================ */
-const TABS = ['inici', 'pbau', 'bustia', 'enllacos'];
+const TABS = ['inici', 'horari', 'pbau', 'bustia', 'enllacos'];
 const tabButtons = document.querySelectorAll('#tabs button');
 
 function activateTab(name) {
@@ -749,7 +844,132 @@ $('exam-form').addEventListener('submit', async (e) => {
 });
 
 /* ============================================================
-   8. BÚSTIA · enviar és obert a tothom, llegir és restringit
+   8. HORARI
+   ============================================================ */
+const DAYS = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres'];
+const DAYS_SHORT = ['Dl', 'Dt', 'Dc', 'Dj', 'Dv'];
+
+/** Franges lectives (slot) i esplais, en ordre. */
+const ROWS = [
+  { t: '8:00',  e: '8:55',  slot: 0 },
+  { t: '8:55',  e: '9:50',  slot: 1 },
+  { t: '9:50',  e: '10:10', esplai: true },
+  { t: '10:10', e: '10:50', slot: 2 },
+  { t: '10:50', e: '11:05', esplai: true },
+  { t: '11:05', e: '12:00', slot: 3 },
+  { t: '12:00', e: '12:15', esplai: true },
+  { t: '12:15', e: '13:10', slot: 4 },
+  { t: '13:10', e: '14:05', slot: 5 },
+  { t: '14:05', e: '15:00', slot: 6 }
+];
+
+/** [matèria, aula] */
+const S = (name, room = '2 BAT A a7') => [[name, room]];
+const G_MAT = [['Dibuix Artístic II', 'PLASTICA 2'], ['Llatí II', '2 BAT A a7'], ['Mates Aplicades', '2 BAT B a6'], ['Matemàtiques II', '2 BAT A a7']];
+const G_EF  = [['Activitat Física', 'GIMNAS'], ['Psicologia', '2 BAT A a7'], ['Tecnologia i Eng.', 'TECNOOI']];
+const G_EMP = [['Empresa i Disseny', '2 BAT B a6'], ['Física', 'LABFI'], ['Hª de l\'Art', '2 BAT A a7']];
+const G_DT  = [['Dibuix Tècnic II', 'PLASTICA 3'], ['Geografia', '2 BAT A a7'], ['Química', '2 BAT B a6']];
+
+const ANG = S('Anglès'), CAST = S('Castellà'), HIST = S('Hist. d\'Espanya'),
+      CAT = S('Català'), FILO = S('Filosofia');
+
+/** SCHEDULE[dia][slot] — null = sense classe */
+const SCHEDULE = [
+  /* Dilluns   */ [ANG,  CAST, HIST, G_MAT, CAT,  G_EF,  G_EMP],
+  /* Dimarts   */ [CAT,  G_DT, FILO, ANG,   G_EF, G_EMP, S('Tutoria')],
+  /* Dimecres  */ [HIST, ANG,  G_MAT, FILO, CAST, G_EMP, G_DT],
+  /* Dijous    */ [G_EF, G_MAT, CAST, G_DT, S('Atenció Educativa'), G_MAT, null],
+  /* Divendres */ [G_DT, HIST, G_EMP, G_EF, FILO, CAT,   null]
+];
+
+let subjectFilter = '';
+let activeDay = 0;
+
+const toMin = (hhmm) => { const [h, m] = hhmm.split(':').map(Number); return h * 60 + m; };
+
+function renderSchedule() {
+  let html = '<div class="sc-corner"></div>' +
+    DAYS.map((d, i) => `<div class="sc-head" data-day="${i}">${d}</div>`).join('');
+
+  ROWS.forEach((r, ri) => {
+    if (r.esplai) {
+      html += `<div class="esplai" data-row="${ri}"><span class="nm">ESPLAI</span><span class="hh">${r.t} – ${r.e}</span></div>`;
+      return;
+    }
+    html += `<div class="sc-time" data-row="${ri}"><b>${r.t}</b><span>${r.e}</span></div>`;
+    for (let d = 0; d < 5; d++) {
+      const opts = SCHEDULE[d][r.slot];
+      if (!opts) {
+        html += `<div class="sc-cell empty" data-day="${d}" data-row="${ri}">—</div>`;
+        continue;
+      }
+      const multi = opts.length > 1;
+      html += `<div class="sc-cell${multi ? ' multi' : ''}" data-day="${d}" data-row="${ri}">` +
+        opts.map(([name, room]) => {
+          const cls = subjectFilter ? (name === subjectFilter ? ' hit' : ' dim') : '';
+          return `<div class="opt${cls}"><b>${escapeHtml(name)}</b><span>${escapeHtml(room)}</span></div>`;
+        }).join('') + `</div>`;
+    }
+  });
+
+  const sched = $('sched');
+  sched.innerHTML = html;
+  sched.dataset.active = String(activeDay);
+  updateNow();
+}
+
+/** Marca el dia d'avui i la franja en curs. */
+function updateNow() {
+  const n = new Date();
+  const wd = (n.getDay() + 6) % 7;                    // dilluns = 0
+  const mins = n.getHours() * 60 + n.getMinutes();
+  const isSchoolDay = wd < 5;
+
+  document.querySelectorAll('#sched [data-day]').forEach(el => {
+    el.classList.toggle('today', isSchoolDay && Number(el.dataset.day) === wd);
+  });
+
+  let nowRow = -1;
+  if (isSchoolDay) nowRow = ROWS.findIndex(r => mins >= toMin(r.t) && mins < toMin(r.e));
+
+  document.querySelectorAll('#sched [data-row]').forEach(el => {
+    const ri = Number(el.dataset.row);
+    const isNow = ri === nowRow;
+    if (el.classList.contains('sc-cell')) {
+      el.classList.toggle('now', isNow && Number(el.dataset.day) === wd);
+    } else {
+      el.classList.toggle('now', isNow);
+    }
+  });
+}
+
+function buildScheduleControls() {
+  const names = new Set();
+  SCHEDULE.forEach(day => day.forEach(slot => slot && slot.forEach(([n]) => names.add(n))));
+  const sorted = [...names].sort((a, b) => a.localeCompare(b, 'ca'));
+  $('sched-filter').innerHTML = '<option value="">— Cap —</option>' +
+    sorted.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+  $('sched-filter').addEventListener('change', (e) => { subjectFilter = e.target.value; renderSchedule(); });
+
+  const wd = (new Date().getDay() + 6) % 7;
+  activeDay = wd < 5 ? wd : 0;
+  $('day-tabs').innerHTML = DAYS_SHORT.map((d, i) =>
+    `<button type="button" data-day="${i}" aria-pressed="${i === activeDay}" aria-label="${DAYS[i]}">${d}</button>`).join('');
+  $('day-tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-day]');
+    if (!b) return;
+    activeDay = Number(b.dataset.day);
+    $('sched').dataset.active = String(activeDay);
+    $('day-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  });
+}
+
+buildScheduleControls();
+renderSchedule();
+setInterval(updateNow, 30000);
+
+/* ============================================================
+   9. BÚSTIA · enviar és obert a tothom, llegir és restringit
    ============================================================ */
 $('suggestion-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -844,7 +1064,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 /* ============================================================
-   9. PBAU · una assignatura, un enllaç oficial
+   10. PBAU · una assignatura, un enllaç oficial
    ============================================================ */
 const MATERIES_BASE = 'https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/';
 const SUBJECTS = [
@@ -883,7 +1103,7 @@ $('pbau-subjects').innerHTML = [...new Set(SUBJECTS.map(s => s.area))].map(area 
   </div>`).join('');
 
 /* ============================================================
-   10. ENLLAÇOS D'INTERÈS
+   11. ENLLAÇOS D'INTERÈS
    ============================================================ */
 const LINKS = [
   {
