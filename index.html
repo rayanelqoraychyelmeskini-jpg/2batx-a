@@ -858,26 +858,47 @@ const ROWS = [
   { t: '13:10', e: '14:05', slot: 5 },
   { t: '14:05', e: '15:00', slot: 6 }
 ];
-
 /** [matèria, aula] */
 const S = (name, room = '2 BAT A a7') => [[name, room]];
-const G_MAT = [['Dibuix Artístic II', 'PLASTICA 2'], ['Llatí II', '2 BAT A a7'], ['Mates Aplicades', '2 BAT B a6'], ['Matemàtiques II', '2 BAT A a7']];
-const G_EF  = [['Activitat Física', 'GIMNAS'], ['Psicologia', '2 BAT A a7'], ['Tecnologia i Eng.', 'TECNOOI']];
-const G_EMP = [['Empresa i Disseny', '2 BAT B a6'], ['Física', 'LABFI'], ['Hª de l\'Art', '2 BAT A a7']];
-const G_DT  = [['Dibuix Tècnic II', 'PLASTICA 3'], ['Geografia', '2 BAT A a7'], ['Química', '2 BAT B a6']];
+
+// Grups d'optatives
+const G_MAT = [
+  ['Ciències Generals', 'LABFI'],
+  ['Dibuix Artístic II', 'PLASTICA 2'],
+  ['Llatí II', '2 BAT A a7'],
+  ['Mates Aplicades', '2 BAT A a7'],
+  ['Matemàtiques II', '2 BAT B a6']
+];
+
+const G_EF = [
+  ['Activitat Física', 'GIMNAS'],
+  ['Psicologia', '2 BAT B a6'],
+  ['Tecnologia i Eng.', 'TECNO01']
+];
+
+const G_EMP = [
+  ['Empresa i Disseny', '2 BAT B a6'],
+  ['Física', 'LABFI'],
+  ['Hª de l\'Art', '2 BAT A a7']
+];
+
+const G_DT = [
+  ['Dibuix Tècnic II', 'PLASTICA 3'],
+  ['Geografia', '2 BAT A a7'],
+  ['Química', '2 BAT B a6']
+];
 
 const ANG = S('Anglès'), CAST = S('Castellà'), HIST = S('Hist. d\'Espanya'),
       CAT = S('Català'), FILO = S('Filosofia');
 
 /** SCHEDULE[dia][slot] — null = sense classe */
 const SCHEDULE = [
-  /* Dilluns   */ [ANG,  CAST, HIST, G_MAT, CAT,  G_EF,  G_EMP],
-  /* Dimarts   */ [CAT,  G_DT, FILO, ANG,   G_EF, G_EMP, S('Tutoria')],
-  /* Dimecres  */ [HIST, ANG,  G_MAT, FILO, CAST, G_EMP, G_DT],
-  /* Dijous    */ [G_EF, G_MAT, CAST, G_DT, S('Atenció Educativa'), G_MAT, null],
-  /* Divendres */ [G_DT, HIST, G_EMP, G_EF, FILO, CAT,   null]
+  /* Dilluns   */ [ANG,  CAST, HIST, G_MAT, CAT,  G_EF,                G_EMP],
+  /* Dimarts   */ [CAT,  G_DT, FILO, ANG,   G_EF, G_EMP,               S('Tutoria')],
+  /* Dimecres  */ [HIST, ANG,  G_MAT, FILO, CAST, G_MAT,               G_DT],
+  /* Dijous    */ [G_EF, G_MAT, CAST, G_DT, G_EMP, S('Atenció Educativa'), null],
+  /* Divendres */ [G_DT, HIST, G_EMP, G_EF, FILO, CAT,                null]
 ];
-
 let subjectFilter = '';
 let activeDay = 0;
 
