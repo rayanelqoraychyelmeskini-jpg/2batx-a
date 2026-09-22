@@ -1683,6 +1683,1498 @@ $('links-grid').innerHTML = LINKS.map(l => `
   .esplai .hh{font-size:.88rem; font-weight:700; font-variant-numeric:tabular-nums;}
   .esplai.now{box-shadow:0 0 0 3px var(--ink), var(--shadow);}
 
+  /* ---------- DEURES (agenda setmanal · estil planificador imprès) ---------- */
+  .week-card{background:transparent; border:none; padding:0;}
+  .week-nav{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:1.1rem; flex-wrap:wrap;}
+  .week-nav h3{font-size:1.1rem; margin:0; text-transform:capitalize; color:var(--ink-soft); font-weight:600;}
+  .week-nav .nav-side{display:flex; gap:.35rem; align-items:center;}
+
+  .week-spread{
+    background:var(--white); border:1px solid var(--line); border-radius:6px;
+    box-shadow:var(--shadow); padding:1.6rem 1.8rem 2rem; position:relative;
+  }
+  .spread-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+    padding-bottom:.9rem; margin-bottom:1.3rem; border-bottom:2.5px solid var(--ink);
+  }
+  .spread-head .sh-month{font-family:var(--serif); font-weight:700; font-size:clamp(1.5rem,3vw,2.1rem); text-transform:uppercase; letter-spacing:.04em; color:var(--ink);}
+  .spread-head .sh-year{font-family:var(--serif); font-weight:600; font-size:1.35rem; color:var(--ink-soft);}
+
+  .spread-grid{display:grid; grid-template-columns:1fr 2.6rem 1fr; align-items:stretch;}
+  .spread-col{display:flex; flex-direction:column; gap:1.5rem;}
+  .spread-spine{
+    background-image:radial-gradient(circle, var(--line) 34%, transparent 36%);
+    background-size:100% 1.6rem; background-repeat:repeat-y; background-position:center 4px;
+    border-left:1px dashed var(--line); border-right:1px dashed var(--line);
+  }
+
+  .agenda-day .ad-head{display:flex; align-items:baseline; gap:.55rem; padding-bottom:.35rem; margin-bottom:.5rem; border-bottom:1.5px solid var(--ink);}
+  .agenda-day .ad-num{font-family:var(--serif); font-weight:700; font-size:1.5rem; color:var(--gold-deep); line-height:1;}
+  .agenda-day .ad-name{font-family:var(--serif); font-weight:600; font-size:1.05rem; color:var(--ink); text-transform:capitalize;}
+  .agenda-day.today .ad-num{color:var(--teal-deep);}
+  .agenda-day.today .ad-head{border-bottom-color:var(--teal);}
+  .ad-add{margin-left:auto; border:none; background:none; color:var(--ink-soft); font-size:.74rem; font-weight:600; opacity:.55; padding:.1rem .2rem;}
+  .ad-add:hover{opacity:1; color:var(--teal-deep);}
+
+  .ad-lines{
+    background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 1.85rem, var(--line) 1.85rem, var(--line) calc(1.85rem + 1px));
+    min-height:7.4rem;
+  }
+  .ad-row{min-height:1.85rem; display:flex; align-items:center; gap:.5rem;}
+  .ad-row .ad-check{flex:0 0 auto; width:.82rem; height:.82rem; accent-color:var(--teal); cursor:pointer;}
+  .ad-row .ad-text{flex:1; min-width:0; font-size:.82rem; line-height:1.25; overflow-wrap:anywhere;}
+  .ad-row .ad-text b{font-weight:700; margin-right:.35rem;}
+  .ad-row.done .ad-text{text-decoration:line-through; opacity:.5;}
+  .ad-row .ad-del{flex:0 0 auto; border:none; background:none; color:var(--ink-soft); font-size:.72rem; opacity:0; transition:opacity .12s;}
+  .ad-row:hover .ad-del{opacity:.55;}
+  .ad-row .ad-del:hover{opacity:1; color:var(--coral);}
+
+  .weekend-row{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;}
+  .weekend-row .agenda-day .ad-lines{min-height:4.6rem;}
+
+  @media (max-width:760px){
+    .week-spread{padding:1.1rem 1rem 1.5rem;}
+    .spread-grid{grid-template-columns:1fr;}
+    .spread-spine{display:none;}
+    .spread-col + .spread-col{margin-top:1.5rem; padding-top:1.3rem; border-top:2px dashed var(--line);}
+  }
+
+  /* ---------- PBAU ---------- */
+  .pbau-links-top{display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.8rem;}
+  .pill-link{display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--line); background:var(--card); padding:.5rem .9rem; border-radius:999px; font-size:.84rem; font-weight:600; color:var(--ink); text-decoration:none;}
+  .pill-link:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .area-block{margin-bottom:1.8rem;}
+  .area-title{font-family:var(--sans); font-weight:700; font-size:.76rem; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:.7rem; padding-bottom:.4rem; border-bottom:1px solid var(--line);}
+  .subject-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:.8rem;}
+  .subject-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.05rem 1.15rem; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:.35rem; transition:border-color .15s,transform .12s;}
+  .subject-card:hover{border-color:var(--teal); transform:translateY(-2px);}
+  .subject-card h3{font-size:1.02rem; margin:0;}
+  .subject-card .go{font-size:.82rem; color:var(--teal-deep); font-weight:600;}
+  .note-box{background:#f4ecd8; border:1px solid #e4d3a2; border-radius:12px; padding:1rem 1.2rem; font-size:.87rem; color:#5c4a12; margin-top:.6rem;}
+
+  /* ---------- Bústia ---------- */
+  .mailbox-wrap{max-width:620px; margin:0 auto;}
+  .mailbox-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.8rem;}
+  .mailbox-card .field{margin-bottom:1rem;}
+  .mailbox-card textarea{min-height:130px; resize:vertical;}
+  .send-status{margin-top:.8rem; font-size:.88rem; min-height:1.2em;}
+  .send-status.ok{color:var(--teal-deep);}
+  .send-status.err{color:var(--coral);}
+  .anon-toggle{display:flex; align-items:center; gap:.5rem; font-size:.86rem; color:var(--ink-soft); margin-bottom:1rem;}
+  .suggestion-feed{margin-top:2.4rem;}
+  .suggestion-feed h3{font-size:1.15rem; margin-bottom:.2rem;}
+  .feed-desc{font-size:.85rem; color:var(--ink-soft); margin-bottom:1rem;}
+  .suggestion-item{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem; margin-bottom:.6rem;}
+  .suggestion-item .meta{display:flex; justify-content:space-between; gap:.8rem; align-items:baseline; font-size:.76rem; color:var(--ink-soft); margin-bottom:.35rem;}
+  .suggestion-item .who{font-weight:700; color:var(--teal-deep); text-transform:uppercase; letter-spacing:.04em;}
+  .suggestion-item .text{font-size:.92rem; white-space:pre-wrap; margin:0;}
+
+  /* ---------- Enllaços ---------- */
+  .link-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem;}
+  .link-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.2rem; text-decoration:none; color:var(--ink); display:block; transition:border-color .15s,transform .12s;}
+  .link-card:hover{border-color:var(--teal); transform:translateY(-2px);}
+  .link-card.featured{background:var(--white); border-color:var(--gold); grid-column:1/-1;}
+  .link-card .k{font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--gold-deep); font-weight:700; margin-bottom:.4rem;}
+  .link-card h3{font-size:1.02rem; margin-bottom:.3rem;}
+  .link-card p{font-size:.84rem; color:var(--ink-soft); margin:0;}
+
+  footer{text-align:center; padding:2rem 1rem 3rem; color:var(--ink-soft); font-size:.82rem;}
+  #sync-dot{display:inline-block; width:.5rem; height:.5rem; border-radius:50%; background:#b7b096; margin-right:.35rem;}
+  #sync-dot.on{background:var(--teal);}
+  #sync-dot.bad{background:var(--coral);}
+
+  /* Horari en tauleta: una mica més compacte */
+  @media (max-width:980px){
+    .sched{grid-template-columns:3.9rem repeat(5,minmax(0,1fr)); gap:.3rem;}
+    .sc-cell{padding:.4rem .4rem;}
+    .opt{font-size:.72rem;}
+    .sc-cell:not(.multi) .opt b{font-size:.8rem;}
+    .opt span{font-size:.66rem;}
+  }
+
+  @media (max-width:760px){
+    /* Horari en mòbil: un dia cada vegada */
+    .day-tabs{display:flex;}
+    .sched-wrap{padding:.7rem;}
+    .sched{grid-template-columns:3.9rem 1fr; gap:.4rem;}
+    .sc-head,.sc-corner{display:none;}
+    .sched[data-active="0"] .sc-cell:not([data-day="0"]),
+    .sched[data-active="1"] .sc-cell:not([data-day="1"]),
+    .sched[data-active="2"] .sc-cell:not([data-day="2"]),
+    .sched[data-active="3"] .sc-cell:not([data-day="3"]),
+    .sched[data-active="4"] .sc-cell:not([data-day="4"]){display:none;}
+    .opt{font-size:.82rem;}
+    .sc-cell:not(.multi) .opt b{font-size:.95rem;}
+    .opt span{font-size:.74rem;}
+  }
+
+  @media (max-width:620px){
+    .cal-grid{gap:.2rem;}
+    .cal-day{min-height:4.2rem; padding:.2rem;}
+    .chip{font-size:.6rem; padding:.1rem .22rem;}
+    .add-panel form,.date-fields{grid-template-columns:1fr;}
+    .exam-row{grid-template-columns:auto 1fr auto;}
+    .exam-row .tag{grid-column:1/-1; justify-self:start;}
+    nav.tabs{width:100%;}
+    nav.tabs button{flex:1; padding:.5rem .4rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span class="mark">2n Batx A</span>
+      <span class="sub">Organització de classe</span>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button role="tab" data-tab="inici" aria-selected="true">Inici</button>
+      <button role="tab" data-tab="horari" aria-selected="false">Horari</button>
+      <button role="tab" data-tab="deures" aria-selected="false">Deures</button>
+      <button role="tab" data-tab="pbau" aria-selected="false">PBAU</button>
+      <button role="tab" data-tab="bustia" aria-selected="false">Bústia</button>
+      <button role="tab" data-tab="enllacos" aria-selected="false">Enllaços</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="alert" id="db-alert" hidden></div>
+
+  <!-- ============ INICI / CALENDARI ============ -->
+  <section class="view" id="view-inici">
+
+    <div class="hero">
+      <div class="eyebrow">Compte enrere</div>
+      <p class="countdown-number" id="cd-number">–</p>
+      <p class="countdown-unit" id="cd-unit">dies fins a la PBAU</p>
+      <p class="countdown-meta">Data de referència: <strong id="cd-date-label"></strong></p>
+      <p class="countdown-clock" id="cd-clock"></p>
+    </div>
+
+    <div class="section-head">
+      <div>
+        <h2>Calendari del curs</h2>
+        <p class="desc">Exàmens, treballs i lliuraments sincronitzats en directe, amb els dies festius i no lectius oficials ja carregats. Navega entre mesos i fes clic a un dia per veure'n el detall.</p>
+      </div>
+      <button class="btn ghost small" id="toggle-add" aria-expanded="false">+ Afegir data</button>
+    </div>
+
+    <div class="cal-card">
+      <div class="cal-nav">
+        <div class="nav-side">
+          <button class="icon-btn" id="cal-prev" type="button" aria-label="Mes anterior">‹</button>
+          <button class="icon-btn" id="cal-next" type="button" aria-label="Mes següent">›</button>
+        </div>
+        <h3 id="cal-title">—</h3>
+        <div class="nav-side">
+          <button class="btn ghost small" id="cal-today" type="button">Avui</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="cal-grid" aria-live="polite"></div>
+      <div class="cal-legend">
+        <span><i class="swatch examen"></i> Examen</span>
+        <span><i class="swatch treball"></i> Treball</span>
+        <span><i class="swatch lliurament"></i> Lliurament</span>
+        <span><i class="swatch altres"></i> Altres</span>
+        <span><i class="swatch festiu"></i> Festiu / no lectiu</span>
+      </div>
+    </div>
+
+    <div class="add-panel" id="add-panel" hidden>
+      <form id="exam-form">
+        <div class="field">
+          <label for="f-subj">Assignatura o títol</label>
+          <input type="text" id="f-subj" placeholder="p. ex. Matemàtiques II" required maxlength="80">
+        </div>
+        <div class="field">
+          <label for="f-day">Data (dia · mes · any)</label>
+          <div class="date-fields">
+            <select id="f-day" aria-label="Dia" required></select>
+            <select id="f-month" aria-label="Mes" required></select>
+            <select id="f-year" aria-label="Any" required></select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-type">Categoria</label>
+          <select id="f-type">
+            <option value="Examen">Examen</option>
+            <option value="Treball">Treball</option>
+            <option value="Lliurament">Lliurament</option>
+            <option value="Altres">Altres</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-desc">Nota (opcional)</label>
+          <input type="text" id="f-desc" placeholder="p. ex. Temes 1-4, porta calculadora" maxlength="120">
+        </div>
+        <div class="actions">
+          <p class="form-msg" id="form-msg"></p>
+          <button type="button" class="btn ghost small" id="cancel-add">Cancel·la</button>
+          <button type="submit" class="btn small" id="save-btn">Desar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="day-panel">
+      <h3 id="day-panel-title">Properes dates</h3>
+      <div id="day-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ HORARI ============ -->
+  <section class="view" id="view-horari" hidden>
+    <div class="section-head">
+      <div>
+        <h2>Horari de 2n Batx A</h2>
+        <p class="desc">Les franges amb diverses matèries corresponen a les optatives i modalitats: mira només la teva. Escull-la al selector per destacar-la a tot l'horari.</p>
+      </div>
+    </div>
+
+    <div class="sched-toolbar">
+      <label class="sched-filter">Destaca la meva matèria
+        <select id="sched-filter"></select>
+      </label>
+      <div class="sched-legend">
+        <span><i class="lg-esplai"></i> Esplai</span>
+        <span><i class="lg-now"></i> Ara mateix</span>
+      </div>
+    </div>
+
+    <div class="day-tabs" id="day-tabs" role="group" aria-label="Dia de la setmana"></div>
+
+    <div class="sched-wrap">
+      <div class="sched" id="sched" data-active="0"></div>
+    </div>
+  </section>
+
+  <!-- ============ DEURES ============ -->
+  <section class="view" id="view-deures" hidden>
+    <div class="section-head">
+      <div>
+        <h2>Agenda de deures</h2>
+        <p class="desc">Deures i tasques per a casa, organitzats per setmana. Sincronitzat en directe per a tota la classe: marca'ls com a fets quan els acabis.</p>
+      </div>
+      <button class="btn ghost small" id="toggle-add-deure" aria-expanded="false">+ Afegir deure</button>
+    </div>
+
+    <div class="week-card">
+      <div class="week-nav">
+        <div class="nav-side">
+          <button class="icon-btn" id="week-prev" type="button" aria-label="Setmana anterior">‹</button>
+          <button class="icon-btn" id="week-next" type="button" aria-label="Setmana següent">›</button>
+        </div>
+        <h3 id="week-title">—</h3>
+        <div class="nav-side">
+          <button class="btn ghost small" id="week-today" type="button">Aquesta setmana</button>
+        </div>
+      </div>
+      <div id="week-grid" aria-live="polite"></div>
+    </div>
+
+    <div class="add-panel" id="add-deure-panel" hidden>
+      <form id="deure-form">
+        <div class="field">
+          <label for="d-subj">Matèria</label>
+          <select id="d-subj" required></select>
+        </div>
+        <div class="field" id="d-subj-custom-wrap" hidden>
+          <label for="d-subj-custom">Nom de la matèria</label>
+          <input type="text" id="d-subj-custom" placeholder="p. ex. Robòtica" maxlength="60">
+        </div>
+        <div class="field">
+          <label for="d-day">Data de lliurament (dia · mes · any)</label>
+          <div class="date-fields">
+            <select id="d-day" aria-label="Dia" required></select>
+            <select id="d-month" aria-label="Mes" required></select>
+            <select id="d-year" aria-label="Any" required></select>
+          </div>
+        </div>
+        <div class="field" style="grid-column:1/-1;">
+          <label for="d-desc">Descripció del deure</label>
+          <input type="text" id="d-desc" placeholder="p. ex. Exercicis 1-10, pàgina 45" required maxlength="140">
+        </div>
+        <div class="actions">
+          <p class="form-msg" id="deure-form-msg"></p>
+          <button type="button" class="btn ghost small" id="cancel-add-deure">Cancel·la</button>
+          <button type="submit" class="btn small" id="save-deure-btn">Desar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ PBAU ============ -->
+  <section class="view" id="view-pbau" hidden>
+    <div class="section-head">
+      <div>
+        <h2>Recursos per a la PBAU</h2>
+        <p class="desc">Un únic enllaç oficial de la UIB per assignatura, amb la informació de la matèria, l'estructura de l'examen i els models de convocatòries anteriors.</p>
+      </div>
+    </div>
+
+    <div class="pbau-links-top">
+      <a class="pill-link" href="https://pbau.uib.cat" target="_blank" rel="noopener">Portal PBAU</a>
+      <a class="pill-link" href="https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/" target="_blank" rel="noopener">Totes les matèries</a>
+    </div>
+
+    <div id="pbau-subjects"></div>
+
+    <div class="note-box">
+      La UIB actualitza aquestes pàgines cada curs: comprova sempre que la informació correspon a la convocatòria vigent. Les ponderacions de cada matèria per a un grau concret es consulten a la fitxa del grau, a l'apartat «Accés i reconeixements».
+    </div>
+  </section>
+
+  <!-- ============ BÚSTIA ============ -->
+<section class="view" id="view-bustia" hidden>
+  <div class="section-head">
+    <div>
+      <h2>Bústia de suggeriments i queixes</h2>
+      <p class="desc">Envia una idea, una proposta o una queixa. El teu nom queda registrat automàticament amb el suggeriment i només el delegat i el subdelegat el poden llegir.</p>
+    </div>
+  </div>
+
+  <div class="mailbox-wrap">
+
+    <!-- Sense sessió -->
+    <div class="mailbox-card" id="auth-gate">
+      <p>Per enviar un suggeriment cal iniciar sessió amb el teu correu de l'institut.</p>
+      <button class="btn teal" id="login-btn" type="button">Inicia sessió amb Google</button>
+      <p class="send-status err" id="auth-error" hidden></p>
+    </div>
+
+    <!-- Amb sessió (qualsevol usuari autoritzat) -->
+    <div id="mailbox-user" hidden>
+      <div class="mailbox-card">
+        <div class="feed-desc" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;">
+          <span>Enviaràs el missatge com a <strong id="auth-name"></strong></span>
+          <button class="btn ghost small" id="logout-btn" type="button">Tanca sessió</button>
+        </div>
+        <form id="suggestion-form">
+          <div class="field">
+            <label for="s-msg">Missatge</label>
+            <textarea id="s-msg" placeholder="Escriu aquí el teu suggeriment…" required maxlength="800"></textarea>
+          </div>
+          <button type="submit" class="btn teal" id="send-btn">Enviar suggeriment</button>
+          <p class="send-status" id="send-status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- Només delegat / admin -->
+      <div class="suggestion-feed" id="feed-section" hidden>
+        <h3>Suggeriments rebuts</h3>
+        <p class="feed-desc">Només visible per a delegats i administradors.</p>
+        <div id="suggestion-list" aria-live="polite"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ============ ENLLAÇOS ============ -->
+  <section class="view" id="view-enllacos" hidden>
+    <div class="section-head">
+      <div>
+        <h2>Enllaços d'interès</h2>
+        <p class="desc">Accessos directes per preparar la preinscripció universitària.</p>
+      </div>
+    </div>
+    <div class="link-grid" id="links-grid"></div>
+  </section>
+
+</main>
+
+<footer>
+  <span id="sync-dot"></span><span id="sync-text">Connectant amb Firestore…</span>
+  <br>2n de Batxillerat A
+</footer>
+
+<script type="module">
+/* ============================================================
+   IMPORTS · Firebase v10 (API modular v9+)
+   ============================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, deleteDoc, doc, updateDoc,
+  onSnapshot, query, orderBy, limit, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+/* ============================================================
+   1. CONFIGURACIÓ
+   ============================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyCpneWOClOUf3VAXW2D5t-XUVAbC7SVvgo",
+  authDomain: "delegat-2batx-a.firebaseapp.com",
+  projectId: "delegat-2batx-a",
+  storageBucket: "delegat-2batx-a.firebasestorage.app",
+  messagingSenderId: "156834746789",
+  appId: "1:156834746789:web:88582f1a556ac00c56984c",
+  measurementId: "G-8F7XR5H050"
+};
+
+/** Data de referència del compte enrere (AAAA-MM-DD). */
+const PBAU_DATE = "2027-07-01";
+
+/** Noms de les col·leccions de Firestore (un sol lloc per canviar-los). */
+const COL_EVENTS = 'examens';
+const COL_SUGGESTIONS = 'suggeriments';
+const COL_HOMEWORK = 'deures';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const MONTHS = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
+const DOW = ['dl','dt','dc','dj','dv','ds','dg'];
+const APOSTROPHE_MONTHS = new Set([3, 7, 9]);   // abril, agost, octubre → d'
+const TYPES = ['examen', 'treball', 'lliurament', 'altres', 'festiu'];
+
+const $ = (id) => document.getElementById(id);
+
+/* ============================================================
+   2. UTILITATS
+   ============================================================ */
+const pad = (n) => String(n).padStart(2, '0');
+const toISO = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;       // m: 0-11
+const todayISO = () => { const n = new Date(); return toISO(n.getFullYear(), n.getMonth(), n.getDate()); };
+
+/** "2027-05-15" → "15 de maig de 2027" (sempre dia primer) */
+function formatLong(iso, withYear = true) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const prep = APOSTROPHE_MONTHS.has(m - 1) ? "d'" : 'de ';
+  return `${d} ${prep}${MONTHS[m - 1]}${withYear ? ` de ${y}` : ''}`;
+}
+
+function escapeHtml(s = '') {
+  const el = document.createElement('div');
+  el.textContent = String(s);
+  return el.innerHTML;
+}
+
+/** Normalitza la categoria a una de les classes CSS conegudes. */
+const typeClass = (t) => {
+  const k = String(t || '').toLowerCase();
+  return TYPES.includes(k) ? k : 'altres';
+};
+
+/** Mostra l'avís gran quan Firestore falla, amb el codi d'error real. */
+function showDbError(err, context) {
+  const box = $('db-alert');
+  const code = err?.code || 'desconegut';
+  box.innerHTML = `
+    <strong>Firestore no respon (${escapeHtml(context)}).</strong>
+    Codi d'error: <code>${escapeHtml(code)}</code>.
+    ${code === 'permission-denied'
+      ? 'Les regles de seguretat de la base de dades estan bloquejant l\'operació: cal permetre <code>read</code> i <code>create</code> a les col·leccions <code>examens</code> i <code>suggeriments</code> des de la consola de Firebase.'
+      : 'Comprova a la consola de Firebase que la base de dades Firestore està creada i que el domini de la web és un domini autoritzat.'}`;
+  box.hidden = false;
+  setSync('bad', 'Error de connexió amb Firestore');
+  console.error(context, err);
+}
+
+function setSync(state, text) {
+  const dot = $('sync-dot');
+  dot.classList.toggle('on', state === 'ok');
+  dot.classList.toggle('bad', state === 'bad');
+  $('sync-text').textContent = text;
+}
+
+/* ============================================================
+   3. PESTANYES
+   ============================================================ */
+const TABS = ['inici', 'horari', 'deures', 'pbau', 'bustia', 'enllacos'];
+const tabButtons = document.querySelectorAll('#tabs button');
+
+function activateTab(name) {
+  tabButtons.forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+  TABS.forEach(t => { $('view-' + t).hidden = (t !== name); });
+  history.replaceState(null, '', '#' + name);
+}
+tabButtons.forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
+const fromHash = (location.hash || '').slice(1);
+activateTab(TABS.includes(fromHash) ? fromHash : 'inici');
+
+/* ============================================================
+   4. COMPTE ENRERE
+   ============================================================ */
+const cdTarget = new Date(`${PBAU_DATE}T09:00:00`);
+$('cd-date-label').textContent = formatLong(PBAU_DATE);
+
+function renderCountdown() {
+  const ms = cdTarget - Date.now();
+  if (ms <= 0) {
+    $('cd-number').textContent = '✓';
+    $('cd-unit').textContent = 'aquesta convocatòria ja ha passat';
+    $('cd-clock').textContent = '';
+    return;
+  }
+  const days = Math.ceil(ms / 86400000);
+  $('cd-number').textContent = days;
+  $('cd-unit').textContent = days === 1 ? 'dia fins a la PBAU' : 'dies fins a la PBAU';
+  $('cd-clock').textContent =
+    `${Math.floor(ms / 3600000) % 24} h ${pad(Math.floor(ms / 60000) % 60)} min ${pad(Math.floor(ms / 1000) % 60)} s restants`;
+}
+renderCountdown();
+setInterval(renderCountdown, 1000);
+
+/* ============================================================
+   5. DIES FESTIUS I NO LECTIUS (precarregats, no editables)
+   ============================================================ */
+/** Genera els festius d'un curs escolar que comença el setembre de `y`. */
+function buildHolidays(y) {
+  const n = y + 1;
+  const singles = [
+    [`${y}-10-12`, 'Festa del Pilar'],
+    [`${y}-11-02`, 'Festiu'],
+    [`${y}-12-07`, 'Festiu'],
+    [`${y}-12-08`, 'Immaculada'],
+    [`${n}-02-12`, 'Santa Eulària'],
+    [`${n}-02-26`, 'Festa escolar unificada'],
+    [`${n}-03-01`, 'Festa de les Illes Balears'],
+    [`${n}-05-03`, 'Festiu']
+  ];
+  const ranges = [
+    [`${y}-12-23`, `${n}-01-06`, 'Nadal'],
+    [`${n}-03-25`, `${n}-04-04`, 'Pasqua']
+  ];
+
+  const out = singles.map(([data, titol]) => ({ data, titol }));
+  for (const [from, to, titol] of ranges) {
+    const [fy, fm, fd] = from.split('-').map(Number);
+    const [ty, tm, td] = to.split("-").map(Number);
+    const end = Date.UTC(ty, tm - 1, td);
+    for (let t = Date.UTC(fy, fm - 1, fd); t <= end; t += 86400000) {
+      const dt = new Date(t);
+      out.push({ data: toISO(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate()), titol });
+    }
+  }
+  return out;
+}
+
+/** Curs actual: de setembre a agost. */
+const schoolYear = (() => { const n = new Date(); return n.getMonth() >= 8 ? n.getFullYear() : n.getFullYear() - 1; })();
+
+const HOLIDAYS = [schoolYear - 1, schoolYear, schoolYear + 1]
+  .flatMap(buildHolidays)
+  .map(h => ({ id: `festiu-${h.data}`, assignatura: h.titol, tipus: 'Festiu', data: h.data, descripcio: '', fixed: true }));
+
+/* ============================================================
+   6. CALENDARI
+   ============================================================ */
+let dbEvents = [];                                   // entrades de Firestore
+let cursor = (() => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), 1); })();
+let selectedISO = null;
+
+const allEvents = () => [...HOLIDAYS, ...dbEvents]
+  .filter(e => typeof e.data === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(e.data))
+  .sort((a, b) => a.data.localeCompare(b.data) || (a.fixed ? -1 : 1));
+
+function groupByDate(list) {
+  return list.reduce((acc, e) => { (acc[e.data] ||= []).push(e); return acc; }, {});
+}
+
+function renderCalendar() {
+  const y = cursor.getFullYear(), m = cursor.getMonth();
+  $('cal-title').textContent = `${MONTHS[m]} ${y}`;
+
+  const byDate = groupByDate(allEvents());
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;          // dilluns = 0
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const today = todayISO();
+
+  const cells = DOW.map(d => `<div class="cal-dow">${d}</div>`);
+  for (let i = 0; i < offset; i++) cells.push('<div class="cal-day blank" aria-hidden="true"></div>');
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = toISO(y, m, d);
+    const items = byDate[iso] || [];
+    const visible = items.slice(0, 3);
+    const chips = visible.map(e =>
+      `<span class="chip ${typeClass(e.tipus)}" title="${escapeHtml(e.assignatura)}">${escapeHtml(e.assignatura)}</span>`
+    ).join('');
+    const more = items.length > visible.length ? `<span class="chip more">+${items.length - visible.length} més</span>` : '';
+    const cls = ['cal-day',
+      iso === today ? 'today' : '',
+      items.some(e => e.tipus === 'Festiu') ? 'is-festiu' : ''].filter(Boolean).join(' ');
+
+    cells.push(`
+      <button type="button" class="${cls}" data-iso="${iso}" aria-pressed="${iso === selectedISO}"
+              aria-label="${formatLong(iso)}${items.length ? `: ${items.map(e => e.assignatura).join(', ')}` : ''}">
+        <span class="num">${d}</span>${chips}${more}
+      </button>`);
+  }
+  $('cal-grid').innerHTML = cells.join('');
+}
+
+$('cal-prev').addEventListener('click', () => { cursor = new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1); renderCalendar(); });
+$('cal-next').addEventListener('click', () => { cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1); renderCalendar(); });
+$('cal-today').addEventListener('click', () => {
+  const n = new Date();
+  cursor = new Date(n.getFullYear(), n.getMonth(), 1);
+  selectedISO = null;
+  renderCalendar(); renderList();
+});
+$('cal-grid').addEventListener('click', (e) => {
+  const cell = e.target.closest('.cal-day[data-iso]');
+  if (!cell) return;
+  selectedISO = (selectedISO === cell.dataset.iso) ? null : cell.dataset.iso;
+  renderCalendar(); renderList();
+});
+
+/* ---------- Llista sota el calendari ---------- */
+function renderList() {
+  const list = $('day-list');
+  if (selectedISO) {
+    $('day-panel-title').textContent = formatLong(selectedISO);
+    const items = allEvents().filter(e => e.data === selectedISO);
+    list.innerHTML = items.length ? items.map(rowHtml).join('')
+      : '<div class="empty-msg">Cap entrada aquest dia.</div>';
+  } else {
+    $('day-panel-title').textContent = 'Properes dates';
+    const from = todayISO();
+    const items = allEvents().filter(e => e.data >= from && e.tipus !== 'Festiu').slice(0, 8);
+    list.innerHTML = items.length ? items.map(rowHtml).join('')
+      : '<div class="empty-msg">Encara no hi ha cap examen, treball ni lliurament pendent.</div>';
+  }
+}
+
+function rowHtml(e) {
+  const [, m, d] = e.data.split('-');
+  const t = e.tipus || 'Altres';
+  return `
+    <div class="exam-row">
+      <div class="exam-date">
+        <div class="d">${Number(d)}</div>
+        <div class="m">${MONTHS[Number(m) - 1].slice(0, 3)}</div>
+      </div>
+      <div class="exam-info">
+        <div class="subj">${escapeHtml(e.assignatura)}</div>
+        <div class="note">${formatLong(e.data)}${e.descripcio ? ' · ' + escapeHtml(e.descripcio) : ''}</div>
+      </div>
+      <span class="tag ${typeClass(t)}">${escapeHtml(t)}</span>
+      ${e.fixed ? '<span class="spacer"></span>'
+                : `<button class="del-btn" type="button" title="Esborra" data-del="${escapeHtml(e.id)}">✕</button>`}
+    </div>`;
+}
+
+$('day-list').addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-del]');
+  if (!btn) return;
+  if (!confirm('Segur que vols esborrar aquesta entrada del calendari?')) return;
+  try {
+    await deleteDoc(doc(db, COL_EVENTS, btn.dataset.del));
+  } catch (err) {
+    showDbError(err, 'esborrant una entrada');
+  }
+});
+
+/* ---------- Lectura en temps real dels esdeveniments ---------- */
+onSnapshot(
+  query(collection(db, COL_EVENTS), orderBy('data')),
+  (snap) => {
+    dbEvents = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    $('db-alert').hidden = true;
+    setSync('ok', 'Connectat amb Firestore');
+    renderCalendar(); renderList();
+  },
+  (err) => showDbError(err, 'llegint el calendari')
+);
+
+renderCalendar();
+renderList();
+
+/* ============================================================
+   7. FORMULARI D'ALTA (dia → mes → any)
+   ============================================================ */
+const addPanel = $('add-panel'), toggleAdd = $('toggle-add');
+const daySel = $('f-day'), monthSel = $('f-month'), yearSel = $('f-year');
+
+function setAddPanel(open) {
+  addPanel.hidden = !open;
+  toggleAdd.setAttribute('aria-expanded', String(open));
+}
+toggleAdd.addEventListener('click', () => setAddPanel(addPanel.hidden));
+$('cancel-add').addEventListener('click', () => setAddPanel(false));
+
+const now = new Date();
+monthSel.innerHTML = MONTHS.map((n, i) => `<option value="${i}">${n}</option>`).join('');
+yearSel.innerHTML = [now.getFullYear(), now.getFullYear() + 1].map(y => `<option value="${y}">${y}</option>`).join('');
+monthSel.value = now.getMonth();
+
+function syncDayOptions(preferred) {
+  const max = new Date(Number(yearSel.value), Number(monthSel.value) + 1, 0).getDate();
+  const keep = Math.min(preferred || Number(daySel.value) || now.getDate(), max);
+  daySel.innerHTML = Array.from({ length: max }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+  daySel.value = keep;
+}
+monthSel.addEventListener('change', () => syncDayOptions());
+yearSel.addEventListener('change', () => syncDayOptions());
+syncDayOptions(now.getDate());
+
+$('exam-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = $('form-msg'), btn = $('save-btn');
+  const assignatura = $('f-subj').value.trim();
+  if (!assignatura) return;
+
+  msg.textContent = '';
+  btn.disabled = true;
+  try {
+    await addDoc(collection(db, COL_EVENTS), {
+      assignatura,
+      tipus: $('f-type').value,
+      data: toISO(Number(yearSel.value), Number(monthSel.value), Number(daySel.value)),
+      descripcio: $('f-desc').value.trim(),
+      creat: serverTimestamp()
+    });
+    cursor = new Date(Number(yearSel.value), Number(monthSel.value), 1);
+    e.target.reset();
+    monthSel.value = cursor.getMonth();
+    yearSel.value = cursor.getFullYear();
+    syncDayOptions();
+    setAddPanel(false);
+    renderCalendar();
+  } catch (err) {
+    msg.textContent = 'No s\'ha pogut desar: ' + (err?.code || 'error');
+    showDbError(err, 'desant una entrada del calendari');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ============================================================
+   8. HORARI
+   ============================================================ */
+const DAYS = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres'];
+const DAYS_SHORT = ['Dl', 'Dt', 'Dc', 'Dj', 'Dv'];
+
+/** Franges lectives (slot) i esplais, en ordre. */
+const ROWS = [
+  { t: '8:00',  e: '8:55',  slot: 0 },
+  { t: '8:55',  e: '9:50',  slot: 1 },
+  { t: '9:50',  e: '10:10', esplai: true },
+  { t: '10:10', e: '11:05', slot: 2 },
+  { t: '11:05', e: '12:00', slot: 3 },
+  { t: '12:00', e: '12:15', esplai: true },
+  { t: '12:15', e: '13:10', slot: 4 },
+  { t: '13:10', e: '14:05', slot: 5 },
+  { t: '14:05', e: '15:00', slot: 6 }
+];
+/** [matèria, aula] */
+const S = (name, room = '2 BAT A a7') => [[name, room]];
+
+// Grups d'optatives
+const G_MAT = [
+  ['Ciències Generals', 'LABFI'],
+  ['Dibuix Artístic II', 'PLASTICA 2'],
+  ['Llatí II', '2 BAT A a7'],
+  ['Mates Aplicades', '2 BAT A a7'],
+  ['Matemàtiques II', '2 BAT B a6']
+];
+
+const G_EF = [
+  ['Activitat Física', 'GIMNAS'],
+  ['Psicologia', '2 BAT B a6'],
+  ['Tecnologia i Eng.', 'TECNO01']
+];
+
+const G_EMP = [
+  ['Empresa i Disseny', '2 BAT B a6'],
+  ['Física', 'LABFI'],
+  ['Hª de l\'Art', '2 BAT A a7'],
+  ['Biologia', ' ']
+];
+
+const G_DT = [
+  ['Dibuix Tècnic II', 'PLASTICA 3'],
+  ['Geografia', '2 BAT A a7'],
+  ['Química', '2 BAT B a6']
+];
+
+const ANG = S('Anglès'), CAST = S('Castellà'), HIST = S('Hist. d\'Espanya'),
+      CAT = S('Català'), FILO = S('Filosofia');
+
+/** SCHEDULE[dia][slot] — null = sense classe */
+const SCHEDULE = [
+  /* Dilluns   */ [ANG,  CAST, HIST, G_MAT, CAT,  G_EF,                G_EMP],
+  /* Dimarts   */ [CAT,  G_DT, FILO, ANG,   G_EF, G_MAT,               S('Tutoria')],
+  /* Dimecres  */ [HIST, ANG,  G_MAT, FILO, CAST, G_EMP,               G_DT],
+  /* Dijous    */ [G_EF, G_MAT, CAST, G_DT, G_EMP, S('Atenció Educativa'), null],
+  /* Divendres */ [G_DT, HIST, G_EMP, G_EF, FILO, CAT,                null]
+];
+let subjectFilter = '';
+let activeDay = 0;
+
+const toMin = (hhmm) => { const [h, m] = hhmm.split(':').map(Number); return h * 60 + m; };
+
+function renderSchedule() {
+  let html = '<div class="sc-corner"></div>' +
+    DAYS.map((d, i) => `<div class="sc-head" data-day="${i}">${d}</div>`).join('');
+
+  ROWS.forEach((r, ri) => {
+    if (r.esplai) {
+      html += `<div class="esplai" data-row="${ri}"><span class="nm">ESPLAI</span><span class="hh">${r.t} – ${r.e}</span></div>`;
+      return;
+    }
+    html += `<div class="sc-time" data-row="${ri}"><b>${r.t}</b><span>${r.e}</span></div>`;
+    for (let d = 0; d < 5; d++) {
+      const opts = SCHEDULE[d][r.slot];
+      if (!opts) {
+        html += `<div class="sc-cell empty" data-day="${d}" data-row="${ri}">—</div>`;
+        continue;
+      }
+      const multi = opts.length > 1;
+      html += `<div class="sc-cell${multi ? ' multi' : ''}" data-day="${d}" data-row="${ri}">` +
+        opts.map(([name, room]) => {
+          const cls = subjectFilter ? (name === subjectFilter ? ' hit' : ' dim') : '';
+          return `<div class="opt${cls}"><b>${escapeHtml(name)}</b><span>${escapeHtml(room)}</span></div>`;
+        }).join('') + `</div>`;
+    }
+  });
+
+  const sched = $('sched');
+  sched.innerHTML = html;
+  sched.dataset.active = String(activeDay);
+  updateNow();
+}
+
+/** Marca el dia d'avui i la franja en curs. */
+function updateNow() {
+  const n = new Date();
+  const wd = (n.getDay() + 6) % 7;                    // dilluns = 0
+  const mins = n.getHours() * 60 + n.getMinutes();
+  const isSchoolDay = wd < 5;
+
+  document.querySelectorAll('#sched [data-day]').forEach(el => {
+    el.classList.toggle('today', isSchoolDay && Number(el.dataset.day) === wd);
+  });
+
+  let nowRow = -1;
+  if (isSchoolDay) nowRow = ROWS.findIndex(r => mins >= toMin(r.t) && mins < toMin(r.e));
+
+  document.querySelectorAll('#sched [data-row]').forEach(el => {
+    const ri = Number(el.dataset.row);
+    const isNow = ri === nowRow;
+    if (el.classList.contains('sc-cell')) {
+      el.classList.toggle('now', isNow && Number(el.dataset.day) === wd);
+    } else {
+      el.classList.toggle('now', isNow);
+    }
+  });
+}
+
+function buildScheduleControls() {
+  const names = new Set();
+  SCHEDULE.forEach(day => day.forEach(slot => slot && slot.forEach(([n]) => names.add(n))));
+  const sorted = [...names].sort((a, b) => a.localeCompare(b, 'ca'));
+  $('sched-filter').innerHTML = '<option value="">— Cap —</option>' +
+    sorted.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+  $('sched-filter').addEventListener('change', (e) => { subjectFilter = e.target.value; renderSchedule(); });
+
+  const wd = (new Date().getDay() + 6) % 7;
+  activeDay = wd < 5 ? wd : 0;
+  $('day-tabs').innerHTML = DAYS_SHORT.map((d, i) =>
+    `<button type="button" data-day="${i}" aria-pressed="${i === activeDay}" aria-label="${DAYS[i]}">${d}</button>`).join('');
+  $('day-tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-day]');
+    if (!b) return;
+    activeDay = Number(b.dataset.day);
+    $('sched').dataset.active = String(activeDay);
+    $('day-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  });
+}
+
+buildScheduleControls();
+renderSchedule();
+setInterval(updateNow, 30000);
+
+/* ============================================================
+   8b. DEURES · agenda setmanal
+   ============================================================ */
+const WEEK_DAYS = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte', 'Diumenge'];
+const WEEK_DAYS_SHORT = ['Dl', 'Dt', 'Dc', 'Dj', 'Dv', 'Ds', 'Dg'];
+
+/** Colors suaus per etiquetar matèries a l'agenda, assignats per un hash estable del nom. */
+const SUBJ_PALETTE = [
+  { bg: '#eef3f0', fg: 'var(--teal-deep)', bd: 'var(--teal)' },
+  { bg: '#f4ecd8', fg: 'var(--gold-deep)', bd: 'var(--gold)' },
+  { bg: '#f1ded7', fg: '#8d3529',          bd: 'var(--coral)' },
+  { bg: '#e2e6ee', fg: 'var(--slate)',     bd: 'var(--slate)' },
+  { bg: '#e6e0ef', fg: '#5a3a8a',          bd: '#8a6cb5' },
+  { bg: '#dfeaf2', fg: '#2c5c78',          bd: '#5a92ad' }
+];
+function subjColor(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return SUBJ_PALETTE[h % SUBJ_PALETTE.length];
+}
+
+/** Totes les matèries conegudes de l'horari, per omplir el selector del formulari. */
+function scheduleSubjectNames() {
+  const names = new Set();
+  SCHEDULE.forEach(day => day.forEach(slot => slot && slot.forEach(([n]) => names.add(n))));
+  return [...names].sort((a, b) => a.localeCompare(b, 'ca'));
+}
+
+let dbHomework = [];                     // entrades de Firestore
+let weekCursor = startOfWeek(new Date());
+
+function startOfWeek(d) {
+  const wd = (d.getDay() + 6) % 7;                        // dilluns = 0
+  const out = new Date(d.getFullYear(), d.getMonth(), d.getDate() - wd);
+  return out;
+}
+function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+
+function renderWeekTitle() {
+  const start = weekCursor, end = addDays(weekCursor, 6);
+  const startISO = toISO(start.getFullYear(), start.getMonth(), start.getDate());
+  const endISO = toISO(end.getFullYear(), end.getMonth(), end.getDate());
+  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+  $('week-title').textContent = sameMonth
+    ? `${start.getDate()} – ${end.getDate()} de ${MONTHS[start.getMonth()]} ${start.getFullYear()}`
+    : `${formatLong(startISO, false)} – ${formatLong(endISO)}`;
+}
+
+/** Retorna l'HTML d'un dia de l'agenda (capçalera + línies ratllades amb els deures). */
+function agendaDayHtml(d, dayIndex, today) {
+  const iso = toISO(d.getFullYear(), d.getMonth(), d.getDate());
+  const items = (dbHomeworkByDate[iso] || []);
+  const rows = items.map(h => {
+    const col = subjColor(h.assignatura || '');
+    const done = !!h.fet;
+    return `
+      <div class="ad-row${done ? ' done' : ''}">
+        <input type="checkbox" class="ad-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="Marca com a fet">
+        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}</span>
+        <button type="button" class="ad-del" data-del="${escapeHtml(h.id)}" title="Esborra" aria-label="Esborra">✕</button>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="agenda-day${iso === today ? ' today' : ''}">
+      <div class="ad-head">
+        <span class="ad-num">${d.getDate()}</span>
+        <span class="ad-name">${WEEK_DAYS[dayIndex]}</span>
+        <button type="button" class="ad-add" data-add="${iso}">+ afegeix</button>
+      </div>
+      <div class="ad-lines">${rows}</div>
+    </div>`;
+}
+
+let dbHomeworkByDate = {};
+
+function renderWeekGrid() {
+  renderWeekTitle();
+  dbHomeworkByDate = {};
+  dbHomework.forEach(h => { (dbHomeworkByDate[h.data] ||= []).push(h); });
+  Object.values(dbHomeworkByDate).forEach(list => list.sort((a, b) => (a.assignatura || '').localeCompare(b.assignatura || '', 'ca')));
+
+  const today = todayISO();
+  const dayDates = WEEK_DAYS.map((_, i) => addDays(weekCursor, i));
+  const start = dayDates[0], end = dayDates[6];
+  const sameMonth = start.getMonth() === end.getMonth();
+  const monthLabel = sameMonth ? MONTHS[start.getMonth()] : `${MONTHS[start.getMonth()]} – ${MONTHS[end.getMonth()]}`;
+  const yearLabel = start.getFullYear() === end.getFullYear() ? String(start.getFullYear()) : `${start.getFullYear()}–${end.getFullYear()}`;
+
+  const leftCol = [0, 1, 2].map(i => agendaDayHtml(dayDates[i], i, today)).join('');
+  const rightMain = [3, 4].map(i => agendaDayHtml(dayDates[i], i, today)).join('');
+  const weekend = `<div class="weekend-row">${[5, 6].map(i => agendaDayHtml(dayDates[i], i, today)).join('')}</div>`;
+
+  $('week-grid').innerHTML = `
+    <div class="week-spread">
+      <div class="spread-head">
+        <span class="sh-month">${monthLabel}</span>
+        <span class="sh-year">${yearLabel}</span>
+      </div>
+      <div class="spread-grid">
+        <div class="spread-col">${leftCol}</div>
+        <div class="spread-spine"></div>
+        <div class="spread-col">${rightMain}${weekend}</div>
+      </div>
+    </div>`;
+}
+
+$('week-prev').addEventListener('click', () => { weekCursor = addDays(weekCursor, -7); renderWeekGrid(); });
+$('week-next').addEventListener('click', () => { weekCursor = addDays(weekCursor, 7); renderWeekGrid(); });
+$('week-today').addEventListener('click', () => { weekCursor = startOfWeek(new Date()); renderWeekGrid(); });
+
+$('week-grid').addEventListener('click', async (e) => {
+  const del = e.target.closest('[data-del]');
+  if (del) {
+    if (!confirm('Segur que vols esborrar aquest deure?')) return;
+    try { await deleteDoc(doc(db, COL_HOMEWORK, del.dataset.del)); }
+    catch (err) { showDbError(err, 'esborrant un deure'); }
+    return;
+  }
+  const add = e.target.closest('[data-add]');
+  if (add) { openAddForDate(add.dataset.add); }
+});
+$('week-grid').addEventListener('change', async (e) => {
+  const chk = e.target.closest('[data-toggle]');
+  if (!chk) return;
+  try { await updateDoc(doc(db, COL_HOMEWORK, chk.dataset.toggle), { fet: chk.checked }); }
+  catch (err) { chk.checked = !chk.checked; showDbError(err, 'actualitzant un deure'); }
+});
+
+onSnapshot(
+  query(collection(db, COL_HOMEWORK), orderBy('data')),
+  (snap) => {
+    dbHomework = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    $('db-alert').hidden = true;
+    setSync('ok', 'Connectat amb Firestore');
+    renderWeekGrid();
+  },
+  (err) => showDbError(err, 'llegint els deures')
+);
+
+renderWeekGrid();
+
+/* ---------- Formulari d'alta d'un deure ---------- */
+const addDeurePanel = $('add-deure-panel'), toggleAddDeure = $('toggle-add-deure');
+const dSubjSel = $('d-subj'), dSubjCustomWrap = $('d-subj-custom-wrap'), dSubjCustom = $('d-subj-custom');
+const dDaySel = $('d-day'), dMonthSel = $('d-month'), dYearSel = $('d-year');
+
+const subjNames = scheduleSubjectNames();
+dSubjSel.innerHTML = subjNames.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')
+  + '<option value="__altres__">Altres…</option>';
+dSubjSel.addEventListener('change', () => {
+  const custom = dSubjSel.value === '__altres__';
+  dSubjCustomWrap.hidden = !custom;
+  dSubjCustom.required = custom;
+});
+
+function setAddDeurePanel(open) {
+  addDeurePanel.hidden = !open;
+  toggleAddDeure.setAttribute('aria-expanded', String(open));
+}
+toggleAddDeure.addEventListener('click', () => setAddDeurePanel(addDeurePanel.hidden));
+$('cancel-add-deure').addEventListener('click', () => setAddDeurePanel(false));
+
+const nowD = new Date();
+dMonthSel.innerHTML = MONTHS.map((n, i) => `<option value="${i}">${n}</option>`).join('');
+dYearSel.innerHTML = [nowD.getFullYear(), nowD.getFullYear() + 1].map(y => `<option value="${y}">${y}</option>`).join('');
+dMonthSel.value = nowD.getMonth();
+
+function syncDeureDayOptions(preferred) {
+  const max = new Date(Number(dYearSel.value), Number(dMonthSel.value) + 1, 0).getDate();
+  const keep = Math.min(preferred || Number(dDaySel.value) || nowD.getDate(), max);
+  dDaySel.innerHTML = Array.from({ length: max }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+  dDaySel.value = keep;
+}
+dMonthSel.addEventListener('change', () => syncDeureDayOptions());
+dYearSel.addEventListener('change', () => syncDeureDayOptions());
+syncDeureDayOptions(nowD.getDate());
+
+/** Obre el formulari amb la data d'un dia concret de l'agenda ja preseleccionada. */
+function openAddForDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  dYearSel.value = String(y);
+  if (!dYearSel.value) { dYearSel.innerHTML += `<option value="${y}">${y}</option>`; dYearSel.value = String(y); }
+  dMonthSel.value = String(m - 1);
+  syncDeureDayOptions(d);
+  setAddDeurePanel(true);
+  $('d-desc').focus();
+}
+
+$('deure-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = $('deure-form-msg'), btn = $('save-deure-btn');
+  const isCustom = dSubjSel.value === '__altres__';
+  const assignatura = (isCustom ? dSubjCustom.value : dSubjSel.value).trim();
+  const descripcio = $('d-desc').value.trim();
+  if (!assignatura || !descripcio) return;
+
+  msg.textContent = '';
+  btn.disabled = true;
+  try {
+    await addDoc(collection(db, COL_HOMEWORK), {
+      assignatura,
+      descripcio,
+      data: toISO(Number(dYearSel.value), Number(dMonthSel.value), Number(dDaySel.value)),
+      fet: false,
+      creat: serverTimestamp()
+    });
+    weekCursor = startOfWeek(new Date(Number(dYearSel.value), Number(dMonthSel.value), Number(dDaySel.value)));
+    e.target.reset();
+    dSubjCustomWrap.hidden = true;
+    dMonthSel.value = nowD.getMonth();
+    dYearSel.value = nowD.getFullYear();
+    syncDeureDayOptions();
+    setAddDeurePanel(false);
+    renderWeekGrid();
+  } catch (err) {
+    msg.textContent = 'No s\'ha pogut desar: ' + (err?.code || 'error');
+    showDbError(err, 'desant un deure');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ============================================================
+   9. BÚSTIA · només els correus de la llista · autoria automàtica · lectura per rol
+   ============================================================ */
+const READER_ROLES = ['delegat', 'admin'];
+
+/** ÚNICS usuaris autoritzats. Correu → nom (autocompletat) i rol. */
+const USERS = {
+  'z131925@iesxarc.es':    { nom: 'Erika Alvarez López',              rol: 'usuari' },
+  'z118312@iesxarc.es':    { nom: 'Mariam Azahaf El Aissaoui',        rol: 'usuari' },
+  'z133120@iesxarc.es':    { nom: 'Lluc Cardona',                     rol: 'usuari' },
+  'z131932@iesxarc.es':    { nom: 'Raúl Castillo Benito',             rol: 'usuari' },
+  'z92354@iesxarc.es':     { nom: 'Xavier Escandell Tur',             rol: 'usuari' },
+  'z168689@iesxarc.es':    { nom: 'Didac Fernandez Ruiz',             rol: 'usuari' },
+  'z201085@iesxarc.es':    { nom: 'Thibault Froilán Ferrari Catalá',  rol: 'usuari' },
+  'z133122@iesxarc.es':    { nom: 'Sergio Ferrer Chaler',             rol: 'delegat' },
+  'z118678@iesxarc.es':    { nom: 'Sebastian Guarracino',             rol: 'usuari' },
+  'z133138@iesxarc.es':    { nom: 'Pere Nolasc Luis Roselló',         rol: 'usuari' },
+  'z118691@iesxarc.es':    { nom: 'Sara Marzouki',                    rol: 'usuari' },
+  'z133143@iesxarc.es':    { nom: 'Carlos Planells Planells',         rol: 'usuari' },
+  'z118343@iesxarc.es':    { nom: 'Joel Rohra Kelani',                rol: 'usuari' },
+  'z79794@iesxarc.es':     { nom: 'Ana Roldan Aroca',                 rol: 'usuari' },
+  'z79795@iesxarc.es':     { nom: 'Lucia Roldan Aroca',               rol: 'usuari' },
+  'z118704@iesxarc.es':    { nom: 'Ludovica Salati',                  rol: 'usuari' },
+  'apvelasco@iesxarc.es':  { nom: 'Pablo Velasco Ortiz',              rol: 'usuari' },
+  'amonserrat@iesxarc.es': { nom: 'Apol·lònia Monserrat Febrer',      rol: 'delegat' },
+  'z118324@iesxarc.es':    { nom: 'Rayan El Qoraychy El Meskini',     rol: 'delegat' }
+};
+
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ hd: 'iesxarc.es', prompt: 'select_account' });
+let unsubscribeSuggestions = null;
+let currentUser = null;                       // { uid, email, nom, rol }
+
+function formatStamp(ts) {
+  const dt = ts?.toDate?.();
+  if (!dt) return 'ara mateix';
+  return `${formatLong(toISO(dt.getFullYear(), dt.getMonth(), dt.getDate()))} · ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+}
+
+function setAuthError(msg) {
+  const el = $('auth-error');
+  el.textContent = msg || '';
+  el.hidden = !msg;
+}
+
+/* ---------- Sessió ---------- */
+$('login-btn').addEventListener('click', async () => {
+  setAuthError('');
+  try {
+    await signInWithPopup(auth, googleProvider);
+  } catch (err) {
+    if (err?.code !== 'auth/popup-closed-by-user')
+      setAuthError('No s\'ha pogut iniciar la sessió (' + (err?.code || 'error') + ').');
+  }
+});
+$('logout-btn').addEventListener('click', () => signOut(auth));
+
+onAuthStateChanged(auth, async (user) => {
+  if (unsubscribeSuggestions) { unsubscribeSuggestions(); unsubscribeSuggestions = null; }
+  currentUser = null;
+
+  if (!user) {
+    $('auth-gate').hidden = false;
+    $('mailbox-user').hidden = true;
+    return;
+  }
+
+  const email = (user.email || '').toLowerCase();
+  const known = USERS[email];
+  if (!known) {                                // correu fora de la llista → fora
+    await signOut(auth);
+    setAuthError('Aquest compte (' + email + ') no està autoritzat a la bústia.');
+    return;
+  }
+
+  currentUser = { uid: user.uid, email, nom: known.nom, rol: known.rol };
+  setAuthError('');
+  $('auth-gate').hidden = true;
+  $('mailbox-user').hidden = false;
+  $('auth-name').textContent = `${currentUser.nom} (${currentUser.email})`;
+
+  // Només delegat/admin veuen el panell de lectura
+  const canRead = READER_ROLES.includes(currentUser.rol);
+  $('feed-section').hidden = !canRead;
+  if (!canRead) return;
+
+  $('suggestion-list').innerHTML = '<div class="empty-msg">Carregant els suggeriments…</div>';
+  unsubscribeSuggestions = onSnapshot(
+    query(collection(db, COL_SUGGESTIONS), orderBy('creat', 'desc'), limit(100)),
+    (snap) => {
+      const items = snap.docs.map(d => d.data());
+      $('suggestion-list').innerHTML = items.length
+        ? items.map(s => `
+            <div class="suggestion-item">
+              <div class="meta">
+                <span class="who">${escapeHtml(s.nom || '—')}</span>
+                <span>${escapeHtml(s.email || '')} · ${formatStamp(s.creat)}</span>
+              </div>
+              <p class="text">${escapeHtml(s.missatge || '')}</p>
+            </div>`).join('')
+        : '<div class="empty-msg">Encara no hi ha cap suggeriment.</div>';
+    },
+    (err) => {
+      $('suggestion-list').innerHTML = '<div class="empty-msg">No s\'han pogut carregar els suggeriments.</div>';
+      showDbError(err, 'llegint els suggeriments');
+    }
+  );
+});
+
+/* ---------- Enviament: l'autor surt de la sessió, mai del formulari ---------- */
+$('suggestion-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const status = $('send-status'), btn = $('send-btn');
+  const missatge = $('s-msg').value.trim();
+  if (!missatge || !currentUser) return;
+
+  status.textContent = 'Enviant…';
+  status.className = 'send-status';
+  btn.disabled = true;
+  try {
+    await addDoc(collection(db, COL_SUGGESTIONS), {
+      missatge,
+      nom: currentUser.nom,
+      email: currentUser.email,
+      uid: currentUser.uid,
+      creat: serverTimestamp()
+    });
+    e.target.reset();
+    status.textContent = 'Enviat! Només el delegat i el subdelegat el podran llegir.';
+    status.className = 'send-status ok';
+  } catch (err) {
+    status.textContent = 'No s\'ha pogut enviar (' + (err?.code || 'error') + ').';
+    status.className = 'send-status err';
+    showDbError(err, 'enviant un suggeriment');
+  } finally {
+    btn.disabled = false;
+  }
+});
+/* ============================================================
+   10. PBAU · una assignatura, un enllaç oficial
+   ============================================================ */
+const MATERIES_BASE = 'https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/';
+const SUBJECTS = [
+  { area: 'Matèries comunes', name: 'Llengua Catalana i Literatura II', slug: 'catalana' },
+  { area: 'Matèries comunes', name: 'Llengua Castellana i Literatura II', slug: 'castellana' },
+  { area: 'Matèries comunes', name: 'Primera Llengua Estrangera II (Anglès)', slug: 'angles' },
+  { area: 'Matèries comunes', name: 'Història d\'Espanya', slug: 'historia_espanya' },
+  { area: 'Matèries comunes', name: 'Història de la Filosofia', slug: 'filosofia' },
+
+  { area: 'Matemàtiques', name: 'Matemàtiques II', slug: 'matematiques' },
+  { area: 'Matemàtiques', name: 'Matemàtiques Aplicades a les CC. Socials II', slug: 'macs' },
+  { area: 'Matemàtiques', name: 'Ciències Generals', slug: 'ciencies_generals' },
+  
+
+  { area: 'Ciències i Tecnologia', name: 'Biologia', slug: 'biologia' },
+  { area: 'Ciències i Tecnologia', name: 'Física', slug: 'fisica' },
+  { area: 'Ciències i Tecnologia', name: 'Química', slug: 'quimica' },
+  { area: 'Ciències i Tecnologia', name: 'Geologia i Ciències Ambientals', slug: 'geologia' },
+  { area: 'Ciències i Tecnologia', name: 'Dibuix Tècnic II', slug: 'dibuix_tecnic' },
+
+  { area: 'Humanitats i Ciències Socials', name: 'Economia de l\'Empresa', slug: 'economia_empresa' },
+  { area: 'Humanitats i Ciències Socials', name: 'Geografia', slug: 'geografia' },
+  { area: 'Humanitats i Ciències Socials', name: 'Història de l\'Art', slug: 'historia_art' },
+  { area: 'Humanitats i Ciències Socials', name: 'Llatí II', slug: 'llati' },
+  { area: 'Humanitats i Ciències Socials', name: 'Grec II', slug: 'grec' }
+];
+
+$('pbau-subjects').innerHTML = [...new Set(SUBJECTS.map(s => s.area))].map(area => `
+  <div class="area-block">
+    <div class="area-title">${area}</div>
+    <div class="subject-grid">
+      ${SUBJECTS.filter(s => s.area === area).map(s => `
+        <a class="subject-card" href="${MATERIES_BASE}${s.slug}" target="_blank" rel="noopener">
+          <h3>${s.name}</h3>
+          <span class="go">→ Informació i models d'examen (UIB)</span>
+        </a>`).join('')}
+    </div>
+  </div>`).join('');
+
+/* ============================================================
+   11. ENLLAÇOS D'INTERÈS
+   ============================================================ */
+const LINKS = [
+  {
+    featured: true,
+    k: 'Destacat · Notes de tall',
+    title: 'QEDU · Qué Estudiar y Dónde en la Universidad',
+    desc: 'Portal oficial del Ministeri de Ciència, Innovació i Universitats: notes de tall, places i comparació de graus de totes les universitats espanyoles.',
+    url: 'https://www.ciencia.gob.es/qedu.html'
+  },
+  { k: 'PBAU', title: 'Portal oficial de la PBAU', desc: 'Estructura de la prova, calendaris i normativa de la convocatòria.', url: 'https://pbau.uib.cat' },
+  { k: 'Graus i ponderacions', title: 'Cercador de graus de la UIB', desc: 'A cada grau, l\'apartat «Accés i reconeixements» mostra les ponderacions de la PBAU.', url: 'https://estudis.uib.cat/estudis-de-grau/grau/' },
+  { k: 'Tràmits', title: 'UIBdigital', desc: 'Qualificacions, sol·licituds de revisió i trasllat d\'expedient.', url: 'https://uibdigital.uib.es' }
+];
+
+$('links-grid').innerHTML = LINKS.map(l => `
+  <a class="link-card${l.featured ? ' featured' : ''}" href="${l.url}" target="_blank" rel="noopener">
+    <div class="k">${l.k}</div>
+    <h3>${l.title}</h3>
+    <p>${l.desc}</p>
+  </a>`).join('');
+</script>
+</body>
+</html>  button{font-family:var(--sans); cursor:pointer;}
+  :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+  /* ---------- Capçalera ---------- */
+  header.top{position:sticky; top:0; z-index:50; background:rgba(233,236,229,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .top-inner{max-width:1080px; margin:0 auto; padding:.9rem 1.3rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+  .brand{display:flex; align-items:baseline; gap:.55rem;}
+  .brand .mark{font-family:var(--serif); font-weight:700; font-size:1.35rem;}
+  .brand .sub{font-size:.8rem; color:var(--ink-soft);}
+  nav.tabs{display:flex; gap:.2rem; background:var(--card); padding:.3rem; border-radius:999px; border:1px solid var(--line);}
+  nav.tabs button{border:none; background:transparent; padding:.5rem 1rem; border-radius:999px; font-size:.88rem; font-weight:600; color:var(--ink-soft); transition:background .15s,color .15s;}
+  nav.tabs button[aria-selected="true"]{background:var(--ink); color:var(--white);}
+  nav.tabs button[aria-selected="false"]:hover{background:var(--paper); color:var(--ink);}
+
+  main{max-width:1080px; margin:0 auto; padding:2.2rem 1.3rem 5rem;}
+  section.view[hidden]{display:none;}
+  section.view{animation:rise .4s ease both;}
+  @keyframes rise{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+  /* ---------- Avís d'error global ---------- */
+  .alert{
+    background:#fbe6e2; border:1px solid #e9b6ae; color:#7d2f23; border-radius:12px;
+    padding:.9rem 1.1rem; font-size:.87rem; margin-bottom:1.6rem;
+  }
+  .alert[hidden]{display:none;}
+  .alert code{background:rgba(125,47,35,.09); padding:.05rem .3rem; border-radius:4px; font-size:.85em;}
+
+  /* ---------- Compte enrere ---------- */
+  .hero{text-align:center; padding:2.6rem 1rem 2.2rem; margin-bottom:2.6rem; border-radius:20px; background:linear-gradient(180deg,var(--card),var(--paper)); border:1px solid var(--line);}
+  .hero .eyebrow{font-size:.85rem; color:var(--ink-soft); margin-bottom:.6rem;}
+  .countdown-number{font-family:var(--serif); font-weight:600; font-variant-numeric:tabular-nums; font-size:clamp(4.2rem,13vw,8.5rem); line-height:.95; color:var(--gold-deep); margin:0;}
+  .countdown-unit{font-family:var(--serif); font-size:1.3rem; color:var(--ink-soft); margin-top:.1rem;}
+  .countdown-meta{margin-top:1rem; font-size:.9rem; color:var(--ink-soft);}
+  .countdown-clock{margin-top:.5rem; font-size:.9rem; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+
+  /* ---------- Encapçalaments ---------- */
+  .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1.1rem; flex-wrap:wrap;}
+  .section-head h2{font-size:1.5rem;}
+  .section-head .desc{color:var(--ink-soft); font-size:.92rem; max-width:62ch;}
+
+  .btn{border:1px solid var(--ink); background:var(--ink); color:var(--white); padding:.55rem 1.05rem; border-radius:10px; font-weight:600; font-size:.88rem; transition:transform .12s,box-shadow .12s;}
+  .btn:hover{box-shadow:var(--shadow); transform:translateY(-1px);}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+  .btn.teal{background:var(--teal); border-color:var(--teal);}
+  .btn.small{padding:.35rem .7rem; font-size:.78rem;}
+
+  /* ---------- Calendari ---------- */
+  .cal-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.1rem 1.2rem 1.4rem;}
+  .cal-nav{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:1rem;}
+  .cal-nav h3{font-size:1.2rem; margin:0; text-transform:capitalize;}
+  .cal-nav .nav-side{display:flex; gap:.35rem; align-items:center;}
+  .icon-btn{border:1px solid var(--line); background:var(--white); color:var(--ink); width:2.1rem; height:2.1rem; border-radius:9px; font-size:1rem; line-height:1; display:inline-flex; align-items:center; justify-content:center;}
+  .icon-btn:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:.3rem;}
+  .cal-dow{text-align:center; font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); padding-bottom:.35rem;}
+  .cal-day{
+    min-height:5.6rem; border:1px solid transparent; border-radius:10px; background:var(--white);
+    padding:.28rem .3rem; text-align:left; font-family:var(--sans); color:var(--ink);
+    display:flex; flex-direction:column; gap:.15rem; overflow:hidden;
+  }
+  .cal-day .num{font-size:.8rem; font-weight:700; line-height:1.1;}
+  .cal-day.blank{background:transparent; border-color:transparent; cursor:default;}
+  .cal-day.today{border-color:var(--gold); box-shadow:inset 0 0 0 1px var(--gold);}
+  .cal-day.is-festiu{background:#eef1f6;}
+  .cal-day[aria-pressed="true"]{outline:2px solid var(--ink); outline-offset:-2px;}
+  .cal-day:hover:not(.blank){border-color:var(--teal);}
+  .chip{
+    display:block; width:100%; font-size:.68rem; font-weight:600; line-height:1.25;
+    padding:.14rem .3rem; border-radius:5px; text-align:left;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .chip.examen{background:#f1ded7; color:#8d3529;}
+  .chip.treball{background:#ece2c7; color:var(--gold-deep);}
+  .chip.lliurament{background:#dde7e3; color:var(--teal-deep);}
+  .chip.altres{background:#e2e6ee; color:var(--slate);}
+  .chip.festiu{background:#d9e2f0; color:#3a4f73; font-weight:700;}
+  .chip.more{background:transparent; color:var(--ink-soft); font-weight:700; font-size:.64rem; padding-left:.3rem;}
+  .cal-legend{display:flex; gap:.9rem; flex-wrap:wrap; margin-top:1rem; font-size:.75rem; color:var(--ink-soft);}
+  .cal-legend span{display:inline-flex; align-items:center; gap:.35rem;}
+  .swatch{width:.7rem; height:.7rem; border-radius:3px; display:inline-block;}
+  .swatch.examen{background:#e3b5aa;} .swatch.treball{background:#ddc98c;}
+  .swatch.lliurament{background:#b7cdc6;} .swatch.altres{background:#c3cad8;} .swatch.festiu{background:#c2d0e6;}
+
+  /* ---------- Llista d'entrades ---------- */
+  .day-panel{margin-top:1.6rem;}
+  .day-panel h3{font-size:1.05rem; margin-bottom:.7rem;}
+  .exam-row{display:grid; grid-template-columns:auto 1fr auto auto; gap:.9rem; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:.7rem .9rem; margin-bottom:.55rem;}
+  .exam-date{text-align:center; font-family:var(--serif); line-height:1.05; min-width:56px;}
+  .exam-date .d{font-size:1.5rem; font-weight:600;}
+  .exam-date .m{font-size:.66rem; text-transform:uppercase; color:var(--ink-soft); letter-spacing:.05em;}
+  .exam-info .subj{font-weight:700; font-size:.98rem;}
+  .exam-info .note{font-size:.84rem; color:var(--ink-soft);}
+  .tag{font-size:.7rem; font-weight:700; padding:.25rem .55rem; border-radius:999px; white-space:nowrap; text-transform:uppercase; letter-spacing:.03em;}
+  .tag.examen{background:#f1ded7; color:var(--coral);}
+  .tag.lliurament{background:#dde7e3; color:var(--teal-deep);}
+  .tag.treball{background:#ece2c7; color:var(--gold-deep);}
+  .tag.altres{background:#e2e6ee; color:var(--slate);}
+  .tag.festiu{background:#d9e2f0; color:#3a4f73;}
+  .del-btn{background:none; border:none; color:var(--ink-soft); font-size:1.05rem; padding:.2rem .4rem; border-radius:6px;}
+  .del-btn:hover{color:var(--coral); background:var(--paper);}
+  .spacer{width:1.6rem;}
+  .empty-msg{text-align:center; padding:1.6rem 1rem; color:var(--ink-soft); border:1px dashed var(--line); border-radius:12px; background:var(--card); font-size:.9rem;}
+
+  /* ---------- Formulari d'alta ---------- */
+  .add-panel{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.1rem; margin:1.2rem 0 0;}
+  .add-panel[hidden]{display:none;}
+  .add-panel form{display:grid; grid-template-columns:1.4fr 1fr; gap:.7rem;}
+  .date-fields{display:grid; grid-template-columns:.7fr 1.3fr .9fr; gap:.45rem;}
+  .field label{display:block; font-size:.76rem; font-weight:700; color:var(--ink-soft); margin-bottom:.3rem; text-transform:uppercase; letter-spacing:.03em;}
+  .field input,.field select,.field textarea{width:100%; font-family:var(--sans); padding:.55rem .65rem; border-radius:9px; border:1px solid var(--line); background:var(--white); font-size:.92rem; color:var(--ink);}
+  .add-panel .actions{grid-column:1/-1; display:flex; gap:.6rem; justify-content:flex-end; align-items:center;}
+  .form-msg{font-size:.82rem; color:var(--coral); margin:0 auto 0 0;}
+
+  /* ---------- HORARI ---------- */
+  .sched-toolbar{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;}
+  .sched-filter{display:flex; align-items:center; gap:.6rem; font-size:.84rem; color:var(--ink-soft);}
+  .sched-filter select{font-family:var(--sans); font-size:.88rem; padding:.45rem .65rem; border-radius:9px; border:1px solid var(--line); background:var(--white); color:var(--ink); max-width:100%;}
+  .sched-legend{display:flex; gap:1rem; flex-wrap:wrap; font-size:.78rem; color:var(--ink-soft); align-items:center;}
+  .sched-legend span{display:inline-flex; align-items:center; gap:.4rem;}
+  .lg-esplai{width:1.5rem; height:.8rem; border-radius:3px; border:1.5px solid var(--gold); background:repeating-linear-gradient(-45deg,#f3dc9b 0 4px,#f7e7b6 4px 8px);}
+  .lg-now{width:.8rem; height:.8rem; border-radius:3px; background:var(--white); box-shadow:0 0 0 2px var(--teal);}
+
+  .day-tabs{display:none; gap:.3rem; margin-bottom:.8rem;}
+  .day-tabs button{flex:1; border:1px solid var(--line); background:var(--card); color:var(--ink-soft); padding:.5rem 0; border-radius:10px; font-weight:700; font-size:.85rem;}
+  .day-tabs button[aria-pressed="true"]{background:var(--ink); color:var(--white); border-color:var(--ink);}
+
+  .sched-wrap{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:1rem;}
+  .sched{display:grid; grid-template-columns:4.6rem repeat(5,minmax(0,1fr)); gap:.4rem;}
+  .sc-head{font-family:var(--serif); font-weight:600; font-size:1.05rem; text-align:center; padding:.35rem 0 .5rem; border-bottom:2px solid var(--line);}
+  .sc-head.today{color:var(--gold-deep); border-bottom-color:var(--gold);}
+  .sc-time{display:flex; flex-direction:column; align-items:flex-end; padding:.55rem .35rem 0 0; font-variant-numeric:tabular-nums; line-height:1.2;}
+  .sc-time b{font-size:.92rem; font-weight:700;}
+  .sc-time span{font-size:.72rem; color:var(--ink-soft);}
+  .sc-time.now b{color:var(--teal-deep);}
+  .sc-cell{background:var(--white); border:1px solid var(--line); border-radius:11px; padding:.5rem .6rem; display:flex; flex-direction:column; gap:.35rem; min-width:0; border-left:4px solid var(--ink);}
+  .sc-cell.multi{border-left-color:var(--teal);}
+  .sc-cell.today{background:#fffaf0;}
+  .sc-cell.now{box-shadow:0 0 0 2px var(--teal), var(--shadow);}
+  .sc-cell.empty{background:transparent; border:1px dashed var(--line); border-left-width:1px; color:var(--ink-soft); font-size:.8rem; align-items:center; justify-content:center;}
+  .opt{font-size:.8rem; line-height:1.28; transition:opacity .15s;}
+  .opt + .opt{border-top:1px dashed var(--line); padding-top:.35rem;}
+  .opt b{display:block; font-weight:600; overflow-wrap:anywhere;}
+  .sc-cell:not(.multi) .opt b{font-size:.92rem;}
+  .opt span{font-size:.72rem; color:var(--ink-soft);}
+  .opt.dim{opacity:.25;}
+  .opt.hit b{color:var(--teal-deep);}
+  .opt.hit{background:#dde7e3; border-radius:6px; padding:.2rem .35rem; margin:0 -.35rem;}
+
+  .esplai{
+    grid-column:1/-1; display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;
+    padding:.65rem 1rem; border-radius:12px; border:2px solid var(--gold); color:#4f3906;
+    background:repeating-linear-gradient(-45deg,#f3dc9b 0 12px,#f8e9bc 12px 24px);
+  }
+  .esplai .nm{font-family:var(--serif); font-weight:700; font-size:1.15rem; letter-spacing:.22em;}
+  .esplai .hh{font-size:.88rem; font-weight:700; font-variant-numeric:tabular-nums;}
+  .esplai.now{box-shadow:0 0 0 3px var(--ink), var(--shadow);}
+
   /* ---------- DEURES (agenda setmanal) ---------- */
   .week-card{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.2rem 1.4rem;}
   .week-nav{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:1.1rem; flex-wrap:wrap;}
