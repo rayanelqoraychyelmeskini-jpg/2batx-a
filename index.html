@@ -605,7 +605,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
   getFirestore, collection, addDoc, deleteDoc, doc, updateDoc,
-  onSnapshot, query, orderBy, limit, serverTimestamp
+  onSnapshot, query, orderBy, limit, serverTimestamp, arrayUnion, arrayRemove
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import {
   getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
@@ -1176,6 +1176,7 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     $('auth-gate').hidden = false;
     $('mailbox-user').hidden = true;
+    if (typeof renderWeekGrid === 'function') renderWeekGrid();
     return;
   }
 
@@ -1192,6 +1193,7 @@ onAuthStateChanged(auth, async (user) => {
   $('auth-gate').hidden = true;
   $('mailbox-user').hidden = false;
   $('auth-name').textContent = `${currentUser.nom} (${currentUser.email})`;
+  if (typeof renderWeekGrid === 'function') renderWeekGrid();   // recalcula els checks personals amb l'usuari actual
 
   // Només delegat/admin veuen el panell de lectura
   const canRead = READER_ROLES.includes(currentUser.rol);
@@ -1305,11 +1307,13 @@ function agendaDayHtml(d, dayIndex, today) {
   const items = (dbHomeworkByDate[iso] || []);
   const rows = items.map(h => {
     const col = subjColor(h.assignatura || '');
-    const done = !!h.fet;
+    const fetPer = Array.isArray(h.fetPer) ? h.fetPer : [];
+    const done = !!currentUser && fetPer.includes(currentUser.email);          // personal: només compta si JO l'he marcat
+    const count = fetPer.length;
     return `
       <div class="ad-row${done ? ' done' : ''}">
-        <input type="checkbox" class="ad-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="Marca com a fet">
-        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}</span>
+        <input type="checkbox" class="ad-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="Marca com a fet (personal)">
+        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}${count ? ` <span style="color:var(--ink-soft);font-weight:600;">· ${count} ${count === 1 ? 'persona' : 'persones'} l'han fet</span>` : ''}</span>
         <button type="button" class="ad-del" data-del="${escapeHtml(h.id)}" title="Esborra" aria-label="Esborra">✕</button>
       </div>`;
   }).join('');
@@ -1384,8 +1388,14 @@ $('week-grid').addEventListener('change', async (e) => {
     chk.checked = !chk.checked;
     return;
   }
-  try { await updateDoc(doc(db, COL_HOMEWORK, chk.dataset.toggle), { fet: chk.checked }); }
-  catch (err) { chk.checked = !chk.checked; showDbError(err, 'actualitzant un deure'); }
+  try {
+    await updateDoc(doc(db, COL_HOMEWORK, chk.dataset.toggle), {
+      fetPer: chk.checked ? arrayUnion(currentUser.email) : arrayRemove(currentUser.email)
+    });
+  } catch (err) {
+    chk.checked = !chk.checked;
+    showDbError(err, 'actualitzant un deure');
+  }
 });
 
 onSnapshot(
@@ -1468,7 +1478,7 @@ $('deure-form').addEventListener('submit', async (e) => {
       assignatura,
       descripcio,
       data: toISO(Number(dYearSel.value), Number(dMonthSel.value), Number(dDaySel.value)),
-      fet: false,
+      fetPer: [],
       creat: serverTimestamp()
     });
     weekCursor = startOfWeek(new Date(Number(dYearSel.value), Number(dMonthSel.value), Number(dDaySel.value)));
