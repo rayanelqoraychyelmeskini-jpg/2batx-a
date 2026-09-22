@@ -191,6 +191,42 @@
   .esplai .hh{font-size:.88rem; font-weight:700; font-variant-numeric:tabular-nums;}
   .esplai.now{box-shadow:0 0 0 3px var(--ink), var(--shadow);}
 
+  /* ---------- DEURES (agenda setmanal) ---------- */
+  .week-card{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.2rem 1.4rem;}
+  .week-nav{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:1.1rem; flex-wrap:wrap;}
+  .week-nav h3{font-size:1.1rem; margin:0; text-transform:capitalize; color:var(--ink-soft); font-weight:600;}
+  .week-nav .nav-side{display:flex; gap:.35rem; align-items:center;}
+  .week-grid{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:.55rem;}
+  .week-day{background:var(--white); border:1px solid var(--line); border-radius:13px; padding:.7rem .55rem; display:flex; flex-direction:column; gap:.5rem; min-height:9rem;}
+  .week-day.weekend{background:#f1f2ec;}
+  .week-day.today{border-color:var(--gold); box-shadow:inset 0 0 0 1px var(--gold);}
+  .week-day .wd-head{text-align:center; padding-bottom:.4rem; border-bottom:1px solid var(--line);}
+  .week-day .wd-name{font-family:var(--serif); font-weight:600; font-size:.92rem; color:var(--ink);}
+  .week-day.today .wd-name{color:var(--gold-deep);}
+  .week-day .wd-date{font-size:.7rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em;}
+  .week-day .wd-items{display:flex; flex-direction:column; gap:.4rem; flex:1;}
+  .week-day .wd-empty{font-size:.72rem; color:var(--ink-soft); text-align:center; margin-top:.6rem; opacity:.7;}
+  .deure-item{border-radius:9px; padding:.4rem .5rem; font-size:.78rem; line-height:1.3; border-left:3px solid var(--teal); background:#eef3f0; position:relative; display:flex; gap:.4rem; align-items:flex-start;}
+  .deure-item.done{opacity:.5;}
+  .deure-item.done .deure-desc{text-decoration:line-through;}
+  .deure-item .deure-check{flex:0 0 auto; width:1rem; height:1rem; margin-top:.15rem; accent-color:var(--teal); cursor:pointer;}
+  .deure-item .deure-body{flex:1; min-width:0;}
+  .deure-item .deure-subj{display:block; font-weight:700; font-size:.72rem; overflow-wrap:anywhere;}
+  .deure-item .deure-desc{display:block; color:var(--ink-soft); overflow-wrap:anywhere;}
+  .deure-item .deure-del{flex:0 0 auto; border:none; background:none; color:var(--ink-soft); font-size:.85rem; padding:0 0 0 .2rem; line-height:1; opacity:.6;}
+  .deure-item .deure-del:hover{color:var(--coral); opacity:1;}
+  @media (max-width:760px){
+    .week-grid{grid-template-columns:repeat(7,minmax(0,1fr)); gap:.35rem;}
+    .week-day{padding:.45rem .3rem; min-height:7rem;}
+    .week-day .wd-name{font-size:.72rem;}
+    .week-day .wd-date{font-size:.6rem;}
+    .deure-item{font-size:.66rem; padding:.3rem .35rem;}
+    .deure-item .deure-subj{font-size:.6rem;}
+  }
+  @media (max-width:560px){
+    .week-grid{grid-template-columns:repeat(7,minmax(0,1fr));}
+  }
+
   /* ---------- PBAU ---------- */
   .pbau-links-top{display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.8rem;}
   .pill-link{display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--line); background:var(--card); padding:.5rem .9rem; border-radius:999px; font-size:.84rem; font-weight:600; color:var(--ink); text-decoration:none;}
@@ -283,6 +319,7 @@
     <nav class="tabs" id="tabs" role="tablist">
       <button role="tab" data-tab="inici" aria-selected="true">Inici</button>
       <button role="tab" data-tab="horari" aria-selected="false">Horari</button>
+      <button role="tab" data-tab="deures" aria-selected="false">Deures</button>
       <button role="tab" data-tab="pbau" aria-selected="false">PBAU</button>
       <button role="tab" data-tab="bustia" aria-selected="false">Bústia</button>
       <button role="tab" data-tab="enllacos" aria-selected="false">Enllaços</button>
@@ -401,6 +438,61 @@
     </div>
   </section>
 
+  <!-- ============ DEURES ============ -->
+  <section class="view" id="view-deures" hidden>
+    <div class="section-head">
+      <div>
+        <h2>Agenda de deures</h2>
+        <p class="desc">Deures i tasques per a casa, organitzats per setmana. Sincronitzat en directe per a tota la classe: marca'ls com a fets quan els acabis.</p>
+      </div>
+      <button class="btn ghost small" id="toggle-add-deure" aria-expanded="false">+ Afegir deure</button>
+    </div>
+
+    <div class="week-card">
+      <div class="week-nav">
+        <div class="nav-side">
+          <button class="icon-btn" id="week-prev" type="button" aria-label="Setmana anterior">‹</button>
+          <button class="icon-btn" id="week-next" type="button" aria-label="Setmana següent">›</button>
+        </div>
+        <h3 id="week-title">—</h3>
+        <div class="nav-side">
+          <button class="btn ghost small" id="week-today" type="button">Aquesta setmana</button>
+        </div>
+      </div>
+      <div class="week-grid" id="week-grid" aria-live="polite"></div>
+    </div>
+
+    <div class="add-panel" id="add-deure-panel" hidden>
+      <form id="deure-form">
+        <div class="field">
+          <label for="d-subj">Matèria</label>
+          <select id="d-subj" required></select>
+        </div>
+        <div class="field" id="d-subj-custom-wrap" hidden>
+          <label for="d-subj-custom">Nom de la matèria</label>
+          <input type="text" id="d-subj-custom" placeholder="p. ex. Robòtica" maxlength="60">
+        </div>
+        <div class="field">
+          <label for="d-day">Data de lliurament (dia · mes · any)</label>
+          <div class="date-fields">
+            <select id="d-day" aria-label="Dia" required></select>
+            <select id="d-month" aria-label="Mes" required></select>
+            <select id="d-year" aria-label="Any" required></select>
+          </div>
+        </div>
+        <div class="field" style="grid-column:1/-1;">
+          <label for="d-desc">Descripció del deure</label>
+          <input type="text" id="d-desc" placeholder="p. ex. Exercicis 1-10, pàgina 45" required maxlength="140">
+        </div>
+        <div class="actions">
+          <p class="form-msg" id="deure-form-msg"></p>
+          <button type="button" class="btn ghost small" id="cancel-add-deure">Cancel·la</button>
+          <button type="submit" class="btn small" id="save-deure-btn">Desar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <!-- ============ PBAU ============ -->
   <section class="view" id="view-pbau" hidden>
     <div class="section-head">
@@ -492,7 +584,7 @@
    ============================================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, deleteDoc, doc,
+  getFirestore, collection, addDoc, deleteDoc, doc, updateDoc,
   onSnapshot, query, orderBy, limit, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import {
@@ -518,6 +610,7 @@ const PBAU_DATE = "2027-07-01";
 /** Noms de les col·leccions de Firestore (un sol lloc per canviar-los). */
 const COL_EVENTS = 'examens';
 const COL_SUGGESTIONS = 'suggeriments';
+const COL_HOMEWORK = 'deures';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -580,7 +673,7 @@ function setSync(state, text) {
 /* ============================================================
    3. PESTANYES
    ============================================================ */
-const TABS = ['inici', 'horari', 'pbau', 'bustia', 'enllacos'];
+const TABS = ['inici', 'horari', 'deures', 'pbau', 'bustia', 'enllacos'];
 const tabButtons = document.querySelectorAll('#tabs button');
 
 function activateTab(name) {
@@ -985,6 +1078,197 @@ function buildScheduleControls() {
 buildScheduleControls();
 renderSchedule();
 setInterval(updateNow, 30000);
+
+/* ============================================================
+   8b. DEURES · agenda setmanal
+   ============================================================ */
+const WEEK_DAYS = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte', 'Diumenge'];
+const WEEK_DAYS_SHORT = ['Dl', 'Dt', 'Dc', 'Dj', 'Dv', 'Ds', 'Dg'];
+
+/** Colors suaus per etiquetar matèries a l'agenda, assignats per un hash estable del nom. */
+const SUBJ_PALETTE = [
+  { bg: '#eef3f0', fg: 'var(--teal-deep)', bd: 'var(--teal)' },
+  { bg: '#f4ecd8', fg: 'var(--gold-deep)', bd: 'var(--gold)' },
+  { bg: '#f1ded7', fg: '#8d3529',          bd: 'var(--coral)' },
+  { bg: '#e2e6ee', fg: 'var(--slate)',     bd: 'var(--slate)' },
+  { bg: '#e6e0ef', fg: '#5a3a8a',          bd: '#8a6cb5' },
+  { bg: '#dfeaf2', fg: '#2c5c78',          bd: '#5a92ad' }
+];
+function subjColor(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return SUBJ_PALETTE[h % SUBJ_PALETTE.length];
+}
+
+/** Totes les matèries conegudes de l'horari, per omplir el selector del formulari. */
+function scheduleSubjectNames() {
+  const names = new Set();
+  SCHEDULE.forEach(day => day.forEach(slot => slot && slot.forEach(([n]) => names.add(n))));
+  return [...names].sort((a, b) => a.localeCompare(b, 'ca'));
+}
+
+let dbHomework = [];                     // entrades de Firestore
+let weekCursor = startOfWeek(new Date());
+
+function startOfWeek(d) {
+  const wd = (d.getDay() + 6) % 7;                        // dilluns = 0
+  const out = new Date(d.getFullYear(), d.getMonth(), d.getDate() - wd);
+  return out;
+}
+function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+
+function renderWeekTitle() {
+  const start = weekCursor, end = addDays(weekCursor, 6);
+  const startISO = toISO(start.getFullYear(), start.getMonth(), start.getDate());
+  const endISO = toISO(end.getFullYear(), end.getMonth(), end.getDate());
+  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+  $('week-title').textContent = sameMonth
+    ? `${start.getDate()} – ${end.getDate()} de ${MONTHS[start.getMonth()]} ${start.getFullYear()}`
+    : `${formatLong(startISO, false)} – ${formatLong(endISO)}`;
+}
+
+function renderWeekGrid() {
+  renderWeekTitle();
+  const byDate = {};
+  dbHomework.forEach(h => { (byDate[h.data] ||= []).push(h); });
+  Object.values(byDate).forEach(list => list.sort((a, b) => (a.assignatura || '').localeCompare(b.assignatura || '', 'ca')));
+
+  const today = todayISO();
+  const cols = WEEK_DAYS.map((name, i) => {
+    const d = addDays(weekCursor, i);
+    const iso = toISO(d.getFullYear(), d.getMonth(), d.getDate());
+    const items = byDate[iso] || [];
+    const cls = ['week-day', i >= 5 ? 'weekend' : '', iso === today ? 'today' : ''].filter(Boolean).join(' ');
+    const itemsHtml = items.length
+      ? items.map(h => {
+          const col = subjColor(h.assignatura || '');
+          const done = !!h.fet;
+          return `
+            <div class="deure-item${done ? ' done' : ''}" style="background:${col.bg};border-left-color:${col.bd};">
+              <input type="checkbox" class="deure-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="Marca com a fet">
+              <span class="deure-body">
+                <span class="deure-subj" style="color:${col.fg};">${escapeHtml(h.assignatura)}</span>
+                <span class="deure-desc">${escapeHtml(h.descripcio)}</span>
+              </span>
+              <button type="button" class="deure-del" data-del="${escapeHtml(h.id)}" title="Esborra" aria-label="Esborra">✕</button>
+            </div>`;
+        }).join('')
+      : '<div class="wd-empty">Sense deures</div>';
+
+    return `
+      <div class="${cls}">
+        <div class="wd-head">
+          <div class="wd-name">${WEEK_DAYS_SHORT[i]}</div>
+          <div class="wd-date">${d.getDate()} ${MONTHS[d.getMonth()].slice(0, 3)}</div>
+        </div>
+        <div class="wd-items">${itemsHtml}</div>
+      </div>`;
+  }).join('');
+
+  $('week-grid').innerHTML = cols;
+}
+
+$('week-prev').addEventListener('click', () => { weekCursor = addDays(weekCursor, -7); renderWeekGrid(); });
+$('week-next').addEventListener('click', () => { weekCursor = addDays(weekCursor, 7); renderWeekGrid(); });
+$('week-today').addEventListener('click', () => { weekCursor = startOfWeek(new Date()); renderWeekGrid(); });
+
+$('week-grid').addEventListener('click', async (e) => {
+  const del = e.target.closest('[data-del]');
+  if (del) {
+    if (!confirm('Segur que vols esborrar aquest deure?')) return;
+    try { await deleteDoc(doc(db, COL_HOMEWORK, del.dataset.del)); }
+    catch (err) { showDbError(err, 'esborrant un deure'); }
+  }
+});
+$('week-grid').addEventListener('change', async (e) => {
+  const chk = e.target.closest('[data-toggle]');
+  if (!chk) return;
+  try { await updateDoc(doc(db, COL_HOMEWORK, chk.dataset.toggle), { fet: chk.checked }); }
+  catch (err) { chk.checked = !chk.checked; showDbError(err, 'actualitzant un deure'); }
+});
+
+onSnapshot(
+  query(collection(db, COL_HOMEWORK), orderBy('data')),
+  (snap) => {
+    dbHomework = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    $('db-alert').hidden = true;
+    setSync('ok', 'Connectat amb Firestore');
+    renderWeekGrid();
+  },
+  (err) => showDbError(err, 'llegint els deures')
+);
+
+renderWeekGrid();
+
+/* ---------- Formulari d'alta d'un deure ---------- */
+const addDeurePanel = $('add-deure-panel'), toggleAddDeure = $('toggle-add-deure');
+const dSubjSel = $('d-subj'), dSubjCustomWrap = $('d-subj-custom-wrap'), dSubjCustom = $('d-subj-custom');
+const dDaySel = $('d-day'), dMonthSel = $('d-month'), dYearSel = $('d-year');
+
+const subjNames = scheduleSubjectNames();
+dSubjSel.innerHTML = subjNames.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')
+  + '<option value="__altres__">Altres…</option>';
+dSubjSel.addEventListener('change', () => {
+  const custom = dSubjSel.value === '__altres__';
+  dSubjCustomWrap.hidden = !custom;
+  dSubjCustom.required = custom;
+});
+
+function setAddDeurePanel(open) {
+  addDeurePanel.hidden = !open;
+  toggleAddDeure.setAttribute('aria-expanded', String(open));
+}
+toggleAddDeure.addEventListener('click', () => setAddDeurePanel(addDeurePanel.hidden));
+$('cancel-add-deure').addEventListener('click', () => setAddDeurePanel(false));
+
+const nowD = new Date();
+dMonthSel.innerHTML = MONTHS.map((n, i) => `<option value="${i}">${n}</option>`).join('');
+dYearSel.innerHTML = [nowD.getFullYear(), nowD.getFullYear() + 1].map(y => `<option value="${y}">${y}</option>`).join('');
+dMonthSel.value = nowD.getMonth();
+
+function syncDeureDayOptions(preferred) {
+  const max = new Date(Number(dYearSel.value), Number(dMonthSel.value) + 1, 0).getDate();
+  const keep = Math.min(preferred || Number(dDaySel.value) || nowD.getDate(), max);
+  dDaySel.innerHTML = Array.from({ length: max }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('');
+  dDaySel.value = keep;
+}
+dMonthSel.addEventListener('change', () => syncDeureDayOptions());
+dYearSel.addEventListener('change', () => syncDeureDayOptions());
+syncDeureDayOptions(nowD.getDate());
+
+$('deure-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = $('deure-form-msg'), btn = $('save-deure-btn');
+  const isCustom = dSubjSel.value === '__altres__';
+  const assignatura = (isCustom ? dSubjCustom.value : dSubjSel.value).trim();
+  const descripcio = $('d-desc').value.trim();
+  if (!assignatura || !descripcio) return;
+
+  msg.textContent = '';
+  btn.disabled = true;
+  try {
+    await addDoc(collection(db, COL_HOMEWORK), {
+      assignatura,
+      descripcio,
+      data: toISO(Number(dYearSel.value), Number(dMonthSel.value), Number(dDaySel.value)),
+      fet: false,
+      creat: serverTimestamp()
+    });
+    weekCursor = startOfWeek(new Date(Number(dYearSel.value), Number(dMonthSel.value), Number(dDaySel.value)));
+    e.target.reset();
+    dSubjCustomWrap.hidden = true;
+    dMonthSel.value = nowD.getMonth();
+    dYearSel.value = nowD.getFullYear();
+    syncDeureDayOptions();
+    setAddDeurePanel(false);
+    renderWeekGrid();
+  } catch (err) {
+    msg.textContent = 'No s\'ha pogut desar: ' + (err?.code || 'error');
+    showDbError(err, 'desant un deure');
+  } finally {
+    btn.disabled = false;
+  }
+});
 
 /* ============================================================
    9. BÚSTIA · només els correus de la llista · autoria automàtica · lectura per rol
