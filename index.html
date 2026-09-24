@@ -1313,7 +1313,7 @@ function agendaDayHtml(d, dayIndex, today) {
     return `
       <div class="ad-row${done ? ' done' : ''}">
         <input type="checkbox" class="ad-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="Marca com a fet (personal)">
-        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}${count ? ` <span style="color:var(--ink-soft);font-weight:600;">· ${count} ${count === 1 ? 'persona' : 'persones'} l'han fet</span>` : ''}</span>
+        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}</span>
         <button type="button" class="ad-del" data-del="${escapeHtml(h.id)}" title="Esborra" aria-label="Esborra">✕</button>
       </div>`;
   }).join('');
