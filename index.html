@@ -47,6 +47,8 @@
   nav.tabs button{border:none; background:transparent; padding:.5rem 1rem; border-radius:999px; font-size:.88rem; font-weight:600; color:var(--ink-soft); transition:background .15s,color .15s;}
   nav.tabs button[aria-selected="true"]{background:var(--ink); color:var(--white);}
   nav.tabs button[aria-selected="false"]:hover{background:var(--paper); color:var(--ink);}
+  .lang-switch{display:flex; align-items:center; gap:.4rem;}
+  .lang-switch select{font-family:var(--sans); font-size:.82rem; font-weight:600; padding:.4rem .55rem; border-radius:9px; border:1px solid var(--line); background:var(--card); color:var(--ink);}
 
   main{max-width:1080px; margin:0 auto; padding:2.2rem 1.3rem 5rem;}
   section.view[hidden]{display:none;}
@@ -334,16 +336,20 @@
   <div class="top-inner">
     <div class="brand">
       <span class="mark">2n Batx A</span>
-      <span class="sub">Organització de classe</span>
+      <span class="sub" id="brand-sub">Organització de classe</span>
     </div>
     <nav class="tabs" id="tabs" role="tablist">
-      <button role="tab" data-tab="inici" aria-selected="true">Inici</button>
-      <button role="tab" data-tab="horari" aria-selected="false">Horari</button>
-      <button role="tab" data-tab="deures" aria-selected="false">Deures</button>
-      <button role="tab" data-tab="pbau" aria-selected="false">PBAU</button>
-      <button role="tab" data-tab="bustia" aria-selected="false">Bústia</button>
-      <button role="tab" data-tab="enllacos" aria-selected="false">Enllaços</button>
+      <button role="tab" data-tab="inici" aria-selected="true" data-i18n="tab.inici">Inici</button>
+      <button role="tab" data-tab="horari" aria-selected="false" data-i18n="tab.horari">Horari</button>
+      <button role="tab" data-tab="deures" aria-selected="false" data-i18n="tab.deures">Deures</button>
+      <button role="tab" data-tab="pbau" aria-selected="false" data-i18n="tab.pbau">PBAU</button>
+      <button role="tab" data-tab="bustia" aria-selected="false" data-i18n="tab.bustia">Bústia</button>
+      <button role="tab" data-tab="enllacos" aria-selected="false" data-i18n="tab.enllacos">Enllaços</button>
     </nav>
+    <div class="lang-switch">
+      <label for="lang-select" style="display:none;">Idioma</label>
+      <select id="lang-select" aria-label="Idioma / Language"></select>
+    </div>
   </div>
 </header>
 
@@ -355,79 +361,79 @@
   <section class="view" id="view-inici">
 
     <div class="hero">
-      <div class="eyebrow">Compte enrere</div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">Compte enrere</div>
       <p class="countdown-number" id="cd-number">–</p>
       <p class="countdown-unit" id="cd-unit">dies fins a la PBAU</p>
-      <p class="countdown-meta">Data de referència: <strong id="cd-date-label"></strong></p>
+      <p class="countdown-meta" data-i18n="hero.metaPrefix">Data de referència: <strong id="cd-date-label"></strong></p>
       <p class="countdown-clock" id="cd-clock"></p>
     </div>
 
     <div class="section-head">
       <div>
-        <h2>Calendari del curs</h2>
-        <p class="desc">Exàmens, treballs i lliuraments sincronitzats en directe, amb els dies festius i no lectius oficials ja carregats. Navega entre mesos i fes clic a un dia per veure'n el detall.</p>
+        <h2 data-i18n="inici.title">Calendari del curs</h2>
+        <p class="desc" data-i18n="inici.desc">Exàmens, treballs i lliuraments sincronitzats en directe, amb els dies festius i no lectius oficials ja carregats. Navega entre mesos i fes clic a un dia per veure'n el detall.</p>
       </div>
-      <button class="btn ghost small" id="toggle-add" aria-expanded="false">+ Afegir data</button>
+      <button class="btn ghost small" id="toggle-add" aria-expanded="false" data-i18n="inici.addBtn">+ Afegir data</button>
     </div>
 
     <div class="cal-card">
       <div class="cal-nav">
         <div class="nav-side">
-          <button class="icon-btn" id="cal-prev" type="button" aria-label="Mes anterior">‹</button>
-          <button class="icon-btn" id="cal-next" type="button" aria-label="Mes següent">›</button>
+          <button class="icon-btn" id="cal-prev" type="button" data-i18n-aria="cal.prev" aria-label="Mes anterior">‹</button>
+          <button class="icon-btn" id="cal-next" type="button" data-i18n-aria="cal.next" aria-label="Mes següent">›</button>
         </div>
         <h3 id="cal-title">—</h3>
         <div class="nav-side">
-          <button class="btn ghost small" id="cal-today" type="button">Avui</button>
+          <button class="btn ghost small" id="cal-today" type="button" data-i18n="cal.today">Avui</button>
         </div>
       </div>
       <div class="cal-grid" id="cal-grid" aria-live="polite"></div>
       <div class="cal-legend">
-        <span><i class="swatch examen"></i> Examen</span>
-        <span><i class="swatch treball"></i> Treball</span>
-        <span><i class="swatch lliurament"></i> Lliurament</span>
-        <span><i class="swatch altres"></i> Altres</span>
-        <span><i class="swatch festiu"></i> Festiu / no lectiu</span>
+        <span><i class="swatch examen"></i> <span data-i18n="type.examen">Examen</span></span>
+        <span><i class="swatch treball"></i> <span data-i18n="type.treball">Treball</span></span>
+        <span><i class="swatch lliurament"></i> <span data-i18n="type.lliurament">Lliurament</span></span>
+        <span><i class="swatch altres"></i> <span data-i18n="type.altres">Altres</span></span>
+        <span><i class="swatch festiu"></i> <span data-i18n="cal.legendFestiu">Festiu / no lectiu</span></span>
       </div>
     </div>
 
     <div class="add-panel" id="add-panel" hidden>
       <form id="exam-form">
         <div class="field">
-          <label for="f-subj">Assignatura o títol</label>
-          <input type="text" id="f-subj" placeholder="p. ex. Matemàtiques II" required maxlength="80">
+          <label for="f-subj" data-i18n="form.subj">Assignatura o títol</label>
+          <input type="text" id="f-subj" data-i18n-ph="form.subjPh" placeholder="p. ex. Matemàtiques II" required maxlength="80">
         </div>
         <div class="field">
-          <label for="f-day">Data (dia · mes · any)</label>
+          <label for="f-day" data-i18n="form.date">Data (dia · mes · any)</label>
           <div class="date-fields">
-            <select id="f-day" aria-label="Dia" required></select>
-            <select id="f-month" aria-label="Mes" required></select>
-            <select id="f-year" aria-label="Any" required></select>
+            <select id="f-day" data-i18n-aria="form.day" aria-label="Dia" required></select>
+            <select id="f-month" data-i18n-aria="form.month" aria-label="Mes" required></select>
+            <select id="f-year" data-i18n-aria="form.year" aria-label="Any" required></select>
           </div>
         </div>
         <div class="field">
-          <label for="f-type">Categoria</label>
+          <label for="f-type" data-i18n="form.category">Categoria</label>
           <select id="f-type">
-            <option value="Examen">Examen</option>
-            <option value="Treball">Treball</option>
-            <option value="Lliurament">Lliurament</option>
-            <option value="Altres">Altres</option>
+            <option value="Examen" data-i18n="type.examen">Examen</option>
+            <option value="Treball" data-i18n="type.treball">Treball</option>
+            <option value="Lliurament" data-i18n="type.lliurament">Lliurament</option>
+            <option value="Altres" data-i18n="type.altres">Altres</option>
           </select>
         </div>
         <div class="field">
-          <label for="f-desc">Nota (opcional)</label>
-          <input type="text" id="f-desc" placeholder="p. ex. Temes 1-4, porta calculadora" maxlength="120">
+          <label for="f-desc" data-i18n="form.note">Nota (opcional)</label>
+          <input type="text" id="f-desc" data-i18n-ph="form.notePh" placeholder="p. ex. Temes 1-4, porta calculadora" maxlength="120">
         </div>
         <div class="actions">
           <p class="form-msg" id="form-msg"></p>
-          <button type="button" class="btn ghost small" id="cancel-add">Cancel·la</button>
-          <button type="submit" class="btn small" id="save-btn">Desar</button>
+          <button type="button" class="btn ghost small" id="cancel-add" data-i18n="form.cancel">Cancel·la</button>
+          <button type="submit" class="btn small" id="save-btn" data-i18n="form.save">Desar</button>
         </div>
       </form>
     </div>
 
     <div class="day-panel">
-      <h3 id="day-panel-title">Properes dates</h3>
+      <h3 id="day-panel-title" data-i18n="day.upcoming">Properes dates</h3>
       <div id="day-list"></div>
     </div>
   </section>
@@ -436,18 +442,18 @@
   <section class="view" id="view-horari" hidden>
     <div class="section-head">
       <div>
-        <h2>Horari de 2n Batx A</h2>
-        <p class="desc">Les franges amb diverses matèries corresponen a les optatives i modalitats: mira només la teva. Escull-la al selector per destacar-la a tot l'horari.</p>
+        <h2 data-i18n="horari.title">Horari de 2n Batx A</h2>
+        <p class="desc" data-i18n="horari.desc">Les franges amb diverses matèries corresponen a les optatives i modalitats: mira només la teva. Escull-la al selector per destacar-la a tot l'horari.</p>
       </div>
     </div>
 
     <div class="sched-toolbar">
-      <label class="sched-filter">Destaca la meva matèria
+      <label class="sched-filter" data-i18n="horari.highlight">Destaca la meva matèria
         <select id="sched-filter"></select>
       </label>
       <div class="sched-legend">
-        <span><i class="lg-esplai"></i> Esplai</span>
-        <span><i class="lg-now"></i> Ara mateix</span>
+        <span><i class="lg-esplai"></i> <span data-i18n="horari.esplai">Esplai</span></span>
+        <span><i class="lg-now"></i> <span data-i18n="horari.now">Ara mateix</span></span>
       </div>
     </div>
 
@@ -462,21 +468,21 @@
   <section class="view" id="view-deures" hidden>
     <div class="section-head">
       <div>
-        <h2>Agenda de deures</h2>
-        <p class="desc">Deures i tasques per a casa, organitzats per setmana. Sincronitzat en directe per a tota la classe: marca'ls com a fets quan els acabis.</p>
+        <h2 data-i18n="deures.title">Agenda de deures</h2>
+        <p class="desc" data-i18n="deures.desc">Deures i tasques per a casa, organitzats per setmana. Sincronitzat en directe per a tota la classe: marca'ls com a fets quan els acabis.</p>
       </div>
-      <button class="btn ghost small" id="toggle-add-deure" aria-expanded="false">+ Afegir deure</button>
+      <button class="btn ghost small" id="toggle-add-deure" aria-expanded="false" data-i18n="deures.addBtn">+ Afegir deure</button>
     </div>
 
     <div class="week-card">
       <div class="week-nav">
         <div class="nav-side">
-          <button class="icon-btn" id="week-prev" type="button" aria-label="Setmana anterior">‹</button>
-          <button class="icon-btn" id="week-next" type="button" aria-label="Setmana següent">›</button>
+          <button class="icon-btn" id="week-prev" type="button" data-i18n-aria="week.prev" aria-label="Setmana anterior">‹</button>
+          <button class="icon-btn" id="week-next" type="button" data-i18n-aria="week.next" aria-label="Setmana següent">›</button>
         </div>
         <h3 id="week-title">—</h3>
         <div class="nav-side">
-          <button class="btn ghost small" id="week-today" type="button">Aquesta setmana</button>
+          <button class="btn ghost small" id="week-today" type="button" data-i18n="week.today">Aquesta setmana</button>
         </div>
       </div>
       <div id="week-grid" aria-live="polite"></div>
@@ -485,29 +491,29 @@
     <div class="add-panel" id="add-deure-panel" hidden>
       <form id="deure-form">
         <div class="field">
-          <label for="d-subj">Matèria</label>
+          <label for="d-subj" data-i18n="deform.subj">Matèria</label>
           <select id="d-subj" required></select>
         </div>
         <div class="field" id="d-subj-custom-wrap" hidden>
-          <label for="d-subj-custom">Nom de la matèria</label>
-          <input type="text" id="d-subj-custom" placeholder="p. ex. Robòtica" maxlength="60">
+          <label for="d-subj-custom" data-i18n="deform.subjName">Nom de la matèria</label>
+          <input type="text" id="d-subj-custom" data-i18n-ph="deform.subjNamePh" placeholder="p. ex. Robòtica" maxlength="60">
         </div>
         <div class="field">
-          <label for="d-day">Data de lliurament (dia · mes · any)</label>
+          <label for="d-day" data-i18n="deform.date">Data de lliurament (dia · mes · any)</label>
           <div class="date-fields">
-            <select id="d-day" aria-label="Dia" required></select>
-            <select id="d-month" aria-label="Mes" required></select>
-            <select id="d-year" aria-label="Any" required></select>
+            <select id="d-day" data-i18n-aria="form.day" aria-label="Dia" required></select>
+            <select id="d-month" data-i18n-aria="form.month" aria-label="Mes" required></select>
+            <select id="d-year" data-i18n-aria="form.year" aria-label="Any" required></select>
           </div>
         </div>
         <div class="field" style="grid-column:1/-1;">
-          <label for="d-desc">Descripció del deure</label>
-          <input type="text" id="d-desc" placeholder="p. ex. Exercicis 1-10, pàgina 45" required maxlength="140">
+          <label for="d-desc" data-i18n="deform.desc">Descripció del deure</label>
+          <input type="text" id="d-desc" data-i18n-ph="deform.descPh" placeholder="p. ex. Exercicis 1-10, pàgina 45" required maxlength="140">
         </div>
         <div class="actions">
           <p class="form-msg" id="deure-form-msg"></p>
-          <button type="button" class="btn ghost small" id="cancel-add-deure">Cancel·la</button>
-          <button type="submit" class="btn small" id="save-deure-btn">Desar</button>
+          <button type="button" class="btn ghost small" id="cancel-add-deure" data-i18n="form.cancel">Cancel·la</button>
+          <button type="submit" class="btn small" id="save-deure-btn" data-i18n="form.save">Desar</button>
         </div>
       </form>
     </div>
@@ -517,19 +523,19 @@
   <section class="view" id="view-pbau" hidden>
     <div class="section-head">
       <div>
-        <h2>Recursos per a la PBAU</h2>
-        <p class="desc">Un únic enllaç oficial de la UIB per assignatura, amb la informació de la matèria, l'estructura de l'examen i els models de convocatòries anteriors.</p>
+        <h2 data-i18n="pbau.title">Recursos per a la PBAU</h2>
+        <p class="desc" data-i18n="pbau.desc">Un únic enllaç oficial de la UIB per assignatura, amb la informació de la matèria, l'estructura de l'examen i els models de convocatòries anteriors.</p>
       </div>
     </div>
 
     <div class="pbau-links-top">
-      <a class="pill-link" href="https://pbau.uib.cat" target="_blank" rel="noopener">Portal PBAU</a>
-      <a class="pill-link" href="https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/" target="_blank" rel="noopener">Totes les matèries</a>
+      <a class="pill-link" href="https://pbau.uib.cat" target="_blank" rel="noopener" data-i18n="pbau.portal">Portal PBAU</a>
+      <a class="pill-link" href="https://estudis.uib.es/estudis-de-grau/com-hi-pots-accedir/acces/batxiller/materies/" target="_blank" rel="noopener" data-i18n="pbau.allSubjects">Totes les matèries</a>
     </div>
 
     <div id="pbau-subjects"></div>
 
-    <div class="note-box">
+    <div class="note-box" data-i18n="pbau.note">
       La UIB actualitza aquestes pàgines cada curs: comprova sempre que la informació correspon a la convocatòria vigent. Les ponderacions de cada matèria per a un grau concret es consulten a la fitxa del grau, a l'apartat «Accés i reconeixements».
     </div>
   </section>
@@ -538,8 +544,8 @@
 <section class="view" id="view-bustia" hidden>
   <div class="section-head">
     <div>
-      <h2>Bústia de suggeriments i queixes</h2>
-      <p class="desc">Envia una idea, una proposta o una queixa. El teu nom queda registrat automàticament amb el suggeriment i només el delegat i el subdelegat el poden llegir.</p>
+      <h2 data-i18n="bustia.title">Bústia de suggeriments i queixes</h2>
+      <p class="desc" data-i18n="bustia.desc">Envia una idea, una proposta o una queixa. El teu nom queda registrat automàticament amb el suggeriment i només el delegat i el subdelegat el poden llegir.</p>
     </div>
   </div>
 
@@ -547,8 +553,8 @@
 
     <!-- Sense sessió -->
     <div class="mailbox-card" id="auth-gate">
-      <p>Per enviar un suggeriment cal iniciar sessió amb el teu correu de l'institut.</p>
-      <button class="btn teal" id="login-btn" type="button">Inicia sessió amb Google</button>
+      <p data-i18n="bustia.needLogin">Per enviar un suggeriment cal iniciar sessió amb el teu correu de l'institut.</p>
+      <button class="btn teal" id="login-btn" type="button" data-i18n="bustia.loginBtn">Inicia sessió amb Google</button>
       <p class="send-status err" id="auth-error" hidden></p>
     </div>
 
@@ -556,23 +562,23 @@
     <div id="mailbox-user" hidden>
       <div class="mailbox-card">
         <div class="feed-desc" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;">
-          <span>Enviaràs el missatge com a <strong id="auth-name"></strong></span>
-          <button class="btn ghost small" id="logout-btn" type="button">Tanca sessió</button>
+          <span data-i18n="bustia.sendingAs">Enviaràs el missatge com a <strong id="auth-name"></strong></span>
+          <button class="btn ghost small" id="logout-btn" type="button" data-i18n="bustia.logoutBtn">Tanca sessió</button>
         </div>
         <form id="suggestion-form">
           <div class="field">
-            <label for="s-msg">Missatge</label>
-            <textarea id="s-msg" placeholder="Escriu aquí el teu suggeriment…" required maxlength="800"></textarea>
+            <label for="s-msg" data-i18n="bustia.msgLabel">Missatge</label>
+            <textarea id="s-msg" data-i18n-ph="bustia.msgPh" placeholder="Escriu aquí el teu suggeriment…" required maxlength="800"></textarea>
           </div>
-          <button type="submit" class="btn teal" id="send-btn">Enviar suggeriment</button>
+          <button type="submit" class="btn teal" id="send-btn" data-i18n="bustia.sendBtn">Enviar suggeriment</button>
           <p class="send-status" id="send-status" aria-live="polite"></p>
         </form>
       </div>
 
       <!-- Només delegat / admin -->
       <div class="suggestion-feed" id="feed-section" hidden>
-        <h3>Suggeriments rebuts</h3>
-        <p class="feed-desc">Només visible per a delegats i administradors.</p>
+        <h3 data-i18n="bustia.feedTitle">Suggeriments rebuts</h3>
+        <p class="feed-desc" data-i18n="bustia.feedDesc">Només visible per a delegats i administradors.</p>
         <div id="suggestion-list" aria-live="polite"></div>
       </div>
     </div>
@@ -584,8 +590,8 @@
   <section class="view" id="view-enllacos" hidden>
     <div class="section-head">
       <div>
-        <h2>Enllaços d'interès</h2>
-        <p class="desc">Accessos directes per preparar la preinscripció universitària.</p>
+        <h2 data-i18n="enllacos.title">Enllaços d'interès</h2>
+        <p class="desc" data-i18n="enllacos.desc">Accessos directes per preparar la preinscripció universitària.</p>
       </div>
     </div>
     <div class="link-grid" id="links-grid"></div>
@@ -595,7 +601,7 @@
 
 <footer>
   <span id="sync-dot"></span><span id="sync-text">Connectant amb Firestore…</span>
-  <br>2n de Batxillerat A
+  <br><span data-i18n="footer.line">2n de Batxillerat A</span>
 </footer>
 
 <script type="module">
@@ -635,12 +641,511 @@ const COL_HOMEWORK = 'deures';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const MONTHS = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
-const DOW = ['dl','dt','dc','dj','dv','ds','dg'];
-const APOSTROPHE_MONTHS = new Set([3, 7, 9]);   // abril, agost, octubre → d'
 const TYPES = ['examen', 'treball', 'lliurament', 'altres', 'festiu'];
 
 const $ = (id) => document.getElementById(id);
+
+/* ============================================================
+   1b. INTERNACIONALITZACIÓ (idiomes de la interfície)
+   ============================================================ */
+const LANGS = [
+  { code: 'ca',      label: 'Català' },
+  { code: 'es-MX',   label: 'Español (México)' },
+  { code: 'zh-Hans',  label: '简体中文' },
+  { code: 'hi',      label: 'हिन्दी' },
+  { code: 'ja',      label: '日本語' },
+  { code: 'eu',      label: 'Euskara' },
+  { code: 'gl',      label: 'Galego' },
+  { code: 'it',      label: 'Italiano' }
+];
+const LANG_CODES = LANGS.map(l => l.code);
+
+const MONTHS_BY_LANG = {
+  'ca':      ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'],
+  'es-MX':   ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+  'zh-Hans': ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+  'hi':      ['जनवरी','फ़रवरी','मार्च','अप्रैल','मई','जून','जुलाई','अगस्त','सितंबर','अक्टूबर','नवंबर','दिसंबर'],
+  'ja':      ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+  'eu':      ['urtarrila','otsaila','martxoa','apirila','maiatza','ekaina','uztaila','abuztua','iraila','urria','azaroa','abendua'],
+  'gl':      ['xaneiro','febreiro','marzo','abril','maio','xuño','xullo','agosto','setembro','outubro','novembro','decembro'],
+  'it':      ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']
+};
+const DOW_BY_LANG = {
+  'ca':      ['dl','dt','dc','dj','dv','ds','dg'],
+  'es-MX':   ['lu','ma','mi','ju','vi','sá','do'],
+  'zh-Hans': ['一','二','三','四','五','六','日'],
+  'hi':      ['सो','मं','बु','गु','शु','श','र'],
+  'ja':      ['月','火','水','木','金','土','日'],
+  'eu':      ['al','ar','az','og','or','lr','ig'],
+  'gl':      ['lu','ma','me','xo','ve','sá','do'],
+  'it':      ['lu','ma','me','gi','ve','sa','do']
+};
+const DAYS_BY_LANG = {
+  'ca':      ['Dilluns','Dimarts','Dimecres','Dijous','Divendres'],
+  'es-MX':   ['Lunes','Martes','Miércoles','Jueves','Viernes'],
+  'zh-Hans': ['星期一','星期二','星期三','星期四','星期五'],
+  'hi':      ['सोमवार','मंगलवार','बुधवार','गुरुवार','शुक्रवार'],
+  'ja':      ['月曜日','火曜日','水曜日','木曜日','金曜日'],
+  'eu':      ['Astelehena','Asteartea','Asteazkena','Osteguna','Ostirala'],
+  'gl':      ['Luns','Martes','Mércores','Xoves','Venres'],
+  'it':      ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì']
+};
+const DAYS_SHORT_BY_LANG = {
+  'ca':      ['Dl','Dt','Dc','Dj','Dv'],
+  'es-MX':   ['Lu','Ma','Mi','Ju','Vi'],
+  'zh-Hans': ['一','二','三','四','五'],
+  'hi':      ['सो','मं','बु','गु','शु'],
+  'ja':      ['月','火','水','木','金'],
+  'eu':      ['Al','Ar','Az','Og','Or'],
+  'gl':      ['Lu','Ma','Me','Xo','Ve'],
+  'it':      ['Lu','Ma','Me','Gi','Ve']
+};
+const WEEK_DAYS_BY_LANG = {
+  'ca':      ['Dilluns','Dimarts','Dimecres','Dijous','Divendres','Dissabte','Diumenge'],
+  'es-MX':   ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'],
+  'zh-Hans': ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'],
+  'hi':      ['सोमवार','मंगलवार','बुधवार','गुरुवार','शुक्रवार','शनिवार','रविवार'],
+  'ja':      ['月曜日','火曜日','水曜日','木曜日','金曜日','土曜日','日曜日'],
+  'eu':      ['Astelehena','Asteartea','Asteazkena','Osteguna','Ostirala','Larunbata','Igandea'],
+  'gl':      ['Luns','Martes','Mércores','Xoves','Venres','Sábado','Domingo'],
+  'it':      ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica']
+};
+const CA_APOSTROPHE_MONTHS = new Set([3, 7, 9]); // abril, agost, octubre → d'
+
+const I18N = {
+  'ca': {
+    'tab.inici':'Inici','tab.horari':'Horari','tab.deures':'Deures','tab.pbau':'PBAU','tab.bustia':'Bústia','tab.enllacos':'Enllaços',
+    'brand.sub':'Organització de classe',
+    'hero.eyebrow':'Compte enrere','hero.metaPrefix':'Data de referència: ',
+    'cd.unitPlural':'dies fins a la PBAU','cd.unitSingular':'dia fins a la PBAU','cd.passed':'aquesta convocatòria ja ha passat',
+    'cd.clock':'{h} h {m} min {s} s restants',
+    'inici.title':'Calendari del curs','inici.desc':"Exàmens, treballs i lliuraments sincronitzats en directe, amb els dies festius i no lectius oficials ja carregats. Navega entre mesos i fes clic a un dia per veure'n el detall.",
+    'inici.addBtn':'+ Afegir data',
+    'cal.prev':'Mes anterior','cal.next':'Mes següent','cal.today':'Avui','cal.legendFestiu':'Festiu / no lectiu','cal.moreSuffix':' més',
+    'type.examen':'Examen','type.treball':'Treball','type.lliurament':'Lliurament','type.altres':'Altres','type.festiu':'Festiu',
+    'form.subj':'Assignatura o títol','form.subjPh':'p. ex. Matemàtiques II','form.date':'Data (dia · mes · any)',
+    'form.day':'Dia','form.month':'Mes','form.year':'Any','form.category':'Categoria','form.note':'Nota (opcional)',
+    'form.notePh':'p. ex. Temes 1-4, porta calculadora','form.cancel':'Cancel·la','form.save':'Desar',
+    'day.upcoming':'Properes dates','day.noEntry':'Cap entrada aquest dia.','day.noneUpcoming':'Encara no hi ha cap examen, treball ni lliurament pendent.',
+    'del.title':'Esborra','confirm.delEvent':'Segur que vols esborrar aquesta entrada del calendari?','confirm.delHomework':'Segur que vols esborrar aquest deure?',
+    'horari.title':'Horari de 2n Batx A','horari.desc':"Les franges amb diverses matèries corresponen a les optatives i modalitats: mira només la teva. Escull-la al selector per destacar-la a tot l'horari.",
+    'horari.highlight':'Destaca la meva matèria','horari.esplai':'Esplai','horari.now':'Ara mateix','sched.none':'— Cap —','sched.esplaiLabel':'ESPLAI',
+    'deures.title':'Agenda de deures','deures.desc':"Deures i tasques per a casa, organitzats per setmana. Sincronitzat en directe per a tota la classe: marca'ls com a fets quan els acabis.",
+    'deures.addBtn':'+ Afegir deure','week.prev':'Setmana anterior','week.next':'Setmana següent','week.today':'Aquesta setmana',
+    'deform.subj':'Matèria','deform.subjName':'Nom de la matèria','deform.subjNamePh':'p. ex. Robòtica','deform.date':'Data de lliurament (dia · mes · any)',
+    'deform.desc':'Descripció del deure','deform.descPh':'p. ex. Exercicis 1-10, pàgina 45','deform.other':'Altres…',
+    'week.addLink':'+ afegeix','week.markDone':'Marca com a fet (personal)','week.donePersonSingular':"persona l'ha fet",'week.donePersonPlural':"persones l'han fet",
+    'pbau.title':'Recursos per a la PBAU','pbau.desc':"Un únic enllaç oficial de la UIB per assignatura, amb la informació de la matèria, l'estructura de l'examen i els models de convocatòries anteriors.",
+    'pbau.portal':'Portal PBAU','pbau.allSubjects':'Totes les matèries','pbau.goLink':"→ Informació i models d'examen (UIB)",
+    'pbau.note':"La UIB actualitza aquestes pàgines cada curs: comprova sempre que la informació correspon a la convocatòria vigent. Les ponderacions de cada matèria per a un grau concret es consulten a la fitxa del grau, a l'apartat «Accés i reconeixements».",
+    'bustia.title':'Bústia de suggeriments i queixes','bustia.desc':'Envia una idea, una proposta o una queixa. El teu nom queda registrat automàticament amb el suggeriment i només el delegat i el subdelegat el poden llegir.',
+    'bustia.needLogin':"Per enviar un suggeriment cal iniciar sessió amb el teu correu de l'institut.",'bustia.loginBtn':'Inicia sessió amb Google',
+    'bustia.sendingAs':'Enviaràs el missatge com a ','bustia.logoutBtn':'Tanca sessió','bustia.msgLabel':'Missatge','bustia.msgPh':'Escriu aquí el teu suggeriment…',
+    'bustia.sendBtn':'Enviar suggeriment','bustia.feedTitle':'Suggeriments rebuts','bustia.feedDesc':'Només visible per a delegats i administradors.',
+    'enllacos.title':"Enllaços d'interès",'enllacos.desc':'Accessos directes per preparar la preinscripció universitària.',
+    'footer.line':'2n de Batxillerat A',
+    'login.needAddHomework':"Cal iniciar sessió amb el teu correu de l'institut per afegir un deure.",
+    'login.needDelHomework':"Cal iniciar sessió amb el teu correu de l'institut per esborrar un deure.",
+    'login.needCheckHomework':"Cal iniciar sessió amb el teu correu de l'institut per marcar un deure com a fet.",
+    'login.needSaveHomework':"Cal iniciar sessió amb el teu correu de l'institut per desar un deure.",
+    'auth.notAuthorized':'Aquest compte ({email}) no està autoritzat a la bústia.','auth.loginFailed':"No s'ha pogut iniciar la sessió ({code}).",
+    'sync.connecting':'Connectant amb Firestore…','sync.connected':'Connectat amb Firestore','sync.error':'Error de connexió amb Firestore',
+    'db.errorTitle':'Firestore no respon ({context}).','db.errorCode':"Codi d'error:",
+    'db.permDenied':"Les regles de seguretat de la base de dades estan bloquejant l'operació: cal permetre read i create a les col·leccions examens i suggeriments des de la consola de Firebase.",
+    'db.otherError':'Comprova a la consola de Firebase que la base de dades Firestore està creada i que el domini de la web és un domini autoritzat.',
+    'ctx.delEvent':'esborrant una entrada','ctx.readCal':'llegint el calendari','ctx.saveEvent':'desant una entrada del calendari',
+    'ctx.delHomework':'esborrant un deure','ctx.addHomework':'afegint un deure','ctx.updHomework':'actualitzant un deure','ctx.readHomework':'llegint els deures','ctx.saveHomework':'desant un deure',
+    'ctx.readSuggestions':'llegint els suggeriments','ctx.sendSuggestion':'enviant un suggeriment',
+    'save.fail':"No s'ha pogut desar: ",'feed.loading':'Carregant els suggeriments…','feed.empty':'Encara no hi ha cap suggeriment.','feed.loadFail':"No s'han pogut carregar els suggeriments.",
+    'send.sending':'Enviant…','send.sent':'Enviat! Només el delegat i el subdelegat el podran llegir.','send.fail':"No s'ha pogut enviar ({code}).",
+    'stamp.now':'ara mateix'
+  },
+  'es-MX': {
+    'tab.inici':'Inicio','tab.horari':'Horario','tab.deures':'Tareas','tab.pbau':'PBAU','tab.bustia':'Buzón','tab.enllacos':'Enlaces',
+    'brand.sub':'Organización de la clase',
+    'hero.eyebrow':'Cuenta regresiva','hero.metaPrefix':'Fecha de referencia: ',
+    'cd.unitPlural':'días para la PBAU','cd.unitSingular':'día para la PBAU','cd.passed':'esta convocatoria ya pasó',
+    'cd.clock':'{h} h {m} min {s} s restantes',
+    'inici.title':'Calendario del curso','inici.desc':'Exámenes, trabajos y entregas sincronizados en vivo, con los días festivos y no lectivos oficiales ya cargados. Navega entre meses y haz clic en un día para ver el detalle.',
+    'inici.addBtn':'+ Agregar fecha',
+    'cal.prev':'Mes anterior','cal.next':'Mes siguiente','cal.today':'Hoy','cal.legendFestiu':'Festivo / no lectivo','cal.moreSuffix':' más',
+    'type.examen':'Examen','type.treball':'Trabajo','type.lliurament':'Entrega','type.altres':'Otros','type.festiu':'Festivo',
+    'form.subj':'Materia o título','form.subjPh':'p. ej. Matemáticas II','form.date':'Fecha (día · mes · año)',
+    'form.day':'Día','form.month':'Mes','form.year':'Año','form.category':'Categoría','form.note':'Nota (opcional)',
+    'form.notePh':'p. ej. Temas 1-4, lleva calculadora','form.cancel':'Cancelar','form.save':'Guardar',
+    'day.upcoming':'Próximas fechas','day.noEntry':'No hay nada este día.','day.noneUpcoming':'Todavía no hay ningún examen, trabajo ni entrega pendiente.',
+    'del.title':'Eliminar','confirm.delEvent':'¿Seguro que quieres eliminar esta entrada del calendario?','confirm.delHomework':'¿Seguro que quieres eliminar esta tarea?',
+    'horari.title':'Horario de 2° Bach A','horari.desc':'Los bloques con varias materias corresponden a las optativas y modalidades: mira solo la tuya. Selecciónala en el menú para resaltarla en todo el horario.',
+    'horari.highlight':'Resaltar mi materia','horari.esplai':'Recreo','horari.now':'Ahora mismo','sched.none':'— Ninguna —','sched.esplaiLabel':'RECREO',
+    'deures.title':'Agenda de tareas','deures.desc':'Tareas y trabajos para casa, organizados por semana. Sincronizado en vivo para toda la clase: márcalas como hechas cuando las termines.',
+    'deures.addBtn':'+ Agregar tarea','week.prev':'Semana anterior','week.next':'Semana siguiente','week.today':'Esta semana',
+    'deform.subj':'Materia','deform.subjName':'Nombre de la materia','deform.subjNamePh':'p. ej. Robótica','deform.date':'Fecha de entrega (día · mes · año)',
+    'deform.desc':'Descripción de la tarea','deform.descPh':'p. ej. Ejercicios 1-10, página 45','deform.other':'Otra…',
+    'week.addLink':'+ agregar','week.markDone':'Marcar como hecha (personal)','week.donePersonSingular':'persona la hizo','week.donePersonPlural':'personas la hicieron',
+    'pbau.title':'Recursos para la PBAU','pbau.desc':'Un único enlace oficial de la UIB por materia, con la información de la asignatura, la estructura del examen y los modelos de convocatorias anteriores.',
+    'pbau.portal':'Portal PBAU','pbau.allSubjects':'Todas las materias','pbau.goLink':'→ Información y modelos de examen (UIB)',
+    'pbau.note':'La UIB actualiza estas páginas cada curso: comprueba siempre que la información corresponde a la convocatoria vigente. Las ponderaciones de cada materia para un grado concreto se consultan en la ficha del grado, en el apartado «Acceso y reconocimientos».',
+    'bustia.title':'Buzón de sugerencias y quejas','bustia.desc':'Envía una idea, una propuesta o una queja. Tu nombre queda registrado automáticamente con la sugerencia y solo el delegado y el subdelegado pueden leerlo.',
+    'bustia.needLogin':'Para enviar una sugerencia hay que iniciar sesión con tu correo del instituto.','bustia.loginBtn':'Iniciar sesión con Google',
+    'bustia.sendingAs':'Enviarás el mensaje como ','bustia.logoutBtn':'Cerrar sesión','bustia.msgLabel':'Mensaje','bustia.msgPh':'Escribe aquí tu sugerencia…',
+    'bustia.sendBtn':'Enviar sugerencia','bustia.feedTitle':'Sugerencias recibidas','bustia.feedDesc':'Solo visible para delegados y administradores.',
+    'enllacos.title':'Enlaces de interés','enllacos.desc':'Accesos directos para preparar la preinscripción universitaria.',
+    'footer.line':'2° de Bachillerato A',
+    'login.needAddHomework':'Hay que iniciar sesión con tu correo del instituto para agregar una tarea.',
+    'login.needDelHomework':'Hay que iniciar sesión con tu correo del instituto para eliminar una tarea.',
+    'login.needCheckHomework':'Hay que iniciar sesión con tu correo del instituto para marcar una tarea como hecha.',
+    'login.needSaveHomework':'Hay que iniciar sesión con tu correo del instituto para guardar una tarea.',
+    'auth.notAuthorized':'Esta cuenta ({email}) no está autorizada en el buzón.','auth.loginFailed':'No se pudo iniciar sesión ({code}).',
+    'sync.connecting':'Conectando con Firestore…','sync.connected':'Conectado con Firestore','sync.error':'Error de conexión con Firestore',
+    'db.errorTitle':'Firestore no responde ({context}).','db.errorCode':'Código de error:',
+    'db.permDenied':'Las reglas de seguridad de la base de datos están bloqueando la operación: hay que permitir read y create en las colecciones examens y suggeriments desde la consola de Firebase.',
+    'db.otherError':'Comprueba en la consola de Firebase que la base de datos Firestore está creada y que el dominio del sitio es un dominio autorizado.',
+    'ctx.delEvent':'eliminando una entrada','ctx.readCal':'leyendo el calendario','ctx.saveEvent':'guardando una entrada del calendario',
+    'ctx.delHomework':'eliminando una tarea','ctx.addHomework':'agregando una tarea','ctx.updHomework':'actualizando una tarea','ctx.readHomework':'leyendo las tareas','ctx.saveHomework':'guardando una tarea',
+    'ctx.readSuggestions':'leyendo las sugerencias','ctx.sendSuggestion':'enviando una sugerencia',
+    'save.fail':'No se pudo guardar: ','feed.loading':'Cargando las sugerencias…','feed.empty':'Todavía no hay ninguna sugerencia.','feed.loadFail':'No se pudieron cargar las sugerencias.',
+    'send.sending':'Enviando…','send.sent':'¡Enviado! Solo el delegado y el subdelegado podrán leerlo.','send.fail':'No se pudo enviar ({code}).',
+    'stamp.now':'justo ahora'
+  },
+  'zh-Hans': {
+    'tab.inici':'首页','tab.horari':'课表','tab.deures':'作业','tab.pbau':'大学入学考试','tab.bustia':'意见箱','tab.enllacos':'链接',
+    'brand.sub':'班级组织',
+    'hero.eyebrow':'倒计时','hero.metaPrefix':'参考日期：',
+    'cd.unitPlural':'天后是PBAU考试','cd.unitSingular':'天后是PBAU考试','cd.passed':'本次考试已经结束',
+    'cd.clock':'剩余 {h} 小时 {m} 分 {s} 秒',
+    'inici.title':'学年日历','inici.desc':'考试、作业和提交任务实时同步，官方节假日和非上课日已预先载入。可切换月份，点击某天查看详情。',
+    'inici.addBtn':'+ 添加日期',
+    'cal.prev':'上个月','cal.next':'下个月','cal.today':'今天','cal.legendFestiu':'假日 / 非上课日','cal.moreSuffix':' 更多',
+    'type.examen':'考试','type.treball':'作业项目','type.lliurament':'提交任务','type.altres':'其他','type.festiu':'假日',
+    'form.subj':'科目或标题','form.subjPh':'例如：数学II','form.date':'日期（日·月·年）',
+    'form.day':'日','form.month':'月','form.year':'年','form.category':'类别','form.note':'备注（可选）',
+    'form.notePh':'例如：第1-4单元，带计算器','form.cancel':'取消','form.save':'保存',
+    'day.upcoming':'近期日期','day.noEntry':'这一天没有安排。','day.noneUpcoming':'目前还没有待处理的考试、作业或提交任务。',
+    'del.title':'删除','confirm.delEvent':'确定要删除这条日历记录吗？','confirm.delHomework':'确定要删除这项作业吗？',
+    'horari.title':'2年级预科A班课表','horari.desc':'含多个科目的时段对应选修课和分科：请只看自己的科目，在下拉菜单中选择以在整张课表中高亮显示。',
+    'horari.highlight':'高亮我的科目','horari.esplai':'课间','horari.now':'当前时段','sched.none':'— 无 —','sched.esplaiLabel':'课间',
+    'deures.title':'作业安排表','deures.desc':'按周整理的家庭作业和任务。为全班实时同步：完成后请勾选标记为已完成。',
+    'deures.addBtn':'+ 添加作业','week.prev':'上一周','week.next':'下一周','week.today':'本周',
+    'deform.subj':'科目','deform.subjName':'科目名称','deform.subjNamePh':'例如：机器人学','deform.date':'提交日期（日·月·年）',
+    'deform.desc':'作业描述','deform.descPh':'例如：练习1-10，第45页','deform.other':'其他…',
+    'week.addLink':'+ 添加','week.markDone':'标记为已完成（个人）','week.donePersonSingular':'人已完成','week.donePersonPlural':'人已完成',
+    'pbau.title':'PBAU备考资源','pbau.desc':'每个科目对应一个巴利阿里群岛大学（UIB）官方链接，包含科目信息、考试结构和往年试题范例。',
+    'pbau.portal':'PBAU官方入口','pbau.allSubjects':'全部科目','pbau.goLink':'→ 信息与历年试题（UIB）',
+    'pbau.note':'UIB每学年都会更新这些页面：请务必确认信息对应当前有效的考试年度。各科目对应某个专业的加权系数，请在该专业页面的「入学与学分认定」部分查询。',
+    'bustia.title':'意见与投诉箱','bustia.desc':'发送想法、建议或投诉。系统会自动记录你的姓名，只有班代表和副班代表可以查看。',
+    'bustia.needLogin':'发送建议前需要使用学校邮箱登录。','bustia.loginBtn':'使用Google登录',
+    'bustia.sendingAs':'你将以以下身份发送消息：','bustia.logoutBtn':'退出登录','bustia.msgLabel':'留言','bustia.msgPh':'在这里写下你的建议……',
+    'bustia.sendBtn':'发送建议','bustia.feedTitle':'收到的建议','bustia.feedDesc':'仅班代表和管理员可见。',
+    'enllacos.title':'相关链接','enllacos.desc':'为准备大学预报名整理的快捷入口。',
+    'footer.line':'高中预科二年级A班',
+    'login.needAddHomework':'需要使用学校邮箱登录才能添加作业。',
+    'login.needDelHomework':'需要使用学校邮箱登录才能删除作业。',
+    'login.needCheckHomework':'需要使用学校邮箱登录才能将作业标记为已完成。',
+    'login.needSaveHomework':'需要使用学校邮箱登录才能保存作业。',
+    'auth.notAuthorized':'该账号（{email}）未获得意见箱使用授权。','auth.loginFailed':'登录失败（{code}）。',
+    'sync.connecting':'正在连接Firestore……','sync.connected':'已连接Firestore','sync.error':'Firestore连接错误',
+    'db.errorTitle':'Firestore无响应（{context}）。','db.errorCode':'错误代码：',
+    'db.permDenied':'数据库安全规则正在阻止此操作：需要在Firebase控制台中为examens和suggeriments两个集合开放read和create权限。',
+    'db.otherError':'请在Firebase控制台确认Firestore数据库已创建，且该网站域名已被授权。',
+    'ctx.delEvent':'删除一条记录时','ctx.readCal':'读取日历时','ctx.saveEvent':'保存一条日历记录时',
+    'ctx.delHomework':'删除作业时','ctx.addHomework':'添加作业时','ctx.updHomework':'更新作业时','ctx.readHomework':'读取作业时','ctx.saveHomework':'保存作业时',
+    'ctx.readSuggestions':'读取建议时','ctx.sendSuggestion':'发送建议时',
+    'save.fail':'保存失败：','feed.loading':'正在加载建议……','feed.empty':'目前还没有任何建议。','feed.loadFail':'无法加载建议。',
+    'send.sending':'发送中……','send.sent':'已发送！只有班代表和副班代表能看到。','send.fail':'发送失败（{code}）。',
+    'stamp.now':'刚刚'
+  },
+  'hi': {
+    'tab.inici':'होम','tab.horari':'समय सारणी','tab.deures':'गृहकार्य','tab.pbau':'PBAU','tab.bustia':'सुझाव पेटी','tab.enllacos':'लिंक',
+    'brand.sub':'कक्षा संगठन',
+    'hero.eyebrow':'उलटी गिनती','hero.metaPrefix':'संदर्भ तिथि: ',
+    'cd.unitPlural':'दिन PBAU तक बाकी','cd.unitSingular':'दिन PBAU तक बाकी','cd.passed':'यह परीक्षा तिथि बीत चुकी है',
+    'cd.clock':'{h} घं {m} मि {s} से शेष',
+    'inici.title':'सत्र का कैलेंडर','inici.desc':'परीक्षाएँ, कार्य और सबमिशन लाइव सिंक हैं, तथा आधिकारिक छुट्टियाँ पहले से जोड़ी गई हैं। महीनों के बीच जाएँ और विवरण देखने के लिए किसी दिन पर क्लिक करें।',
+    'inici.addBtn':'+ तिथि जोड़ें',
+    'cal.prev':'पिछला महीना','cal.next':'अगला महीना','cal.today':'आज','cal.legendFestiu':'छुट्टी / अवकाश','cal.moreSuffix':' और',
+    'type.examen':'परीक्षा','type.treball':'कार्य','type.lliurament':'सबमिशन','type.altres':'अन्य','type.festiu':'छुट्टी',
+    'form.subj':'विषय या शीर्षक','form.subjPh':'उदा. गणित II','form.date':'तिथि (दिन · महीना · वर्ष)',
+    'form.day':'दिन','form.month':'महीना','form.year':'वर्ष','form.category':'श्रेणी','form.note':'टिप्पणी (वैकल्पिक)',
+    'form.notePh':'उदा. अध्याय 1-4, कैलकुलेटर लाएँ','form.cancel':'रद्द करें','form.save':'सहेजें',
+    'day.upcoming':'आगामी तिथियाँ','day.noEntry':'इस दिन कोई प्रविष्टि नहीं है।','day.noneUpcoming':'अभी कोई लंबित परीक्षा, कार्य या सबमिशन नहीं है।',
+    'del.title':'हटाएँ','confirm.delEvent':'क्या आप वाकई कैलेंडर से यह प्रविष्टि हटाना चाहते हैं?','confirm.delHomework':'क्या आप वाकई यह गृहकार्य हटाना चाहते हैं?',
+    'horari.title':'2n Batx A की समय सारणी','horari.desc':'कई विषयों वाले खंड वैकल्पिक विषयों के हैं: केवल अपना विषय देखें। इसे पूरी समय सारणी में हाइलाइट करने के लिए चयनकर्ता में चुनें।',
+    'horari.highlight':'मेरा विषय हाइलाइट करें','horari.esplai':'अवकाश','horari.now':'अभी','sched.none':'— कोई नहीं —','sched.esplaiLabel':'अवकाश',
+    'deures.title':'गृहकार्य एजेंडा','deures.desc':'घर के लिए कार्य और गृहकार्य, सप्ताह के अनुसार व्यवस्थित। पूरी कक्षा के लिए लाइव सिंक: पूरा करने पर पूर्ण के रूप में चिह्नित करें।',
+    'deures.addBtn':'+ गृहकार्य जोड़ें','week.prev':'पिछला सप्ताह','week.next':'अगला सप्ताह','week.today':'यह सप्ताह',
+    'deform.subj':'विषय','deform.subjName':'विषय का नाम','deform.subjNamePh':'उदा. रोबोटिक्स','deform.date':'सबमिशन तिथि (दिन · महीना · वर्ष)',
+    'deform.desc':'गृहकार्य का विवरण','deform.descPh':'उदा. अभ्यास 1-10, पृष्ठ 45','deform.other':'अन्य…',
+    'week.addLink':'+ जोड़ें','week.markDone':'व्यक्तिगत रूप से पूर्ण चिह्नित करें','week.donePersonSingular':'व्यक्ति ने इसे पूरा किया','week.donePersonPlural':'लोगों ने इसे पूरा किया',
+    'pbau.title':'PBAU के लिए संसाधन','pbau.desc':'प्रति विषय एक आधिकारिक UIB लिंक, जिसमें विषय की जानकारी, परीक्षा संरचना और पिछले वर्षों के प्रारूप शामिल हैं।',
+    'pbau.portal':'PBAU पोर्टल','pbau.allSubjects':'सभी विषय','pbau.goLink':'→ जानकारी और परीक्षा प्रारूप (UIB)',
+    'pbau.note':'UIB हर वर्ष ये पेज अपडेट करता है: हमेशा जाँचें कि जानकारी वर्तमान परीक्षा वर्ष के अनुरूप है। किसी विशेष डिग्री के लिए प्रत्येक विषय के भार (weightings) उस डिग्री के पेज पर «Accés i reconeixements» अनुभाग में देखे जा सकते हैं।',
+    'bustia.title':'सुझाव और शिकायत पेटी','bustia.desc':'कोई विचार, प्रस्ताव या शिकायत भेजें। आपका नाम सुझाव के साथ स्वतः दर्ज हो जाता है और इसे केवल प्रतिनिधि और उप-प्रतिनिधि ही पढ़ सकते हैं।',
+    'bustia.needLogin':'सुझाव भेजने के लिए अपने स्कूल ईमेल से लॉगिन करना आवश्यक है।','bustia.loginBtn':'Google से लॉगिन करें',
+    'bustia.sendingAs':'आप संदेश इस रूप में भेजेंगे: ','bustia.logoutBtn':'लॉगआउट करें','bustia.msgLabel':'संदेश','bustia.msgPh':'अपना सुझाव यहाँ लिखें…',
+    'bustia.sendBtn':'सुझाव भेजें','bustia.feedTitle':'प्राप्त सुझाव','bustia.feedDesc':'केवल प्रतिनिधियों और प्रशासकों को दिखाई देता है।',
+    'enllacos.title':'उपयोगी लिंक','enllacos.desc':'विश्वविद्यालय पूर्व-पंजीकरण की तैयारी के लिए सीधे लिंक।',
+    'footer.line':'12वीं कक्षा A',
+    'login.needAddHomework':'गृहकार्य जोड़ने के लिए अपने स्कूल ईमेल से लॉगिन करना आवश्यक है।',
+    'login.needDelHomework':'गृहकार्य हटाने के लिए अपने स्कूल ईमेल से लॉगिन करना आवश्यक है।',
+    'login.needCheckHomework':'गृहकार्य को पूर्ण चिह्नित करने के लिए अपने स्कूल ईमेल से लॉगिन करना आवश्यक है।',
+    'login.needSaveHomework':'गृहकार्य सहेजने के लिए अपने स्कूल ईमेल से लॉगिन करना आवश्यक है।',
+    'auth.notAuthorized':'यह खाता ({email}) सुझाव पेटी में अधिकृत नहीं है।','auth.loginFailed':'लॉगिन नहीं हो सका ({code})।',
+    'sync.connecting':'Firestore से जुड़ रहा है…','sync.connected':'Firestore से जुड़ा हुआ','sync.error':'Firestore कनेक्शन त्रुटि',
+    'db.errorTitle':'Firestore प्रतिक्रिया नहीं दे रहा है ({context})।','db.errorCode':'त्रुटि कोड:',
+    'db.permDenied':'डेटाबेस के सुरक्षा नियम इस कार्रवाई को रोक रहे हैं: Firebase कंसोल से examens और suggeriments संग्रहों के लिए read और create अनुमति देना आवश्यक है।',
+    'db.otherError':'Firebase कंसोल में जाँचें कि Firestore डेटाबेस बनाया गया है और वेबसाइट का डोमेन अधिकृत है।',
+    'ctx.delEvent':'एक प्रविष्टि हटाते समय','ctx.readCal':'कैलेंडर पढ़ते समय','ctx.saveEvent':'कैलेंडर प्रविष्टि सहेजते समय',
+    'ctx.delHomework':'गृहकार्य हटाते समय','ctx.addHomework':'गृहकार्य जोड़ते समय','ctx.updHomework':'गृहकार्य अद्यतन करते समय','ctx.readHomework':'गृहकार्य पढ़ते समय','ctx.saveHomework':'गृहकार्य सहेजते समय',
+    'ctx.readSuggestions':'सुझाव पढ़ते समय','ctx.sendSuggestion':'सुझाव भेजते समय',
+    'save.fail':'सहेजा नहीं जा सका: ','feed.loading':'सुझाव लोड हो रहे हैं…','feed.empty':'अभी तक कोई सुझाव नहीं है।','feed.loadFail':'सुझाव लोड नहीं हो सके।',
+    'send.sending':'भेजा जा रहा है…','send.sent':'भेज दिया गया! इसे केवल प्रतिनिधि और उप-प्रतिनिधि पढ़ पाएँगे।','send.fail':'भेजा नहीं जा सका ({code})।',
+    'stamp.now':'अभी अभी'
+  },
+  'ja': {
+    'tab.inici':'ホーム','tab.horari':'時間割','tab.deures':'宿題','tab.pbau':'PBAU','tab.bustia':'意見箱','tab.enllacos':'リンク',
+    'brand.sub':'クラス運営',
+    'hero.eyebrow':'カウントダウン','hero.metaPrefix':'基準日: ',
+    'cd.unitPlural':'日後にPBAU','cd.unitSingular':'日後にPBAU','cd.passed':'この試験日程はすでに終了しました',
+    'cd.clock':'残り {h} 時間 {m} 分 {s} 秒',
+    'inici.title':'年間カレンダー','inici.desc':'試験・課題・提出物をリアルタイムで同期し、公式の休日・非授業日もあらかじめ登録済みです。月を切り替え、日付をクリックすると詳細が表示されます。',
+    'inici.addBtn':'+ 日付を追加',
+    'cal.prev':'前の月','cal.next':'次の月','cal.today':'今日','cal.legendFestiu':'休日 / 非授業日','cal.moreSuffix':' 件',
+    'type.examen':'試験','type.treball':'課題','type.lliurament':'提出物','type.altres':'その他','type.festiu':'休日',
+    'form.subj':'科目またはタイトル','form.subjPh':'例：数学II','form.date':'日付（日・月・年）',
+    'form.day':'日','form.month':'月','form.year':'年','form.category':'カテゴリー','form.note':'メモ（任意）',
+    'form.notePh':'例：1〜4章、電卓持参','form.cancel':'キャンセル','form.save':'保存',
+    'day.upcoming':'今後の予定','day.noEntry':'この日の予定はありません。','day.noneUpcoming':'現在、予定されている試験・課題・提出物はありません。',
+    'del.title':'削除','confirm.delEvent':'このカレンダーの項目を削除してもよろしいですか？','confirm.delHomework':'この宿題を削除してもよろしいですか？',
+    'horari.title':'2年A組の時間割','horari.desc':'複数の科目がある枠は選択科目・コースに対応しています。自分の科目だけを確認してください。セレクターで選ぶと時間割全体でハイライトされます。',
+    'horari.highlight':'自分の科目をハイライト','horari.esplai':'休み時間','horari.now':'現在の時限','sched.none':'— なし —','sched.esplaiLabel':'休み時間',
+    'deures.title':'宿題スケジュール','deures.desc':'週ごとに整理された家庭学習・課題です。クラス全体でリアルタイム同期：終わったら完了にチェックを入れてください。',
+    'deures.addBtn':'+ 宿題を追加','week.prev':'前の週','week.next':'次の週','week.today':'今週',
+    'deform.subj':'科目','deform.subjName':'科目名','deform.subjNamePh':'例：ロボット工学','deform.date':'提出日（日・月・年）',
+    'deform.desc':'宿題の内容','deform.descPh':'例：練習問題1〜10、45ページ','deform.other':'その他…',
+    'week.addLink':'+ 追加','week.markDone':'完了にする（個人用）','week.donePersonSingular':'人が完了','week.donePersonPlural':'人が完了',
+    'pbau.title':'PBAU対策リソース','pbau.desc':'科目ごとにUIB公式リンクを1つずつ掲載。科目情報、試験構成、過去問のサンプルが確認できます。',
+    'pbau.portal':'PBAU公式ポータル','pbau.allSubjects':'全科目一覧','pbau.goLink':'→ 情報と過去問サンプル（UIB）',
+    'pbau.note':'UIBはこれらのページを毎年更新します。必ず現行の試験年度の情報かどうか確認してください。特定の学位における各科目の加重係数は、その学位ページの「Accés i reconeixements」の項で確認できます。',
+    'bustia.title':'意見・苦情箱','bustia.desc':'アイデア、提案、または苦情を送信してください。あなたの名前は自動的に記録され、学級代表と副代表のみが閲覧できます。',
+    'bustia.needLogin':'意見を送信するには学校のメールアドレスでログインが必要です。','bustia.loginBtn':'Googleでログイン',
+    'bustia.sendingAs':'次の名前でメッセージを送信します：','bustia.logoutBtn':'ログアウト','bustia.msgLabel':'メッセージ','bustia.msgPh':'ここに意見を書いてください…',
+    'bustia.sendBtn':'意見を送信','bustia.feedTitle':'受信した意見','bustia.feedDesc':'学級代表と管理者のみ閲覧可能です。',
+    'enllacos.title':'関連リンク','enllacos.desc':'大学の事前登録準備のためのショートカット集です。',
+    'footer.line':'高校2年A組',
+    'login.needAddHomework':'宿題を追加するには学校のメールアドレスでログインが必要です。',
+    'login.needDelHomework':'宿題を削除するには学校のメールアドレスでログインが必要です。',
+    'login.needCheckHomework':'宿題を完了にするには学校のメールアドレスでログインが必要です。',
+    'login.needSaveHomework':'宿題を保存するには学校のメールアドレスでログインが必要です。',
+    'auth.notAuthorized':'このアカウント（{email}）は意見箱の利用を許可されていません。','auth.loginFailed':'ログインできませんでした（{code}）。',
+    'sync.connecting':'Firestoreに接続中…','sync.connected':'Firestoreに接続済み','sync.error':'Firestore接続エラー',
+    'db.errorTitle':'Firestoreが応答していません（{context}）。','db.errorCode':'エラーコード：',
+    'db.permDenied':'データベースのセキュリティルールがこの操作をブロックしています。Firebaseコンソールで examens と suggeriments コレクションに read と create の権限を許可する必要があります。',
+    'db.otherError':'FirebaseコンソールでFirestoreデータベースが作成されていること、サイトのドメインが許可済みであることを確認してください。',
+    'ctx.delEvent':'項目の削除中','ctx.readCal':'カレンダーの読み込み中','ctx.saveEvent':'カレンダー項目の保存中',
+    'ctx.delHomework':'宿題の削除中','ctx.addHomework':'宿題の追加中','ctx.updHomework':'宿題の更新中','ctx.readHomework':'宿題の読み込み中','ctx.saveHomework':'宿題の保存中',
+    'ctx.readSuggestions':'意見の読み込み中','ctx.sendSuggestion':'意見の送信中',
+    'save.fail':'保存できませんでした：','feed.loading':'意見を読み込み中…','feed.empty':'まだ意見はありません。','feed.loadFail':'意見を読み込めませんでした。',
+    'send.sending':'送信中…','send.sent':'送信しました！学級代表と副代表のみが閲覧できます。','send.fail':'送信できませんでした（{code}）。',
+    'stamp.now':'たった今'
+  },
+  'eu': {
+    'tab.inici':'Hasiera','tab.horari':'Ordutegia','tab.deures':'Etxeko lanak','tab.pbau':'PBAU','tab.bustia':'Iradokizun-postontzia','tab.enllacos':'Estekak',
+    'brand.sub':'Klaseko antolaketa',
+    'hero.eyebrow':'Atzera kontaketa','hero.metaPrefix':'Erreferentzia data: ',
+    'cd.unitPlural':'egun PBAUra arte','cd.unitSingular':'egun PBAUra arte','cd.passed':'deialdi hau amaituta dago jada',
+    'cd.clock':'{h} h {m} min {s} s falta dira',
+    'inici.title':'Ikasturteko egutegia','inici.desc':'Azterketak, lanak eta entregak zuzenean sinkronizatuta, jai eta egun ez-lektiboak jada kargatuta. Nabigatu hilabeteen artean eta klik egin egun batean xehetasunak ikusteko.',
+    'inici.addBtn':'+ Data gehitu',
+    'cal.prev':'Aurreko hila','cal.next':'Hurrengo hila','cal.today':'Gaur','cal.legendFestiu':'Jaieguna / ez-lektiboa','cal.moreSuffix':' gehiago',
+    'type.examen':'Azterketa','type.treball':'Lana','type.lliurament':'Entrega','type.altres':'Bestelakoak','type.festiu':'Jaieguna',
+    'form.subj':'Irakasgaia edo titulua','form.subjPh':'adib. Matematika II','form.date':'Data (eguna · hila · urtea)',
+    'form.day':'Eguna','form.month':'Hila','form.year':'Urtea','form.category':'Kategoria','form.note':'Oharra (aukerakoa)',
+    'form.notePh':'adib. 1-4 gaiak, kalkulagailua ekarri','form.cancel':'Utzi','form.save':'Gorde',
+    'day.upcoming':'Hurrengo datak','day.noEntry':'Egun honetan ez dago ezer.','day.noneUpcoming':'Oraindik ez dago azterketa, lan edo entregarik zain.',
+    'del.title':'Ezabatu','confirm.delEvent':'Ziur egutegiko sarrera hau ezabatu nahi duzula?','confirm.delHomework':'Ziur etxeko lan hau ezabatu nahi duzula?',
+    'horari.title':'2. Batxilergoko A taldearen ordutegia','horari.desc':'Hainbat irakasgai dituzten tarteak aukerako irakasgai eta modalitateei dagozkie: begiratu zurea bakarrik. Aukeratu hautagailuan ordutegi osoan nabarmentzeko.',
+    'horari.highlight':'Nire irakasgaia nabarmendu','horari.esplai':'Jolas-ordua','horari.now':'Orain','sched.none':'— Bat ere ez —','sched.esplaiLabel':'JOLAS-ORDUA',
+    'deures.title':'Etxeko lanen agenda','deures.desc':'Etxerako lan eta zereginak, astez antolatuta. Klase osorako zuzenean sinkronizatuta: markatu eginda bukatzean.',
+    'deures.addBtn':'+ Etxeko lana gehitu','week.prev':'Aurreko astea','week.next':'Hurrengo astea','week.today':'Aste hau',
+    'deform.subj':'Irakasgaia','deform.subjName':'Irakasgaiaren izena','deform.subjNamePh':'adib. Robotika','deform.date':'Entrega data (eguna · hila · urtea)',
+    'deform.desc':'Etxeko lanaren deskribapena','deform.descPh':'adib. 1-10 ariketak, 45. orrialdea','deform.other':'Beste bat…',
+    'week.addLink':'+ gehitu','week.markDone':'Eginda gisa markatu (norberarena)','week.donePersonSingular':'pertsonak egin du','week.donePersonPlural':'pertsonak egin dute',
+    'pbau.title':'PBAUrako baliabideak','pbau.desc':'Irakasgai bakoitzeko UIBren esteka ofizial bakarra, irakasgaiaren informazioa, azterketaren egitura eta aurreko deialdien ereduak dituena.',
+    'pbau.portal':'PBAU atari nagusia','pbau.allSubjects':'Irakasgai guztiak','pbau.goLink':'→ Informazioa eta azterketa ereduak (UIB)',
+    'pbau.note':'UIBk orri hauek ikasturte bakoitzean eguneratzen ditu: egiaztatu beti informazioa indarrean dagoen deialdiari dagokiola. Gradu jakin baterako irakasgai bakoitzaren haztapenak graduaren fitxan kontsultatzen dira, «Accés i reconeixements» atalean.',
+    'bustia.title':'Iradokizun eta kexen postontzia','bustia.desc':'Bidali ideia bat, proposamen bat edo kexa bat. Zure izena automatikoki erregistratzen da iradokizunarekin batera, eta ordezkariak eta ordezkariordeak bakarrik irakur dezakete.',
+    'bustia.needLogin':'Iradokizuna bidaltzeko, institutuko posta elektronikoarekin saioa hasi behar da.','bustia.loginBtn':'Hasi saioa Googlerekin',
+    'bustia.sendingAs':'Mezua honela bidaliko duzu: ','bustia.logoutBtn':'Amaitu saioa','bustia.msgLabel':'Mezua','bustia.msgPh':'Idatzi hemen zure iradokizuna…',
+    'bustia.sendBtn':'Iradokizuna bidali','bustia.feedTitle':'Jasotako iradokizunak','bustia.feedDesc':'Ordezkari eta administratzaileentzat bakarrik ikusgai.',
+    'enllacos.title':'Interesgarriak diren estekak','enllacos.desc':'Unibertsitate-aurreinskripzioa prestatzeko sarbide zuzenak.',
+    'footer.line':'2. Batxilergoko A',
+    'login.needAddHomework':'Etxeko lana gehitzeko, institutuko posta elektronikoarekin saioa hasi behar da.',
+    'login.needDelHomework':'Etxeko lana ezabatzeko, institutuko posta elektronikoarekin saioa hasi behar da.',
+    'login.needCheckHomework':'Etxeko lana eginda markatzeko, institutuko posta elektronikoarekin saioa hasi behar da.',
+    'login.needSaveHomework':'Etxeko lana gordetzeko, institutuko posta elektronikoarekin saioa hasi behar da.',
+    'auth.notAuthorized':'Kontu honek ({email}) ez du postontzirako baimenik.','auth.loginFailed':'Ezin izan da saioa hasi ({code}).',
+    'sync.connecting':'Firestorerekin konektatzen…','sync.connected':'Firestorerekin konektatuta','sync.error':'Firestore konexio-errorea',
+    'db.errorTitle':'Firestorek ez du erantzuten ({context}).','db.errorCode':'Errore kodea:',
+    'db.permDenied':'Datu-basearen segurtasun-arauek eragiketa blokeatzen ari dira: Firebase kontsolatik examens eta suggeriments bildumetan read eta create baimendu behar da.',
+    'db.otherError':'Egiaztatu Firebase kontsolan Firestore datu-basea sortuta dagoela eta webgunearen domeinua baimendutako domeinu bat dela.',
+    'ctx.delEvent':'sarrera bat ezabatzean','ctx.readCal':'egutegia irakurtzean','ctx.saveEvent':'egutegiko sarrera bat gordetzean',
+    'ctx.delHomework':'etxeko lan bat ezabatzean','ctx.addHomework':'etxeko lan bat gehitzean','ctx.updHomework':'etxeko lan bat eguneratzean','ctx.readHomework':'etxeko lanak irakurtzean','ctx.saveHomework':'etxeko lan bat gordetzean',
+    'ctx.readSuggestions':'iradokizunak irakurtzean','ctx.sendSuggestion':'iradokizun bat bidaltzean',
+    'save.fail':'Ezin izan da gorde: ','feed.loading':'Iradokizunak kargatzen…','feed.empty':'Oraindik ez dago iradokizunik.','feed.loadFail':'Ezin izan dira iradokizunak kargatu.',
+    'send.sending':'Bidaltzen…','send.sent':'Bidalita! Ordezkariak eta ordezkariordeak bakarrik irakurri ahal izango dute.','send.fail':'Ezin izan da bidali ({code}).',
+    'stamp.now':'oraintxe bertan'
+  },
+  'gl': {
+    'tab.inici':'Inicio','tab.horari':'Horario','tab.deures':'Deberes','tab.pbau':'PBAU','tab.bustia':'Caixa de suxestións','tab.enllacos':'Ligazóns',
+    'brand.sub':'Organización da clase',
+    'hero.eyebrow':'Conta atrás','hero.metaPrefix':'Data de referencia: ',
+    'cd.unitPlural':'días para a PBAU','cd.unitSingular':'día para a PBAU','cd.passed':'esta convocatoria xa pasou',
+    'cd.clock':'{h} h {m} min {s} s restantes',
+    'inici.title':'Calendario do curso','inici.desc':'Exames, traballos e entregas sincronizados en directo, cos días festivos e non lectivos oficiais xa cargados. Navega entre meses e fai clic nun día para ver o detalle.',
+    'inici.addBtn':'+ Engadir data',
+    'cal.prev':'Mes anterior','cal.next':'Mes seguinte','cal.today':'Hoxe','cal.legendFestiu':'Festivo / non lectivo','cal.moreSuffix':' máis',
+    'type.examen':'Exame','type.treball':'Traballo','type.lliurament':'Entrega','type.altres':'Outros','type.festiu':'Festivo',
+    'form.subj':'Materia ou título','form.subjPh':'p. ex. Matemáticas II','form.date':'Data (día · mes · ano)',
+    'form.day':'Día','form.month':'Mes','form.year':'Ano','form.category':'Categoría','form.note':'Nota (opcional)',
+    'form.notePh':'p. ex. Temas 1-4, trae calculadora','form.cancel':'Cancelar','form.save':'Gardar',
+    'day.upcoming':'Próximas datas','day.noEntry':'Non hai nada este día.','day.noneUpcoming':'Aínda non hai ningún exame, traballo nin entrega pendente.',
+    'del.title':'Eliminar','confirm.delEvent':'Seguro que queres eliminar esta entrada do calendario?','confirm.delHomework':'Seguro que queres eliminar este deber?',
+    'horari.title':'Horario de 2º Bach A','horari.desc':'As franxas con varias materias corresponden ás optativas e modalidades: mira só a túa. Escólleas no selector para destacala en todo o horario.',
+    'horari.highlight':'Destacar a miña materia','horari.esplai':'Recreo','horari.now':'Agora mesmo','sched.none':'— Ningunha —','sched.esplaiLabel':'RECREO',
+    'deures.title':'Axenda de deberes','deures.desc':'Deberes e tarefas para casa, organizados por semana. Sincronizado en directo para toda a clase: márcaos como feitos cando os remates.',
+    'deures.addBtn':'+ Engadir deber','week.prev':'Semana anterior','week.next':'Semana seguinte','week.today':'Esta semana',
+    'deform.subj':'Materia','deform.subjName':'Nome da materia','deform.subjNamePh':'p. ex. Robótica','deform.date':'Data de entrega (día · mes · ano)',
+    'deform.desc':'Descrición do deber','deform.descPh':'p. ex. Exercicios 1-10, páxina 45','deform.other':'Outra…',
+    'week.addLink':'+ engadir','week.markDone':'Marcar como feito (persoal)','week.donePersonSingular':'persoa fíxoo','week.donePersonPlural':'persoas fixérono',
+    'pbau.title':'Recursos para a PBAU','pbau.desc':'Unha única ligazón oficial da UIB por materia, coa información da materia, a estrutura do exame e os modelos de convocatorias anteriores.',
+    'pbau.portal':'Portal PBAU','pbau.allSubjects':'Todas as materias','pbau.goLink':'→ Información e modelos de exame (UIB)',
+    'pbau.note':'A UIB actualiza estas páxinas cada curso: comproba sempre que a información corresponde á convocatoria vixente. As ponderacións de cada materia para un grao concreto consúltanse na ficha do grao, no apartado «Acceso e recoñecementos».',
+    'bustia.title':'Caixa de suxestións e queixas','bustia.desc':'Envía unha idea, unha proposta ou unha queixa. O teu nome queda rexistrado automaticamente coa suxestión e só o delegado e o subdelegado poden lelo.',
+    'bustia.needLogin':'Para enviar unha suxestión hai que iniciar sesión co teu correo do instituto.','bustia.loginBtn':'Iniciar sesión con Google',
+    'bustia.sendingAs':'Enviarás a mensaxe como ','bustia.logoutBtn':'Pechar sesión','bustia.msgLabel':'Mensaxe','bustia.msgPh':'Escribe aquí a túa suxestión…',
+    'bustia.sendBtn':'Enviar suxestión','bustia.feedTitle':'Suxestións recibidas','bustia.feedDesc':'Só visible para delegados e administradores.',
+    'enllacos.title':'Ligazóns de interese','enllacos.desc':'Accesos directos para preparar a preinscrición universitaria.',
+    'footer.line':'2º de Bacharelato A',
+    'login.needAddHomework':'Hai que iniciar sesión co teu correo do instituto para engadir un deber.',
+    'login.needDelHomework':'Hai que iniciar sesión co teu correo do instituto para eliminar un deber.',
+    'login.needCheckHomework':'Hai que iniciar sesión co teu correo do instituto para marcar un deber como feito.',
+    'login.needSaveHomework':'Hai que iniciar sesión co teu correo do instituto para gardar un deber.',
+    'auth.notAuthorized':'Esta conta ({email}) non está autorizada na caixa de suxestións.','auth.loginFailed':'Non se puido iniciar sesión ({code}).',
+    'sync.connecting':'Conectando con Firestore…','sync.connected':'Conectado con Firestore','sync.error':'Erro de conexión con Firestore',
+    'db.errorTitle':'Firestore non responde ({context}).','db.errorCode':'Código de erro:',
+    'db.permDenied':'As regras de seguridade da base de datos están bloqueando a operación: hai que permitir read e create nas coleccións examens e suggeriments desde a consola de Firebase.',
+    'db.otherError':'Comproba na consola de Firebase que a base de datos Firestore está creada e que o dominio do sitio é un dominio autorizado.',
+    'ctx.delEvent':'eliminando unha entrada','ctx.readCal':'lendo o calendario','ctx.saveEvent':'gardando unha entrada do calendario',
+    'ctx.delHomework':'eliminando un deber','ctx.addHomework':'engadindo un deber','ctx.updHomework':'actualizando un deber','ctx.readHomework':'lendo os deberes','ctx.saveHomework':'gardando un deber',
+    'ctx.readSuggestions':'lendo as suxestións','ctx.sendSuggestion':'enviando unha suxestión',
+    'save.fail':'Non se puido gardar: ','feed.loading':'Cargando as suxestións…','feed.empty':'Aínda non hai ningunha suxestión.','feed.loadFail':'Non se puideron cargar as suxestións.',
+    'send.sending':'Enviando…','send.sent':'Enviado! Só o delegado e o subdelegado poderán lelo.','send.fail':'Non se puido enviar ({code}).',
+    'stamp.now':'agora mesmo'
+  },
+  'it': {
+    'tab.inici':'Home','tab.horari':'Orario','tab.deures':'Compiti','tab.pbau':'PBAU','tab.bustia':'Cassetta suggerimenti','tab.enllacos':'Link',
+    'brand.sub':'Organizzazione della classe',
+    'hero.eyebrow':'Conto alla rovescia','hero.metaPrefix':'Data di riferimento: ',
+    'cd.unitPlural':'giorni alla PBAU','cd.unitSingular':'giorno alla PBAU','cd.passed':'questa sessione è già passata',
+    'cd.clock':'{h} h {m} min {s} s rimanenti',
+    'inici.title':"Calendario dell'anno scolastico",'inici.desc':'Esami, lavori e consegne sincronizzati in tempo reale, con i giorni festivi e non scolastici ufficiali già caricati. Naviga tra i mesi e clicca su un giorno per vederne i dettagli.',
+    'inici.addBtn':'+ Aggiungi data',
+    'cal.prev':'Mese precedente','cal.next':'Mese successivo','cal.today':'Oggi','cal.legendFestiu':'Festivo / non scolastico','cal.moreSuffix':' altri',
+    'type.examen':'Esame','type.treball':'Lavoro','type.lliurament':'Consegna','type.altres':'Altro','type.festiu':'Festivo',
+    'form.subj':'Materia o titolo','form.subjPh':'es. Matematica II','form.date':'Data (giorno · mese · anno)',
+    'form.day':'Giorno','form.month':'Mese','form.year':'Anno','form.category':'Categoria','form.note':'Nota (facoltativa)',
+    'form.notePh':'es. Argomenti 1-4, porta la calcolatrice','form.cancel':'Annulla','form.save':'Salva',
+    'day.upcoming':'Prossime date','day.noEntry':'Nessun impegno in questo giorno.','day.noneUpcoming':'Non ci sono ancora esami, lavori o consegne in programma.',
+    'del.title':'Elimina','confirm.delEvent':'Sei sicuro di voler eliminare questa voce dal calendario?','confirm.delHomework':'Sei sicuro di voler eliminare questo compito?',
+    'horari.title':"Orario della 2ª A liceo",'horari.desc':'Le fasce con più materie corrispondono alle materie opzionali e agli indirizzi: guarda solo la tua. Selezionala nel menu per evidenziarla in tutto l\'orario.',
+    'horari.highlight':'Evidenzia la mia materia','horari.esplai':'Intervallo','horari.now':'In questo momento','sched.none':'— Nessuna —','sched.esplaiLabel':'INTERVALLO',
+    'deures.title':'Agenda dei compiti','deures.desc':'Compiti e attività per casa, organizzati per settimana. Sincronizzato in tempo reale per tutta la classe: segnali come completati quando li finisci.',
+    'deures.addBtn':'+ Aggiungi compito','week.prev':'Settimana precedente','week.next':'Settimana successiva','week.today':'Questa settimana',
+    'deform.subj':'Materia','deform.subjName':'Nome della materia','deform.subjNamePh':'es. Robotica','deform.date':'Data di consegna (giorno · mese · anno)',
+    'deform.desc':'Descrizione del compito','deform.descPh':'es. Esercizi 1-10, pagina 45','deform.other':'Altro…',
+    'week.addLink':'+ aggiungi','week.markDone':'Segna come completato (personale)','week.donePersonSingular':'persona lo ha completato','week.donePersonPlural':'persone lo hanno completato',
+    'pbau.title':'Risorse per la PBAU','pbau.desc':"Un unico link ufficiale dell'UIB per materia, con le informazioni sulla materia, la struttura dell'esame e i modelli delle sessioni precedenti.",
+    'pbau.portal':'Portale PBAU','pbau.allSubjects':'Tutte le materie','pbau.goLink':"→ Informazioni e modelli d'esame (UIB)",
+    'pbau.note':"L'UIB aggiorna queste pagine ogni anno scolastico: verifica sempre che le informazioni corrispondano alla sessione in corso. I coefficienti di ogni materia per un corso di laurea specifico si consultano nella scheda del corso, nella sezione «Accesso e riconoscimenti».",
+    'bustia.title':'Cassetta dei suggerimenti e dei reclami','bustia.desc':"Invia un'idea, una proposta o un reclamo. Il tuo nome viene registrato automaticamente insieme al suggerimento e possono leggerlo solo il rappresentante e il vicerappresentante di classe.",
+    'bustia.needLogin':"Per inviare un suggerimento è necessario accedere con la tua email scolastica.",'bustia.loginBtn':'Accedi con Google',
+    'bustia.sendingAs':'Invierai il messaggio come ','bustia.logoutBtn':'Esci','bustia.msgLabel':'Messaggio','bustia.msgPh':'Scrivi qui il tuo suggerimento…',
+    'bustia.sendBtn':'Invia suggerimento','bustia.feedTitle':'Suggerimenti ricevuti','bustia.feedDesc':'Visibile solo ai rappresentanti e agli amministratori.',
+    'enllacos.title':'Link utili','enllacos.desc':"Accessi diretti per preparare la preiscrizione universitaria.",
+    'footer.line':'2ª A Liceo',
+    'login.needAddHomework':'È necessario accedere con la tua email scolastica per aggiungere un compito.',
+    'login.needDelHomework':'È necessario accedere con la tua email scolastica per eliminare un compito.',
+    'login.needCheckHomework':'È necessario accedere con la tua email scolastica per segnare un compito come completato.',
+    'login.needSaveHomework':'È necessario accedere con la tua email scolastica per salvare un compito.',
+    'auth.notAuthorized':'Questo account ({email}) non è autorizzato per la cassetta dei suggerimenti.','auth.loginFailed':"Impossibile accedere ({code}).",
+    'sync.connecting':'Connessione a Firestore…','sync.connected':'Connesso a Firestore','sync.error':'Errore di connessione a Firestore',
+    'db.errorTitle':'Firestore non risponde ({context}).','db.errorCode':'Codice errore:',
+    'db.permDenied':"Le regole di sicurezza del database stanno bloccando l'operazione: è necessario consentire read e create sulle collezioni examens e suggeriments dalla console di Firebase.",
+    'db.otherError':'Verifica nella console di Firebase che il database Firestore sia stato creato e che il dominio del sito sia autorizzato.',
+    'ctx.delEvent':'eliminazione di una voce','ctx.readCal':'lettura del calendario','ctx.saveEvent':'salvataggio di una voce del calendario',
+    'ctx.delHomework':'eliminazione di un compito','ctx.addHomework':'aggiunta di un compito','ctx.updHomework':'aggiornamento di un compito','ctx.readHomework':'lettura dei compiti','ctx.saveHomework':'salvataggio di un compito',
+    'ctx.readSuggestions':'lettura dei suggerimenti','ctx.sendSuggestion':'invio di un suggerimento',
+    'save.fail':'Impossibile salvare: ','feed.loading':'Caricamento dei suggerimenti…','feed.empty':'Non ci sono ancora suggerimenti.','feed.loadFail':'Impossibile caricare i suggerimenti.',
+    'send.sending':'Invio in corso…','send.sent':'Inviato! Solo il rappresentante e il vicerappresentante potranno leggerlo.','send.fail':'Impossibile inviare ({code}).',
+    'stamp.now':'proprio ora'
+  }
+};
+
+let currentLang = (() => {
+  const saved = localStorage.getItem('lang');
+  if (saved && LANG_CODES.includes(saved)) return saved;
+  const nav = (navigator.language || 'ca').toLowerCase();
+  const match = LANG_CODES.find(c => nav.startsWith(c.toLowerCase()) || nav.split('-')[0] === c.split('-')[0].toLowerCase());
+  return match || 'ca';
+})();
+
+/** Tradueix una clau al idioma actual (amb reserva a català). Admet substitucions {placeholder}. */
+function t(key, vars) {
+  let s = (I18N[currentLang] && I18N[currentLang][key]) ?? I18N['ca'][key] ?? key;
+  if (vars) Object.keys(vars).forEach(k => { s = s.replace(`{${k}}`, vars[k]); });
+  return s;
+}
+
+function currentMonths() { return MONTHS_BY_LANG[currentLang] || MONTHS_BY_LANG.ca; }
+function currentDow() { return DOW_BY_LANG[currentLang] || DOW_BY_LANG.ca; }
+function currentDays() { return DAYS_BY_LANG[currentLang] || DAYS_BY_LANG.ca; }
+function currentDaysShort() { return DAYS_SHORT_BY_LANG[currentLang] || DAYS_SHORT_BY_LANG.ca; }
+function currentWeekDays() { return WEEK_DAYS_BY_LANG[currentLang] || WEEK_DAYS_BY_LANG.ca; }
+
+/** Aplica les traduccions a tots els elements estàtics marcats amb data-i18n / data-i18n-ph / data-i18n-aria. */
+function applyStaticI18n() {
+  document.documentElement.lang = currentLang.split('-')[0];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (el.tagName === 'STRONG' || el.children.length) {
+      // element amb fills (p. ex. hero.metaPrefix conté <strong>): només tradueix el primer node de text
+      for (const node of el.childNodes) {
+        if (node.nodeType === Node.TEXT_NODE) { node.textContent = t(key); break; }
+      }
+    } else {
+      el.textContent = t(key);
+    }
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph'))));
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria'))));
+}
+
+function populateLangSelect() {
+  const sel = $('lang-select');
+  sel.innerHTML = LANGS.map(l => `<option value="${l.code}">${l.label}</option>`).join('');
+  sel.value = currentLang;
+  sel.addEventListener('change', () => {
+    currentLang = sel.value;
+    localStorage.setItem('lang', currentLang);
+    refreshAllForLanguage();
+  });
+}
+
+/** Torna a renderitzar tot allò que depèn de l'idioma. Es defineix aquí buit i s'omple al final del fitxer,
+ *  un cop totes les funcions de renderitzat existeixen. */
+let refreshAllForLanguage = () => { applyStaticI18n(); };
+populateLangSelect();
+applyStaticI18n();
 
 /* ============================================================
    2. UTILITATS
@@ -649,11 +1154,26 @@ const pad = (n) => String(n).padStart(2, '0');
 const toISO = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;       // m: 0-11
 const todayISO = () => { const n = new Date(); return toISO(n.getFullYear(), n.getMonth(), n.getDate()); };
 
-/** "2027-05-15" → "15 de maig de 2027" (sempre dia primer) */
+/** "2027-05-15" → data llarga en l'idioma actual (sempre a partir de la data ISO) */
 function formatLong(iso, withYear = true) {
   const [y, m, d] = iso.split('-').map(Number);
-  const prep = APOSTROPHE_MONTHS.has(m - 1) ? "d'" : 'de ';
-  return `${d} ${prep}${MONTHS[m - 1]}${withYear ? ` de ${y}` : ''}`;
+  const mi = m - 1;
+  const mn = currentMonths()[mi];
+  switch (currentLang) {
+    case 'zh-Hans':
+    case 'ja':
+      return `${withYear ? y + '年' : ''}${m}月${d}日`;
+    case 'ca': {
+      const prep = CA_APOSTROPHE_MONTHS.has(mi) ? "d'" : 'de ';
+      return `${d} ${prep}${mn}${withYear ? ` de ${y}` : ''}`;
+    }
+    case 'it':
+      return `${d} ${mn}${withYear ? ` ${y}` : ''}`;
+    case 'eu':
+      return `${d} ${mn}${withYear ? ` (${y})` : ''}`;
+    default: // es-MX, gl, hi
+      return `${d} de ${mn}${withYear ? ` de ${y}` : ''}`;
+  }
 }
 
 function escapeHtml(s = '') {
@@ -673,13 +1193,11 @@ function showDbError(err, context) {
   const box = $('db-alert');
   const code = err?.code || 'desconegut';
   box.innerHTML = `
-    <strong>Firestore no respon (${escapeHtml(context)}).</strong>
-    Codi d'error: <code>${escapeHtml(code)}</code>.
-    ${code === 'permission-denied'
-      ? 'Les regles de seguretat de la base de dades estan bloquejant l\'operació: cal permetre <code>read</code> i <code>create</code> a les col·leccions <code>examens</code> i <code>suggeriments</code> des de la consola de Firebase.'
-      : 'Comprova a la consola de Firebase que la base de dades Firestore està creada i que el domini de la web és un domini autoritzat.'}`;
+    <strong>${t('db.errorTitle', { context: escapeHtml(context) })}</strong>
+    ${t('db.errorCode')} <code>${escapeHtml(code)}</code>.
+    ${code === 'permission-denied' ? t('db.permDenied') : t('db.otherError')}`;
   box.hidden = false;
-  setSync('bad', 'Error de connexió amb Firestore');
+  setSync('bad', t('sync.error'));
   console.error(context, err);
 }
 
@@ -687,7 +1205,7 @@ function setSync(state, text) {
   const dot = $('sync-dot');
   dot.classList.toggle('on', state === 'ok');
   dot.classList.toggle('bad', state === 'bad');
-  $('sync-text').textContent = text;
+  $('sync-text').textContent = text ?? t('sync.connecting');
 }
 
 /* ============================================================
@@ -715,15 +1233,18 @@ function renderCountdown() {
   const ms = cdTarget - Date.now();
   if (ms <= 0) {
     $('cd-number').textContent = '✓';
-    $('cd-unit').textContent = 'aquesta convocatòria ja ha passat';
+    $('cd-unit').textContent = t('cd.passed');
     $('cd-clock').textContent = '';
     return;
   }
   const days = Math.ceil(ms / 86400000);
   $('cd-number').textContent = days;
-  $('cd-unit').textContent = days === 1 ? 'dia fins a la PBAU' : 'dies fins a la PBAU';
-  $('cd-clock').textContent =
-    `${Math.floor(ms / 3600000) % 24} h ${pad(Math.floor(ms / 60000) % 60)} min ${pad(Math.floor(ms / 1000) % 60)} s restants`;
+  $('cd-unit').textContent = days === 1 ? t('cd.unitSingular') : t('cd.unitPlural');
+  $('cd-clock').textContent = t('cd.clock', {
+    h: Math.floor(ms / 3600000) % 24,
+    m: pad(Math.floor(ms / 60000) % 60),
+    s: pad(Math.floor(ms / 1000) % 60)
+  });
 }
 renderCountdown();
 setInterval(renderCountdown, 1000);
@@ -786,14 +1307,14 @@ function groupByDate(list) {
 
 function renderCalendar() {
   const y = cursor.getFullYear(), m = cursor.getMonth();
-  $('cal-title').textContent = `${MONTHS[m]} ${y}`;
+  $('cal-title').textContent = `${currentMonths()[m]} ${y}`;
 
   const byDate = groupByDate(allEvents());
   const offset = (new Date(y, m, 1).getDay() + 6) % 7;          // dilluns = 0
   const daysInMonth = new Date(y, m + 1, 0).getDate();
   const today = todayISO();
 
-  const cells = DOW.map(d => `<div class="cal-dow">${d}</div>`);
+  const cells = currentDow().map(d => `<div class="cal-dow">${d}</div>`);
   for (let i = 0; i < offset; i++) cells.push('<div class="cal-day blank" aria-hidden="true"></div>');
 
   for (let d = 1; d <= daysInMonth; d++) {
@@ -803,7 +1324,7 @@ function renderCalendar() {
     const chips = visible.map(e =>
       `<span class="chip ${typeClass(e.tipus)}" title="${escapeHtml(e.assignatura)}">${escapeHtml(e.assignatura)}</span>`
     ).join('');
-    const more = items.length > visible.length ? `<span class="chip more">+${items.length - visible.length} més</span>` : '';
+    const more = items.length > visible.length ? `<span class="chip more">+${items.length - visible.length}${t('cal.moreSuffix')}</span>` : '';
     const cls = ['cal-day',
       iso === today ? 'today' : '',
       items.some(e => e.tipus === 'Festiu') ? 'is-festiu' : ''].filter(Boolean).join(' ');
@@ -839,43 +1360,45 @@ function renderList() {
     $('day-panel-title').textContent = formatLong(selectedISO);
     const items = allEvents().filter(e => e.data === selectedISO);
     list.innerHTML = items.length ? items.map(rowHtml).join('')
-      : '<div class="empty-msg">Cap entrada aquest dia.</div>';
+      : `<div class="empty-msg">${t('day.noEntry')}</div>`;
   } else {
-    $('day-panel-title').textContent = 'Properes dates';
+    $('day-panel-title').textContent = t('day.upcoming');
     const from = todayISO();
     const items = allEvents().filter(e => e.data >= from && e.tipus !== 'Festiu').slice(0, 8);
     list.innerHTML = items.length ? items.map(rowHtml).join('')
-      : '<div class="empty-msg">Encara no hi ha cap examen, treball ni lliurament pendent.</div>';
+      : `<div class="empty-msg">${t('day.noneUpcoming')}</div>`;
   }
 }
 
 function rowHtml(e) {
   const [, m, d] = e.data.split('-');
-  const t = e.tipus || 'Altres';
+  const rawType = e.tipus || 'Altres';
+  const cls = typeClass(rawType);
+  const label = cls === 'festiu' ? t('type.festiu') : t('type.' + cls);
   return `
     <div class="exam-row">
       <div class="exam-date">
         <div class="d">${Number(d)}</div>
-        <div class="m">${MONTHS[Number(m) - 1].slice(0, 3)}</div>
+        <div class="m">${currentMonths()[Number(m) - 1].replace(/[月日年]/g, '').slice(0, 3)}</div>
       </div>
       <div class="exam-info">
         <div class="subj">${escapeHtml(e.assignatura)}</div>
         <div class="note">${formatLong(e.data)}${e.descripcio ? ' · ' + escapeHtml(e.descripcio) : ''}</div>
       </div>
-      <span class="tag ${typeClass(t)}">${escapeHtml(t)}</span>
+      <span class="tag ${cls}">${escapeHtml(label)}</span>
       ${e.fixed ? '<span class="spacer"></span>'
-                : `<button class="del-btn" type="button" title="Esborra" data-del="${escapeHtml(e.id)}">✕</button>`}
+                : `<button class="del-btn" type="button" title="${t('del.title')}" data-del="${escapeHtml(e.id)}">✕</button>`}
     </div>`;
 }
 
 $('day-list').addEventListener('click', async (e) => {
   const btn = e.target.closest('[data-del]');
   if (!btn) return;
-  if (!confirm('Segur que vols esborrar aquesta entrada del calendari?')) return;
+  if (!confirm(t('confirm.delEvent'))) return;
   try {
     await deleteDoc(doc(db, COL_EVENTS, btn.dataset.del));
   } catch (err) {
-    showDbError(err, 'esborrant una entrada');
+    showDbError(err, t('ctx.delEvent'));
   }
 });
 
@@ -885,10 +1408,10 @@ onSnapshot(
   (snap) => {
     dbEvents = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     $('db-alert').hidden = true;
-    setSync('ok', 'Connectat amb Firestore');
+    setSync('ok', t('sync.connected'));
     renderCalendar(); renderList();
   },
-  (err) => showDbError(err, 'llegint el calendari')
+  (err) => showDbError(err, t('ctx.readCal'))
 );
 
 renderCalendar();
@@ -946,8 +1469,8 @@ $('exam-form').addEventListener('submit', async (e) => {
     setAddPanel(false);
     renderCalendar();
   } catch (err) {
-    msg.textContent = 'No s\'ha pogut desar: ' + (err?.code || 'error');
-    showDbError(err, 'desant una entrada del calendari');
+    msg.textContent = t('save.fail') + (err?.code || 'error');
+    showDbError(err, t('ctx.saveEvent'));
   } finally {
     btn.disabled = false;
   }
@@ -1020,11 +1543,11 @@ const toMin = (hhmm) => { const [h, m] = hhmm.split(':').map(Number); return h *
 
 function renderSchedule() {
   let html = '<div class="sc-corner"></div>' +
-    DAYS.map((d, i) => `<div class="sc-head" data-day="${i}">${d}</div>`).join('');
+    currentDays().map((d, i) => `<div class="sc-head" data-day="${i}">${d}</div>`).join('');
 
   ROWS.forEach((r, ri) => {
     if (r.esplai) {
-      html += `<div class="esplai" data-row="${ri}"><span class="nm">ESPLAI</span><span class="hh">${r.t} – ${r.e}</span></div>`;
+      html += `<div class="esplai" data-row="${ri}"><span class="nm">${t('sched.esplaiLabel')}</span><span class="hh">${r.t} – ${r.e}</span></div>`;
       return;
     }
     html += `<div class="sc-time" data-row="${ri}"><b>${r.t}</b><span>${r.e}</span></div>`;
@@ -1078,14 +1601,14 @@ function buildScheduleControls() {
   const names = new Set();
   SCHEDULE.forEach(day => day.forEach(slot => slot && slot.forEach(([n]) => names.add(n))));
   const sorted = [...names].sort((a, b) => a.localeCompare(b, 'ca'));
-  $('sched-filter').innerHTML = '<option value="">— Cap —</option>' +
+  $('sched-filter').innerHTML = `<option value="">${t('sched.none')}</option>` +
     sorted.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
   $('sched-filter').addEventListener('change', (e) => { subjectFilter = e.target.value; renderSchedule(); });
 
   const wd = (new Date().getDay() + 6) % 7;
   activeDay = wd < 5 ? wd : 0;
-  $('day-tabs').innerHTML = DAYS_SHORT.map((d, i) =>
-    `<button type="button" data-day="${i}" aria-pressed="${i === activeDay}" aria-label="${DAYS[i]}">${d}</button>`).join('');
+  $('day-tabs').innerHTML = currentDaysShort().map((d, i) =>
+    `<button type="button" data-day="${i}" aria-pressed="${i === activeDay}" aria-label="${currentDays()[i]}">${d}</button>`).join('');
   $('day-tabs').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-day]');
     if (!b) return;
@@ -1147,7 +1670,7 @@ function requireLogin(missatge) {
 
 function formatStamp(ts) {
   const dt = ts?.toDate?.();
-  if (!dt) return 'ara mateix';
+  if (!dt) return t('stamp.now');
   return `${formatLong(toISO(dt.getFullYear(), dt.getMonth(), dt.getDate()))} · ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
 }
 
@@ -1164,7 +1687,7 @@ $('login-btn').addEventListener('click', async () => {
     await signInWithPopup(auth, googleProvider);
   } catch (err) {
     if (err?.code !== 'auth/popup-closed-by-user')
-      setAuthError('No s\'ha pogut iniciar la sessió (' + (err?.code || 'error') + ').');
+      setAuthError(t('auth.loginFailed', { code: err?.code || 'error' }));
   }
 });
 $('logout-btn').addEventListener('click', () => signOut(auth));
@@ -1184,7 +1707,7 @@ onAuthStateChanged(auth, async (user) => {
   const known = USERS[email];
   if (!known) {                                // correu fora de la llista → fora
     await signOut(auth);
-    setAuthError('Aquest compte (' + email + ') no està autoritzat a la bústia.');
+    setAuthError(t('auth.notAuthorized', { email }));
     return;
   }
 
@@ -1200,7 +1723,7 @@ onAuthStateChanged(auth, async (user) => {
   $('feed-section').hidden = !canRead;
   if (!canRead) return;
 
-  $('suggestion-list').innerHTML = '<div class="empty-msg">Carregant els suggeriments…</div>';
+  $('suggestion-list').innerHTML = `<div class="empty-msg">${t('feed.loading')}</div>`;
   unsubscribeSuggestions = onSnapshot(
     query(collection(db, COL_SUGGESTIONS), orderBy('creat', 'desc'), limit(100)),
     (snap) => {
@@ -1214,11 +1737,11 @@ onAuthStateChanged(auth, async (user) => {
               </div>
               <p class="text">${escapeHtml(s.missatge || '')}</p>
             </div>`).join('')
-        : '<div class="empty-msg">Encara no hi ha cap suggeriment.</div>';
+        : `<div class="empty-msg">${t('feed.empty')}</div>`;
     },
     (err) => {
-      $('suggestion-list').innerHTML = '<div class="empty-msg">No s\'han pogut carregar els suggeriments.</div>';
-      showDbError(err, 'llegint els suggeriments');
+      $('suggestion-list').innerHTML = `<div class="empty-msg">${t('feed.loadFail')}</div>`;
+      showDbError(err, t('ctx.readSuggestions'));
     }
   );
 });
@@ -1230,7 +1753,7 @@ $('suggestion-form').addEventListener('submit', async (e) => {
   const missatge = $('s-msg').value.trim();
   if (!missatge || !currentUser) return;
 
-  status.textContent = 'Enviant…';
+  status.textContent = t('send.sending');
   status.className = 'send-status';
   btn.disabled = true;
   try {
@@ -1242,12 +1765,12 @@ $('suggestion-form').addEventListener('submit', async (e) => {
       creat: serverTimestamp()
     });
     e.target.reset();
-    status.textContent = 'Enviat! Només el delegat i el subdelegat el podran llegir.';
+    status.textContent = t('send.sent');
     status.className = 'send-status ok';
   } catch (err) {
-    status.textContent = 'No s\'ha pogut enviar (' + (err?.code || 'error') + ').';
+    status.textContent = t('send.fail', { code: err?.code || 'error' });
     status.className = 'send-status err';
-    showDbError(err, 'enviant un suggeriment');
+    showDbError(err, t('ctx.sendSuggestion'));
   } finally {
     btn.disabled = false;
   }
@@ -1297,7 +1820,7 @@ function renderWeekTitle() {
   const endISO = toISO(end.getFullYear(), end.getMonth(), end.getDate());
   const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
   $('week-title').textContent = sameMonth
-    ? `${start.getDate()} – ${end.getDate()} de ${MONTHS[start.getMonth()]} ${start.getFullYear()}`
+    ? `${start.getDate()} – ${end.getDate()} ${currentLang === 'ca' ? 'de ' : ''}${currentMonths()[start.getMonth()]} ${start.getFullYear()}`
     : `${formatLong(startISO, false)} – ${formatLong(endISO)}`;
 }
 
@@ -1312,9 +1835,9 @@ function agendaDayHtml(d, dayIndex, today) {
     const count = fetPer.length;
     return `
       <div class="ad-row${done ? ' done' : ''}">
-        <input type="checkbox" class="ad-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="Marca com a fet (personal)">
-        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}</span>
-        <button type="button" class="ad-del" data-del="${escapeHtml(h.id)}" title="Esborra" aria-label="Esborra">✕</button>
+        <input type="checkbox" class="ad-check" data-toggle="${escapeHtml(h.id)}" ${done ? 'checked' : ''} aria-label="${t('week.markDone')}">
+        <span class="ad-text"><b style="color:${col.fg};">${escapeHtml(h.assignatura)}</b>${escapeHtml(h.descripcio)}${count ? ` <span style="color:var(--ink-soft);font-weight:600;">· ${count} ${count === 1 ? t('week.donePersonSingular') : t('week.donePersonPlural')}</span>` : ''}</span>
+        <button type="button" class="ad-del" data-del="${escapeHtml(h.id)}" title="${t('del.title')}" aria-label="${t('del.title')}">✕</button>
       </div>`;
   }).join('');
 
@@ -1322,8 +1845,8 @@ function agendaDayHtml(d, dayIndex, today) {
     <div class="agenda-day${iso === today ? ' today' : ''}">
       <div class="ad-head">
         <span class="ad-num">${d.getDate()}</span>
-        <span class="ad-name">${WEEK_DAYS[dayIndex]}</span>
-        <button type="button" class="ad-add" data-add="${iso}">+ afegeix</button>
+        <span class="ad-name">${currentWeekDays()[dayIndex]}</span>
+        <button type="button" class="ad-add" data-add="${iso}">${t('week.addLink')}</button>
       </div>
       <div class="ad-lines">${rows}</div>
     </div>`;
@@ -1338,10 +1861,10 @@ function renderWeekGrid() {
   Object.values(dbHomeworkByDate).forEach(list => list.sort((a, b) => (a.assignatura || '').localeCompare(b.assignatura || '', 'ca')));
 
   const today = todayISO();
-  const dayDates = WEEK_DAYS.map((_, i) => addDays(weekCursor, i));
+  const dayDates = currentWeekDays().map((_, i) => addDays(weekCursor, i));
   const start = dayDates[0], end = dayDates[6];
   const sameMonth = start.getMonth() === end.getMonth();
-  const monthLabel = sameMonth ? MONTHS[start.getMonth()] : `${MONTHS[start.getMonth()]} – ${MONTHS[end.getMonth()]}`;
+  const monthLabel = sameMonth ? currentMonths()[start.getMonth()] : `${currentMonths()[start.getMonth()]} – ${currentMonths()[end.getMonth()]}`;
   const yearLabel = start.getFullYear() === end.getFullYear() ? String(start.getFullYear()) : `${start.getFullYear()}–${end.getFullYear()}`;
 
   const leftCol = [0, 1, 2].map(i => agendaDayHtml(dayDates[i], i, today)).join('');
@@ -1369,72 +1892,32 @@ $('week-today').addEventListener('click', () => { weekCursor = startOfWeek(new D
 $('week-grid').addEventListener('click', async (e) => {
   const del = e.target.closest('[data-del]');
   if (del) {
-    if (!requireLogin('Cal iniciar sessió amb el teu correu de l\'institut per esborrar un deure.')) return;
-    if (!confirm('Segur que vols esborrar aquest deure?')) return;
+    if (!requireLogin(t('login.needDelHomework'))) return;
+    if (!confirm(t('confirm.delHomework'))) return;
     try { await deleteDoc(doc(db, COL_HOMEWORK, del.dataset.del)); }
-    catch (err) { showDbError(err, 'esborrant un deure'); }
+    catch (err) { showDbError(err, t('ctx.delHomework')); }
     return;
   }
   const add = e.target.closest('[data-add]');
   if (add) {
-    if (!requireLogin('Cal iniciar sessió amb el teu correu de l\'institut per afegir un deure.')) return;
+    if (!requireLogin(t('login.needAddHomework'))) return;
     openAddForDate(add.dataset.add);
   }
 });
-function waitForLogin() {
-  if (currentUser) return Promise.resolve(currentUser);
-  return signInWithPopup(auth, googleProvider)
-    .then(() => new Promise((resolve) => {
-      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
-      check();
-    }))
-    .catch(() => null);
-}
-function waitForLogin() {
-  if (currentUser) return Promise.resolve(currentUser);
-  return signInWithPopup(auth, googleProvider)
-    .then(() => new Promise((resolve) => {
-      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
-      check();
-    }))
-    .catch(() => null);
-}
-
-function waitForLogin() {
-  if (currentUser) return Promise.resolve(currentUser);
-  return signInWithPopup(auth, googleProvider)
-    .then(() => new Promise((resolve) => {
-      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
-      check();
-    }))
-    .catch(() => null);
-}
-
-function waitForLogin() {
-  if (currentUser) return Promise.resolve(currentUser);
-  return signInWithPopup(auth, googleProvider)
-    .then(() => new Promise((resolve) => {
-      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
-      check();
-    }))
-    .catch(() => null);
-}
-
 $('week-grid').addEventListener('change', async (e) => {
   const chk = e.target.closest('[data-toggle]');
   if (!chk) return;
-  const wantChecked = chk.checked;
-  chk.disabled = true;
-  const user = currentUser || await waitForLogin();
-  chk.disabled = false;
-  if (!user) { chk.checked = !wantChecked; return; }
+  if (!requireLogin(t('login.needCheckHomework'))) {
+    chk.checked = !chk.checked;
+    return;
+  }
   try {
     await updateDoc(doc(db, COL_HOMEWORK, chk.dataset.toggle), {
-      fetPer: wantChecked ? arrayUnion(user.email) : arrayRemove(user.email)
+      fetPer: chk.checked ? arrayUnion(currentUser.email) : arrayRemove(currentUser.email)
     });
   } catch (err) {
-    chk.checked = !wantChecked;
-    showDbError(err, 'actualitzant un deure');
+    chk.checked = !chk.checked;
+    showDbError(err, t('ctx.updHomework'));
   }
 });
 
@@ -1443,10 +1926,10 @@ onSnapshot(
   (snap) => {
     dbHomework = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     $('db-alert').hidden = true;
-    setSync('ok', 'Connectat amb Firestore');
+    setSync('ok', t('sync.connected'));
     renderWeekGrid();
   },
-  (err) => showDbError(err, 'llegint els deures')
+  (err) => showDbError(err, t('ctx.readHomework'))
 );
 
 renderWeekGrid();
@@ -1458,7 +1941,7 @@ const dDaySel = $('d-day'), dMonthSel = $('d-month'), dYearSel = $('d-year');
 
 const subjNames = scheduleSubjectNames();
 dSubjSel.innerHTML = subjNames.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')
-  + '<option value="__altres__">Altres…</option>';
+  + `<option value="__altres__">${t('deform.other')}</option>`;
 dSubjSel.addEventListener('change', () => {
   const custom = dSubjSel.value === '__altres__';
   dSubjCustomWrap.hidden = !custom;
@@ -1470,7 +1953,7 @@ function setAddDeurePanel(open) {
   toggleAddDeure.setAttribute('aria-expanded', String(open));
 }
 toggleAddDeure.addEventListener('click', () => {
-  if (!requireLogin('Cal iniciar sessió amb el teu correu de l\'institut per afegir un deure.')) return;
+  if (!requireLogin(t('login.needAddHomework'))) return;
   setAddDeurePanel(addDeurePanel.hidden);
 });
 $('cancel-add-deure').addEventListener('click', () => setAddDeurePanel(false));
@@ -1503,7 +1986,7 @@ function openAddForDate(iso) {
 
 $('deure-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!requireLogin('Cal iniciar sessió amb el teu correu de l\'institut per desar un deure.')) return;
+  if (!requireLogin(t('login.needSaveHomework'))) return;
 
   const msg = $('deure-form-msg'), btn = $('save-deure-btn');
   const isCustom = dSubjSel.value === '__altres__';
@@ -1530,8 +2013,8 @@ $('deure-form').addEventListener('submit', async (e) => {
     setAddDeurePanel(false);
     renderWeekGrid();
   } catch (err) {
-    msg.textContent = 'No s\'ha pogut desar: ' + (err?.code || 'error');
-    showDbError(err, 'desant un deure');
+    msg.textContent = t('save.fail') + (err?.code || 'error');
+    showDbError(err, t('ctx.saveHomework'));
   } finally {
     btn.disabled = false;
   }
@@ -1566,17 +2049,20 @@ const SUBJECTS = [
   { area: 'Humanitats i Ciències Socials', name: 'Grec II', slug: 'grec' }
 ];
 
-$('pbau-subjects').innerHTML = [...new Set(SUBJECTS.map(s => s.area))].map(area => `
-  <div class="area-block">
-    <div class="area-title">${area}</div>
-    <div class="subject-grid">
-      ${SUBJECTS.filter(s => s.area === area).map(s => `
-        <a class="subject-card" href="${MATERIES_BASE}${s.slug}" target="_blank" rel="noopener">
-          <h3>${s.name}</h3>
-          <span class="go">→ Informació i models d'examen (UIB)</span>
-        </a>`).join('')}
-    </div>
-  </div>`).join('');
+function renderPbauSubjects() {
+  $('pbau-subjects').innerHTML = [...new Set(SUBJECTS.map(s => s.area))].map(area => `
+    <div class="area-block">
+      <div class="area-title">${area}</div>
+      <div class="subject-grid">
+        ${SUBJECTS.filter(s => s.area === area).map(s => `
+          <a class="subject-card" href="${MATERIES_BASE}${s.slug}" target="_blank" rel="noopener">
+            <h3>${s.name}</h3>
+            <span class="go">${escapeHtml(t('pbau.goLink'))}</span>
+          </a>`).join('')}
+      </div>
+    </div>`).join('');
+}
+renderPbauSubjects();
 
 /* ============================================================
    11. ENLLAÇOS D'INTERÈS
@@ -1594,12 +2080,43 @@ const LINKS = [
   { k: 'Tràmits', title: 'UIBdigital', desc: 'Qualificacions, sol·licituds de revisió i trasllat d\'expedient.', url: 'https://uibdigital.uib.es' }
 ];
 
-$('links-grid').innerHTML = LINKS.map(l => `
-  <a class="link-card${l.featured ? ' featured' : ''}" href="${l.url}" target="_blank" rel="noopener">
-    <div class="k">${l.k}</div>
-    <h3>${l.title}</h3>
-    <p>${l.desc}</p>
-  </a>`).join('');
+function renderLinks() {
+  $('links-grid').innerHTML = LINKS.map(l => `
+    <a class="link-card${l.featured ? ' featured' : ''}" href="${l.url}" target="_blank" rel="noopener">
+      <div class="k">${l.k}</div>
+      <h3>${l.title}</h3>
+      <p>${l.desc}</p>
+    </a>`).join('');
+}
+renderLinks();
+
+/* ============================================================
+   12. REFRESC COMPLET EN CANVIAR D'IDIOMA
+   ============================================================ */
+let lastSyncState = 'connecting';
+const _setSync = setSync;
+setSync = function (state, text) {
+  lastSyncState = state;
+  _setSync(state, text);
+};
+
+refreshAllForLanguage = function () {
+  applyStaticI18n();
+  $('cd-date-label').textContent = formatLong(PBAU_DATE);
+  renderCountdown();
+  renderCalendar();
+  renderList();
+  buildScheduleControls();
+  renderSchedule();
+  renderWeekGrid();
+  renderPbauSubjects();
+  renderLinks();
+  const syncTextMap = { ok: t('sync.connected'), bad: t('sync.error'), connecting: t('sync.connecting') };
+  setSync(lastSyncState, syncTextMap[lastSyncState] || t('sync.connecting'));
+};
+
+// Aplica l'idioma detectat/desat un cop tot està construït.
+refreshAllForLanguage();
 </script>
 </body>
 </html>
