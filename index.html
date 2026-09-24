@@ -1381,19 +1381,59 @@ $('week-grid').addEventListener('click', async (e) => {
     openAddForDate(add.dataset.add);
   }
 });
+function waitForLogin() {
+  if (currentUser) return Promise.resolve(currentUser);
+  return signInWithPopup(auth, googleProvider)
+    .then(() => new Promise((resolve) => {
+      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
+      check();
+    }))
+    .catch(() => null);
+}
+function waitForLogin() {
+  if (currentUser) return Promise.resolve(currentUser);
+  return signInWithPopup(auth, googleProvider)
+    .then(() => new Promise((resolve) => {
+      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
+      check();
+    }))
+    .catch(() => null);
+}
+
+function waitForLogin() {
+  if (currentUser) return Promise.resolve(currentUser);
+  return signInWithPopup(auth, googleProvider)
+    .then(() => new Promise((resolve) => {
+      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
+      check();
+    }))
+    .catch(() => null);
+}
+
+function waitForLogin() {
+  if (currentUser) return Promise.resolve(currentUser);
+  return signInWithPopup(auth, googleProvider)
+    .then(() => new Promise((resolve) => {
+      const check = () => currentUser ? resolve(currentUser) : setTimeout(check, 50);
+      check();
+    }))
+    .catch(() => null);
+}
+
 $('week-grid').addEventListener('change', async (e) => {
   const chk = e.target.closest('[data-toggle]');
   if (!chk) return;
-  if (!requireLogin('Cal iniciar sessió amb el teu correu de l\'institut per marcar un deure com a fet.')) {
-    chk.checked = !chk.checked;
-    return;
-  }
+  const wantChecked = chk.checked;
+  chk.disabled = true;
+  const user = currentUser || await waitForLogin();
+  chk.disabled = false;
+  if (!user) { chk.checked = !wantChecked; return; }
   try {
     await updateDoc(doc(db, COL_HOMEWORK, chk.dataset.toggle), {
-      fetPer: chk.checked ? arrayUnion(currentUser.email) : arrayRemove(currentUser.email)
+      fetPer: wantChecked ? arrayUnion(user.email) : arrayRemove(user.email)
     });
   } catch (err) {
-    chk.checked = !chk.checked;
+    chk.checked = !wantChecked;
     showDbError(err, 'actualitzant un deure');
   }
 });
