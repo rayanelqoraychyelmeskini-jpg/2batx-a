@@ -1326,7 +1326,7 @@ $('deure-form').addEventListener('submit', async (e) => {
    9. BÚSTIA · només els correus de la llista · autoria automàtica · lectura per rol
    ============================================================ */
 const READER_ROLES = ['delegat', 'admin'];
-
+const MAIL_URL = 'https://script.google.com/macros/s/AKfycbwq2S-bX2nn-X48x2tRadOv0PdSFp5_WWO51nvQLpgV7QEJwXywXNDqQhvdB7lVaM1x/exec';
 /** ÚNICS usuaris autoritzats. Correu → nom (autocompletat) i rol. */
 const USERS = {
   'z131925@iesxarc.es':    { nom: 'Erika Alvarez López',              rol: 'usuari' },
@@ -1450,6 +1450,17 @@ $('suggestion-form').addEventListener('submit', async (e) => {
       uid: currentUser.uid,
       creat: serverTimestamp()
     });
+
+    // Avisar por correo a los delegados
+    auth.currentUser.getIdToken().then(token =>
+      fetch(MAIL_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ token, missatge, nom: currentUser.nom })
+      })
+    ).catch(() => {});
+
     e.target.reset();
     status.textContent = 'Enviat! Només el delegat i el subdelegat el podran llegir.';
     status.className = 'send-status ok';
